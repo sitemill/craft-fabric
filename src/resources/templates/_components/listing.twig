@@ -5,7 +5,7 @@
     {% if assetsSource == 'libraryAssets' %}
         {% set assets = craft.libraryAssets %}
     {% else %}
-        {% set assets = craft.assets.volume(assetsSource) %}
+        {% set assets = craft.assets.volumeId(assetsSource) %}
     {% endif %}
 
     {% set assetsQuery = assets

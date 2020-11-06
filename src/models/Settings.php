@@ -83,7 +83,7 @@ class Settings extends Model
 
     public $useLibraryAssets = 1;
 
-    public $assetsSource = 'libraryAssets';
+    public $assetsSource = '0';
 
     public $entriesSections = [
         'libraryPages',

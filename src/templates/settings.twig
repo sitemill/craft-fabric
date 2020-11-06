@@ -25,3 +25,45 @@
 }}
 
 
+
+{% set sources = {
+        'disabled' : {
+            label: 'Disabled',
+            value: '0'
+        },
+    }
+%}
+
+{% set plugin = craft.app.plugins.getPlugin('dam', false) %}
+
+{% if plugin is not null and plugin.isInstalled  %}
+    {% set sources = sources|merge({
+        'dam' : {
+            label: 'Digital Asset Manager',
+            value: 'dam'
+        }
+    }) %}
+{% endif %}
+
+{% for volume in craft.app.volumes.allVolumes %}
+    {% set folder = craft.app.assets.rootFolderByVolumeId(volume.id) %}
+    {% set sources = sources|merge({
+        (volume.handle) : {
+            label: volume.name,
+            value: folder.id
+        }
+    }) %}
+{% endfor %}
+
+    {{ forms.select({
+        label: 'Assets source',
+        instructions: 'If enabled, the site will be accessible by everyone',
+        id: 'assetsSource',
+        name: 'assetsSource',
+        value: settings.assetsSource,
+        options: sources
+        })
+    }}
+
+
+
