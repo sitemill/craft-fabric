@@ -37,7 +37,7 @@ use yii\base\Event;
  */
 class Library extends Plugin
 {
-    
+
     // Static Properties
     // =========================================================================
 

@@ -29,7 +29,7 @@ class Settings extends Model
     /**
      * @var bool Is the site open to the public?
      */
-    public $isPublic = false;
+    public $public = false;
 
     /**
      * @var bool Can users make collections
@@ -174,23 +174,17 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['isPublic', 'boolean'],
+            ['public', 'boolean'],
             ['assetsHandle', 'string'],
             ['assetsHandle', 'default', 'value' => 'assets'],
             ['pagesHandle', 'string'],
             ['pagesHandle', 'default', 'value' => 'pages'],
-            ['categoriesHandle', 'string'],
-            ['categoriesHandle', 'default', 'value' => 'categories'],
-            ['lightboxesHandle', 'string'],
-            ['lightboxesHandle', 'default', 'value' => 'lightboxes'],
             [
                 [
-                    'navigationComponents',
+                    'navigationLayout',
                     'fileKinds',
                     'ordering',
-                    'defaultMetaComponents',
-                    'defaultQuickActions',
-                    'defaultActions'
+                    'defaultMetaItems'
                 ],
                 ArrayValidator::class,
             ],
