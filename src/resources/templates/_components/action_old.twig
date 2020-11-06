@@ -1,0 +1,10 @@
+{% set access = action.adminOnly is defined and action.adminOnly ? currentUser.admin|default(false) : true %}
+{% if access %}
+    {% set label = label|default('Label') %}
+    {% set title = title|default('Perform this action')  %}
+    {% set url = url|default('#') %}
+    {% set icon = icon|default('') %}
+    {% set target = target|default('_self') %}
+    {% set download = download|default(false) %}
+    <a href="{{ url }}" class="action-icon action-icon--{{ icon }}" title="{{ title }}" target="{{ target }}" {{ download ? 'download'}}>{% include '_components/actionIcon' %}</a>
+{% endif %}

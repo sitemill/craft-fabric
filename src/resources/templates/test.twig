@@ -1,0 +1,50 @@
+{#{% set sources = {#}
+{#    {#}
+{#        type: 'entries',#}
+{#        handle: 'pages'#}
+{#    }#}
+{#} %}#}
+{# Get any URL Parameters #}
+{% set keywords = craft.app.request.getParam('q')|default(null) %}
+{% set category = category is defined ? category : null %}
+{% set kind = craft.app.request.getParam('kind')|default('*') %}
+{% set order = craft.app.request.getParam('order')|default('title asc') %}
+{% set layout = craft.app.request.getParam('layout')|default('grid') %}
+
+
+{% set elements = [] %}
+
+{% for source in craft.library.settings.sources %}
+    {% switch source.type %}
+        {% case 'entries' %}
+            {% set entriesQuery =   craft.entries.section(source.sectionHandle)
+                                    .search(keywords)
+                                    .relatedTo(category) %}
+            {% set elements = elements|merge(entriesQuery) %}
+        {% case 'libraryAssets' %}
+            {% set libraryAssetsQuery =     craft.libraryAssets
+                                            .search(keywords)
+                                            .kind(kind)
+                                            .relatedTo(category) %}
+            {% set elements = elements|merge(libraryAssetsQuery) %}
+{#        {% case 'assets' %}#}
+{#            {% set elements = elements|merge(craft.assets.volume(source.volumeHandle)) %}#}
+    {% endswitch %}
+{% endfor %}
+
+{% craft.app.elements.mergeElements() %}
+
+{% set sort = elements.orderBy(order) %}
+
+{{ elements|length }}
+
+{#{% for item in merged %}#}
+{#    {{ item.instance }}#}
+{#    <strong>#}
+{#    {{ item is instance of('craft\\elements\\Entry') ? 'This element is an entry!' }}#}
+{#    {{ item is instance of('craft\\elements\\Asset') ? 'This is an asset!' }}#}
+{#    {{ item is instance of('sitemill\\library\\elements\\LibraryAsset') ? 'This is an asset!' }}#}
+{#    {{ item is instance of('craft\\elements\\Category') ? 'This is a category!' }}#}
+{#    {{ item is instance of('craft\\elements\\User') ? 'This is a user!' }}#}
+{#    </strong>#}
+{#{% endfor %}#}

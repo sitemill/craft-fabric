@@ -1,0 +1,26 @@
+{% set title = title|default('Title') %}
+
+<div
+     id="dialog"
+     class="dialog dialog--active"
+     :class="{'dialog--active': dialogOpen === true}"
+     x-data="{ dialogOpen: true }"
+     @click.away="dialogOpen = false"
+>
+    <div class="slideover__main">
+        <h1 class="slideover__title">{{ title }}</h1>
+        <a class="slideover__close" aria-hidden="true" @click="dialogOpen = false">Close</a>
+        {% block main %}
+
+        {% endblock %}
+    </div>
+    <div class="slideover__actions">
+        {% block actions %}
+
+        {% endblock %}
+    </div>
+</div>
+
+{% css %}
+
+{% endcss %}

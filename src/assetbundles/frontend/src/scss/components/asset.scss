@@ -1,0 +1,25 @@
+.asset {
+    
+}
+
+.asset__wrapper {
+    @media screen and (min-width:$assetFull) {
+        display: flex;
+    }
+}
+
+.asset__preview {
+    width: 100%;
+    max-width: $asset-preview-max-width;
+    @media screen and (min-width:$assetFull) {
+        width: 60%;
+        flex-shrink: 0;
+    }
+}
+
+.asset__meta {
+    @media screen and (min-width:$assetFull) {
+       margin-left: 2em;
+       flex-grow: 0;
+    }
+}

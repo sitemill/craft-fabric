@@ -1,0 +1,23 @@
+{% extends '_layouts/page.twig' %}
+
+{% set pageTitle = entry.title %}
+{% set query = entry.libraryAssets
+    .orderBy('title asc')
+    .limit(30)
+%}
+
+{% set hidePageBreadcrumb = true %}
+{% set pageBreadcrumbs = {
+    0 : {
+        'title' : 'Lightboxes'|t,
+        'url' : '/users/lightboxes/'
+    }
+} %}
+
+{% block pageMain %}
+    {% if query|length %}
+        {% include '_components/listing.twig' %}
+    {% else %}
+        {{ 'This lightbox is empty'|t }}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% set file = craft.library.settings.assetsSource == 'libraryAssets' ? asset.file : asset %}
+
+<div class="asset-preview">
+    {% block assetPreview %}
+            <img src="{{ file.thumbUrl(1200) }}" alt="{{ asset.title }}">
+    {% endblock %}
+</div>

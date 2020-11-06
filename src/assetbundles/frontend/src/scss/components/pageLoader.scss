@@ -1,0 +1,25 @@
+#page-loader {
+    overflow: hidden;
+    position: absolute;
+    height:3px;
+    top: 0px;
+    right:0px;
+    left: 0;
+    z-index: 999;
+}
+
+#page-loader::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    z-index: 999;
+     animation-name: page-loader;
+     animation-duration: 1s;
+}
+
+@keyframes page-loader {
+    0%   {left: -100%;}
+    100% {left:100%}
+  }

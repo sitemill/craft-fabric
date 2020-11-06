@@ -1,0 +1,6 @@
+.container {
+    margin: 0 2em;
+    @media screen and (min-width:$navFull) {
+        margin: 0 4em;
+    }
+}

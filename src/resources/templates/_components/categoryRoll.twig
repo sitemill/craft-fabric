@@ -1,0 +1,28 @@
+{# TODO: should I poll to see if categories are empty for query - this could prove expensive - I don't think i should #}
+
+{% set categoryRoll = categoryRoll|default(false) %}
+
+{% if categoryRoll %}
+    {% set categories = [] %}
+    {% set isParent = false %}
+
+    {% if category %}
+        {% if category.hasDescendants %}
+            {% set categories = craft.categories().descendantOf(category).descendantDist('1').all() %} {# TODO: do i want to only show the next level down, or all children of parent? Probably the former #}
+            {% set isParent = true %}
+        {% endif %}
+    {% else %}
+        {% set categories = craft.categories().group('categories').level(1).all() %} {# TODO: Set this to a variable #}
+    {% endif %}
+
+    {% if categories|length %}
+        <div class="category-strip">
+            {% if isParent %}Sub {% endif %}Categories:
+
+            {% for category in categories %}
+                <a href="{{ url('category/' ~ category.id ~ '/' ~ category.slug ~ '?' ~  craft.app.request.queryStringWithoutPath()) }}" title="Only show assets in the  {{ category.title }} category">{{ category.title }}</a>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endif %}
+

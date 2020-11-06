@@ -1,0 +1,70 @@
+$form-field-padding: 0.7em;
+
+.form-field {
+
+}
+
+.form-field + .form-field {
+  margin-top: 1em;
+}
+
+.form-field--full-width {
+  input:not([type=checkbox]) {
+    width: 100%;
+  }
+}
+
+.form-field__label {
+  display: block;
+  margin-bottom: .5em;
+}
+
+.form-field__input {
+
+}
+
+.form-field  {
+  input[type=text], input[type=password], input[type=email] {
+    border:1px solid #C6C6C6;
+    background-color: #F0F0F0;
+    padding:$form-field-padding;
+    border-radius: 0.3em;
+    color: inherit;
+    outline:0;
+    &:focus {
+      border-color: black;
+    }
+  }
+  input[type=checkbox] {
+    display: inline-block;
+  }
+}
+
+
+// Joining fields
+
+.form-field--join + .form-field--join {
+  margin-top: 0;
+
+}
+
+.form-field--join {
+  input[type=text], input[type=password], input[type=email] {
+    border-radius: 0;
+    border-bottom-color: #F0F0F0;
+  }
+}
+
+form .form-field--join:first-of-type {
+  input[type=text], input[type=password], input[type=email] {
+    border-radius: $ui-border-radius $ui-border-radius 0 0;
+  }
+}
+
+form .form-field--join:last-of-type {
+  input[type=text], input[type=password], input[type=email] {
+    border-radius: 0 0 $ui-border-radius $ui-border-radius;
+    border-bottom-width: 1px;
+    border-bottom-color: #C6C6C6;
+  }
+}

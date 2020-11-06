@@ -1,0 +1,30 @@
+{# Variables #}
+{% set pageTitle = pageTitle|default('Page title') %} {# The current page title #}
+{% set pageBreadcrumbs = pageBreadcrumbs|default([]) %} {# An array of the parent pages #}
+{% set hidePageBreadcrumb = hidePageBreadcrumb|default(false) %} {# Removes the current page from breadcrumbs #}
+
+{# Site name is always first #}
+{% set breadcrumbs = [{
+    'title': siteName,
+    'url' : '/' 
+}]%}
+
+{# If page breadcrumbs have been defined #}
+{% if pageBreadcrumbs %}
+    {% set breadcrumbs = breadcrumbs|merge(pageBreadcrumbs) %}
+{% endif %}
+
+{# TODO: do I ever want page title in breadcrumb? #}
+{# Last breadcrumb is always page title #}
+{% if pageTitle and not hidePageBreadcrumb %}
+    {% set breadcrumbs = breadcrumbs|merge([{
+        'title': pageTitle,
+        'url': '#'
+    }]) %}
+{% endif %}
+
+<nav class="breadcrumbs">
+    {% for breadcrumb in breadcrumbs %}
+        <a href="{{ breadcrumb.url }}">{{ breadcrumb.title }}</a> {% if not loop.last %} / {% endif %}
+    {% endfor %}
+</nav>

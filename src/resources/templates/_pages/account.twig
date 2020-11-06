@@ -1,0 +1,14 @@
+{% set pageTitle = 'Your Account' %}
+
+{% extends '_layouts/app.twig' %}
+
+{% block main %}
+    {% include '_components/breadcrumbs.twig' with { hidePage: true} %}
+    {% include '_components/pageTitle.twig' %}
+    
+    <h2>Lightboxes</h2>
+    
+    Account details<br>
+    Logout
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% paginate assetsQuery as pageInfo, assets %}
+
+<div class="listing">
+    <div class="listing__tools">
+        <div class="container">
+            <div class="listing__info">
+                {% include '_components/listingFilter.twig' %}
+            </div>
+            <div class="listing__actions">
+                {% include '_components/listingActions.twig' %}
+            </div>
+        </div>
+    </div>
+    <div class="listing__main" id="listing">
+        {% include '_components/listingContext.twig' %}
+        <div id="loading" class="htmx-indicator">
+            Loading
+        </div>
+        {# TODO: check if using lists helps with accesibility #}
+        <div class="listing__results">
+            {% for asset in assets %}
+                {% include '_components/assetCard/' ~ layout %}
+            {% endfor %}
+        </div>
+        {# TODO: AJAXINATE Loading #}
+        <div class="listing__pagination">
+            {% include '_components/listingPagination.twig' %}
+        </div>
+    </div>
+</div>

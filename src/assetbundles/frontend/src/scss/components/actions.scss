@@ -1,0 +1,19 @@
+.actions {
+
+}
+
+.actions--horizontal {
+  .action + .action {
+    margin-left: 0.2em;
+  }
+}
+
+.actions--vertical {
+  .action + .action {
+    margin-top: 0.4em;
+  }
+}
+
+.actions--space-top {
+  margin-top: 1em;
+}

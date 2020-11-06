@@ -1,0 +1,32 @@
+{% set assetsSource = craft.library.settings.assetsSource|default(null) %}
+{% set entriesSections = craft.library.settings.entriesSections|default(null) %}
+
+{% if assetsSource %}
+    {% if assetsSource == 'libraryAssets' %}
+        {% set assets = craft.libraryAssets %}
+    {% else %}
+        {% set assets = craft.assets.volume(assetsSource) %}
+    {% endif %}
+
+    {% set assetsQuery = assets
+        .search(keywords)
+        .kind(kind)
+        .relatedTo(category)
+        .orderBy(order)
+        .with(['file[0]'])
+        .limit(30) %}
+
+    {% include '_components/listing/assets.twig' %}
+{% endif %}
+
+{% if entriesSections %}
+    {% set entries = craft.entries.section(entriesSections) %}
+
+    {% set entriesQuery = entries
+        .search(keywords)
+        .relatedTo(category)
+        .orderBy(order)
+        .limit(30) %}
+
+    {% include '_components/listing/entries.twig' %}
+{% endif %}

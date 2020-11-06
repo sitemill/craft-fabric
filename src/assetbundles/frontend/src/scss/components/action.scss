@@ -1,0 +1,38 @@
+$action-bg-default: #f0f0f0;
+
+.action {
+  display: inline-block;
+  padding: 0.7em ;
+  border-radius: $ui-border-radius;
+  background-color: $action-bg-default;
+  color: $text-default;
+  cursor: pointer;
+  border: 0;
+  text-decoration: none;
+}
+
+.action--full-width {
+  width: 100%;
+  text-align: center;
+}
+
+.action--icon-only span {
+  display: none;
+}
+
+.action--small {
+  font-size: 0.8em;
+}
+
+.action--large {
+  font-size: 1.1em;
+}
+
+.action--list-item {
+  background: transparent;
+}
+
+.action + .action {
+
+}
+

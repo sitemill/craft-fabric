@@ -1,0 +1,7 @@
+{% set file = asset.instance == 'sitemill\library\libraryAsset' ? asset.file : asset %}
+
+<div class="thumbnail">
+    {% block thumbnail %}
+            <img src="{{ file.thumbUrl(600) }}" alt="{{ asset.title }}">
+    {% endblock %}
+</div>

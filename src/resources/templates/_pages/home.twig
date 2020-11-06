@@ -1,0 +1,12 @@
+{% set pageTitle = 'All Entries' %}
+{% set publicPage = false %}
+
+{% extends '_layouts/app.twig' %}
+
+{% block main %}
+    {% include '_components/pageHeader.twig' with {
+        'categoryRoll': true,
+        'hidePageBreadcrumb': true
+    }%}
+    {% include '_components/listing.twig' %}
+{% endblock %}

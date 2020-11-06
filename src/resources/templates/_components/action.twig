@@ -1,0 +1,38 @@
+{% set text = text|default('Default action') %}
+{% set action = action|default('#') %}
+{% set target = target|default(null) %}
+{% set size = size|default('default') %}
+{% set style = style|default('default') %}
+{% set icon = icon|default(null) %}
+{% set attributes = attributes|default({}) %}
+{% set classes = classes|default({}) %}
+
+{% set classes = classes|merge([
+    'action',
+    'action--' ~ size
+]) %}
+
+{% if icon %}
+    {% set classes = classes|merge(['action--has-icon']) %}
+{% endif %}
+
+{# If target is dialog, add htmx goodness #}
+{% if target %}
+    {% if target == 'dialog' %}
+        {% set attributes = attributes|merge({
+            'hx-get': action,
+            'hx-target': '#dialog',
+            'hx-swap' : 'outerHTML swap:0.3s',
+            'data-hx-indicator': '#page-loader'
+        })  %}
+    {% else %}
+        {% set attributes = target ? attributes|merge({'target': target}) %}
+    {% endif %}
+{% endif %}
+
+
+{{ style == 'list-item' ? '<li>' }}
+<a href="{{ action }}" class="{% for class in classes %}{{ class }} {% endfor %}" {% for attr,value in attributes %}{{ attr }}="{{ value }}"{% endfor %}>
+    {% if icon %}<i class="{{ icon }}" aria-hidden="true"></i> {% endif %}<span>{{ text }}</span>
+</a>
+{{ style == 'list-item' ? '</li>' }}

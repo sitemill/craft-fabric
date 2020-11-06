@@ -1,0 +1,9 @@
+.main {
+
+}
+
+.main--allow-sidebar {
+    @media screen and (min-width:$navFull) {
+        margin-left: $sidebar-width-full;
+    }
+}

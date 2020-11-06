@@ -1,0 +1,20 @@
+.page-header {
+    // background-color: rgba(127,127,127,0.1);
+    padding: 2em 0;
+}
+
+.page-header__breadcrumbs {
+    margin-bottom: 2em;
+}
+
+.page-header__category-roll {
+    margin-top: 1em;
+}
+
+.page-header__main {
+@media screen and (min-width:$navFull) {
+        display: flex;    
+        align-items: center;
+        justify-content: space-between;
+    }
+}

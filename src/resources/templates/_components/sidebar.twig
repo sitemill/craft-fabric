@@ -1,0 +1,18 @@
+<input type="checkbox" class="sidebar__toggle" id="sidebar-toggle" aria-hidden checked />
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar__main">
+        {% include '_extends/sidebarMainPre.twig' ignore missing %}
+        {% include '_components/branding.twig' %}
+        {% include '_components/searchBar.twig' %}
+        {% include '_components/navigation.twig' %}
+        {% include '_extends/sidebarMainPost.twig' ignore missing %}
+    </div>
+    <div class="sidebar__footer">
+        {% include '_extends/sidebarFooterPre.twig' ignore missing %}
+        {% if currentUser %}
+            {% include '_components/userAction.twig'%}
+        {% endif %}
+        {% include '_extends/sidebarFooterPost.twig' ignore missing %}
+    </div>
+</nav>
+

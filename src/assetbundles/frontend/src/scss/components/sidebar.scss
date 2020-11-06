@@ -1,0 +1,39 @@
+.sidebar {
+    position: fixed;
+    display: flex;
+    right: -$sidebar-width-compact;
+    top:0;
+    width: $sidebar-width-compact;
+    height: 100vh;
+    padding: 1em;
+    background-color:$sidebar;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.2s right ease-in-out;
+    z-index: 100;
+    @media screen and (min-width:$navFull) {
+        right: auto;
+        width: $sidebar-width-full;
+    }
+}
+
+.sidebar__main {
+
+}
+
+.sidebar__footer {
+
+}
+
+
+.sidebar__toggle {
+    @media screen and (min-width:$navFull) {
+        display: none;
+    }
+}
+
+.sidebar__toggle:checked ~ .sidebar {
+    @media screen and (max-width:$navFull - 1px) {
+        right:0;
+    }
+}

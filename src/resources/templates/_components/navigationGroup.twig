@@ -1,0 +1,20 @@
+{% set title = title|default(null) %}
+{% set items = items|default(null) %}
+{% set route = route %}
+
+<nav class="navigation-group" aria-label="{{ title }} navigation">
+    <h3 class="navigation-group__title">{{ title }}</h3>
+    <ul class="navigation-group__items">
+        {% for item in items %}
+        <li class="navigation-group-item {{ craft.app.request.getFullPath == item.uri ? 'navigation-group-item--active' }}">
+            <a
+                href="{{ url(route ~ '/' ~ item.id ~ '/' ~ item.slug) }}"
+                title="View {{ item.title }}">
+                {{ item.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+

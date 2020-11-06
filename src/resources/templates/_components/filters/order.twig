@@ -1,0 +1,13 @@
+<div class="field">
+    <label for="filter-order" class="field__label">
+        Sort
+    </label>
+    <div class="field__input">
+        <select name="order" id="filter-order">
+            {% for item in craft.library.settings.ordering %}
+                <option value="{{ item.value }}"
+                        {% if order == '{{ item.value }}' %}selected{% endif %}>{{ item.label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

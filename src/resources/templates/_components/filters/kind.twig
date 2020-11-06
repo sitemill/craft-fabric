@@ -1,0 +1,15 @@
+<div class="field">
+    <label for="filter-kind" class="field__label">
+        {{ 'Kind'|t }}
+    </label>
+    <div class="field__input">
+        <select name="kind" id="filter-kind">
+            <option value="*">{{ 'All Kinds'|t }}</option>
+            {% for item in craft.library.settings.fileKinds %}
+                <option value="{{ item.value }}" {% if kind == item.value %}selected{% endif %}>
+                    {{ item.title }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

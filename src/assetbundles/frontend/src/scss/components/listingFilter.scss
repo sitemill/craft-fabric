@@ -1,0 +1,27 @@
+.listing-filter {
+
+}
+
+.listing-filter__main {
+    position: absolute;
+    display: none;
+    z-index: 20;
+    background: white;
+}
+
+.listing-filter .expanded-text {
+    display:none;
+}
+
+.listing-filter__toggle:checked ~ .listing-filter__label ~ .listing-filter__main {
+    display: block;
+}
+
+
+.listing-filter__toggle:checked ~ .listing-filter__label .expanded-text {
+    display:inline;
+}
+
+.listing-filter__toggle:checked ~ .listing-filter__label  .collapsed-text {
+    display:none;
+}

@@ -1,0 +1,36 @@
+.action-page {
+  min-height: 100vh;
+  min-width: 100vw;
+  @media screen and (min-width: $tablet) {
+
+  }
+}
+
+.action-page__main {
+  padding: 2em;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  z-index: 10;
+  @media screen and (min-width: $tablet) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.action-page__supporting {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.action-page__overlay {
+  content: '';
+  position: absolute;
+  top:0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.9;
+}

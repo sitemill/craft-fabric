@@ -1,0 +1,23 @@
+{% set category = craft.categories.id(categoryId).one() %}
+
+{# Generate category breadcrumb trail #}
+{% if category.parent %}
+    {% set pageBreadcrumbs = [] %}
+    {% for category in category.ancestors.all() %}
+        {% set pageBreadcrumbs = pageBreadcrumbs|merge([{
+            'title' : category.title,
+            'url' : category.url
+        }])%}
+    {% endfor %}
+{% endif %}
+
+{% extends '_layouts/app.twig' %}
+
+{% block main %}
+    {% set pageTitle = keywords ? "Searching for '" ~ keywords ~ "' in " ~ category.title : category.title  %}
+    {% include '_components/pageHeader.twig' with {
+        'categoryRoll': category,
+        'hidePageBreadcrumb': true
+    }%}
+    {% include '_components/listing.twig' %}
+{% endblock %}
