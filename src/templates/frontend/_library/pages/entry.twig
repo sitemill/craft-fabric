@@ -1,0 +1,37 @@
+{% set entry = craft.entries.id(entryId).one() %}
+
+{# Get source settings from config #}
+{# TODO: maybe make a variale for this #}
+{% extends '_library/layouts/app.twig' %}
+
+{% block main %}
+    {% set sourceSettings = [] %}
+    {% for source in librarySettings.sources if source.section is defined and source.section == section|camel %}
+        {% set sourceSettings = source %}
+    {% endfor %}
+
+    {% if sourceSettings.entryTemplate is defined %}
+        {% include sourceSettings.entryTemplate %}
+    {% else %}
+        {% set pageTitle = entry.title  %}
+        {% include '_library/components/pageHeader' %}
+
+        {% for fieldLayoutField in entry.fieldLayout.fields %}
+            {% set field = craft.fields.getFieldById(fieldLayoutField.id) %}
+
+               {% switch field.instance %}
+                    {% case 'craft\\fields\\PlainText' %}
+                        <h3>{{ field.name }}</h3>
+                        {{ entry.fieldValues[field.handle] }}
+                    {% case 'craft\\fields\\Matrix' %}
+                        {% for matrixBlock in entry.fieldValues[field.handle] %}
+                            <h3>{{ field.name }}</h3>
+                            {% for matrixField in matrixBlock.fieldLayout.fields %}
+                                <h3>{{ matrixField.name != '__blank__' ? matrixField.name }}</h3>
+                                {{ entry.fieldValues[field.handle][0][matrixField.handle] }}
+                            {% endfor %}
+                       {% endfor %}
+               {% endswitch %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

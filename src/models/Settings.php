@@ -60,7 +60,7 @@ class Settings extends Model
     /**
      * @var array Determines the components to be used in the navigation
      */
-    public $navigationLayout = [
+    public $sources = [
         [
             'type' => 'heading',
             'title' => 'Test heading'
@@ -74,7 +74,8 @@ class Settings extends Model
             'title' => 'Recipes',
             'key' => 'recipes',
             'type' => 'entriesListing',
-            'section' => 'someRecipes'
+            'section' => 'someRecipes',
+            'entryTemplate' => '_library/test.twig'
         ],
         [
             'title' => 'Categories',

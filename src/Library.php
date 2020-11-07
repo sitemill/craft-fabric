@@ -103,11 +103,10 @@ class Library extends Plugin
                 $event->rules['register'] = ['template' => '_library/pages/register'];
                 $event->rules['all'] = ['template' => '_pages/all'];
                 $event->rules['asset/<assetId:\d+>/?<assetSlug>'] = ['template' => '_library/pages/asset'];
-                $event->rules['page/<entryId:\d+>/?<entrySlug>'] = ['template' => '_library/pages/page'];
                 $event->rules['category/<categoryId:\d+>/?<categorySlug>'] = ['template' => '_library/pages/category'];
                 $event->rules['account'] = ['template' => '_library/pages/account'];
                 $event->rules['dialog/<action>/?<id:\d+>'] = ['template' => '_library/dialogs/index'];
-                $event->rules['<section>/entry/<entryId:\d+>/?<entrySlug>'] = ['template' => '_library/pages/page'];
+                $event->rules['<section>/entry/<entryId:\d+>/?<entrySlug>'] = ['template' => '_library/pages/entry'];
                 $event->rules['<section>/listing/'] = ['template' => '_library/pages/entryListing'];
             }
         );

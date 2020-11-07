@@ -9,7 +9,8 @@
 {% endif %}
 
 {% set librarySettings = {
-    assetsSource : craft.library.settings.assetsSource|default(null)
+    assetsSource : craft.library.settings.assetsSource|default(null),
+    sources: craft.library.settings.sources
 } %}
 
 {# Let's set global user permissions once to help with performance #}

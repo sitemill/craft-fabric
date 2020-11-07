@@ -7,7 +7,7 @@
 
 {% set baseUrl = '' %}
 {% if route %}
-    {% set baseUrl = route|kebab ~ '/' %}
+    {% set baseUrl = route ~ '/' %}
 {% endif %}
 {% if type %}
     {% set baseUrl = baseUrl ~ type ~ '/' %}
