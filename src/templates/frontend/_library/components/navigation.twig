@@ -5,19 +5,19 @@
         hx-push-url="true"
 >
 
-    {% for navigationItem in librarySettings.sources %}
+    {% for navigationItem in librarySettings.navigation %}
         {% switch navigationItem.type %}
         {% case 'entriesNav' %}
             {% include '_library/components/navigationGroup.twig' with {
                 title: navigationItem.title is defined ? navigationItem.title,
-                route: navigationItem.section|kebab,
+                route: navigationItem.source|kebab,
                 type: 'entry',
-                items: craft.entries.section(navigationItem.section).all(),
+                items: craft.entries.section(navigationItem.source).all(),
             } %}
         {% case 'entriesListing' %}
             {% include '_library/components/navigationItem.twig' with {
                 title: navigationItem.title,
-                url: url(navigationItem.section|kebab ~ '/listing')
+                url: url(navigationItem.source|kebab ~ '/listing')
             } %}
         {% case 'categoriesNav' %}
             {% include '_library/components/navigationGroup.twig' with {

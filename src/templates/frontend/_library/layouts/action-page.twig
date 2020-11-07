@@ -1,4 +1,5 @@
 {% include '_library/settings/colors.twig' %}
+
 {% block app %}
     <!DOCTYPE html>
     <html lang="en">
@@ -21,14 +22,17 @@
                 <div class="action-page__supporting bg-primary">
                     <div class="mosaic">
                         <div class="mosaic__inner">
-                            {% set assets = craft.libraryAssets
+                            {% set assets = craft.library.settings.assetsSource == 'dam' ? craft.damAssets : craft.assets.folderId(craft.library.settings.assetsSource)  %}
+                            {% set assets = assets
                                 .kind('image')
                                 .with(['file[0]'])
-                                .limit(30) %}
+                                .limit(30)
+                            %}
                             {% set k = 20 %}
                             {% for i in range(1, k) %}
                                 {% for asset in assets.order('RAND()') %}
-                                    <img src="{{ asset.file.url({width:100,quality:10}) }}" alt="{{ asset.title }}">
+                                    {% set file = craft.library.settings.assetsSource == 'dam' ? asset.file : asset %}
+                                    <img src="{{ file.url({width:100,quality:10}) }}" alt="{{ asset.title }}">
                                 {% endfor %}
                             {% endfor %}
                         </div>

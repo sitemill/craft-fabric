@@ -2,7 +2,7 @@
     {% redirect '/' %}
 {% endif %}
 
-{% extends "_layouts/action-page.twig" %}
+{% extends "_library/layouts/action-page.twig" %}
 
 {% block main %}
     {% include '_library/components/branding.twig' %}
@@ -35,7 +35,6 @@
                    href="{{ url('register') }}">Register</a>
             {% endif %}
         </div>
-
 
         {% if errorMessage is defined %}
             <div class="message message--centered message--space-top status-error">

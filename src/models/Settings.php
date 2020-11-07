@@ -56,11 +56,28 @@ class Settings extends Model
      */
     public $tagGroupHandle = 'libraryTags';
 
-//  TODO: detailed instructions here with example for include
     /**
      * @var array Determines the components to be used in the navigation
      */
-    public $sources = [
+    public $entrySources = [
+        'libraryPages' => [
+            'label' => 'Pages',
+            'descriptionField' => 'libraryDescription',
+            'thumbAssetField' => 'thumbnail',
+            'entryTemplate' => '_library/test.twig'
+        ],
+        'recipes' => [
+            'label' => 'Recipes',
+            'descriptionFiled' => 'libraryDescription',
+            'thumbnailField' => 'thumbnail',
+            'entryTemplate' => '_library/test.twig'
+        ]
+    ];
+
+    /**
+     * @var array Determines the components to be used in the navigation
+     */
+    public $navigation = [
         [
             'type' => 'heading',
             'title' => 'Test heading'
@@ -68,18 +85,15 @@ class Settings extends Model
         [
             'title' => 'Pages',
             'type' => 'entriesNav',
-            'section' => 'libraryPages'
+            'source' => 'libraryPages'
         ],
         [
             'title' => 'Recipes',
-            'key' => 'recipes',
             'type' => 'entriesListing',
-            'section' => 'someRecipes',
-            'entryTemplate' => '_library/test.twig'
+            'source' => 'someRecipes',
         ],
         [
             'title' => 'Categories',
-            'key' => 'categories',
             'type' => 'categoriesNav',
             'source' => 'libraryCategories'
         ],
@@ -95,7 +109,7 @@ class Settings extends Model
 
     public $useLibraryAssets = 1;
 
-    public $assetsSource = null;
+    public $assetsSource = 20;
 
     public $entriesSections = [
         'libraryPages',

@@ -5,10 +5,9 @@
 {% extends '_library/layouts/app.twig' %}
 
 {% block main %}
-    {% set sourceSettings = [] %}
-    {% for source in librarySettings.sources if source.section is defined and source.section == section|camel %}
-        {% set sourceSettings = source %}
-    {% endfor %}
+
+    {% set sourceSettings = librarySettings.entrySources[section|camel] %}
+
 
     {% if sourceSettings.entryTemplate is defined %}
         {% include sourceSettings.entryTemplate %}
