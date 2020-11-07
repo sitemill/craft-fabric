@@ -42,7 +42,6 @@
     "documentationUrl": "https://github.com/sitemill/craft-library/blob/master/README.md",
     "changelogUrl": "https://raw.githubusercontent.com/craft-sitemill/library/master/CHANGELOG.md",
     "components": {
-      "download": "sitemill\\library\\services\\Download"
     },
     "class": "sitemill\\library\\Library"
   }

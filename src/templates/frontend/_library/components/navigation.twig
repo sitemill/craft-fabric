@@ -1,0 +1,41 @@
+<div
+        class="navigation"
+        hx-boost="true"
+        hx-indicator="#page-loader"
+        hx-push-url="true"
+>
+
+    {% for navigationItem in craft.library.settings.navigationLayout %}
+        {% switch navigationItem.type %}
+        {% case 'entriesNav' %}
+            {% include '_library/components/navigationGroup.twig' with {
+                title: navigationItem.title is defined ? navigationItem.title,
+                route: navigationItem.section,
+                type: 'entry',
+                items: craft.entries.section(navigationItem.section).all(),
+            } %}
+        {% case 'entriesListing' %}
+            {% include '_library/components/navigationItem.twig' with {
+                title: navigationItem.title,
+                url: url(navigationItem.section ~ '/listing')
+            } %}
+        {% case 'categoriesNav' %}
+            {% include '_library/components/navigationGroup.twig' with {
+                title: navigationItem.title is defined ? navigationItem.title,
+                items: craft.categories().group(navigationItem.source).level(1).all(),
+                route: 'category',
+            } %}
+        {% case 'heading' %}
+            <h3 class="navigation-group__title">{{ navigationItem.title }}</h3>
+            {# TODO: create collection navigation group #}
+            {# {% case 'collections' %} #}
+            {# {% include '_library/components/navigationGroup.twig' with { #}
+            {# title: navigationItem.title, #}
+            {# items: craft.libraryCollections #}
+            {# } %} #}
+        {% case 'include' %}
+            {% include navigationItem.source %}
+        {% endswitch %}
+    {% endfor %}
+
+</div>

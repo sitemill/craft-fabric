@@ -1,0 +1,12 @@
+<article class="asset-card-list">
+    <div class="asset-card-list__thumbnail">
+        {% include '_library/components/thumbnail/' ~ asset.kind %}
+    </div>
+    <header class="asset-card-list__header">
+        <h3 class="asset-card-list__title">
+            <a href="{{ url('asset/' ~ asset.id ~ '/' ~ asset.title|kebab ) }}" class="asset-card-list__action">
+                {{ asset.title }}
+            </a>
+        </h3>
+    </header>
+</article>

@@ -62,13 +62,24 @@ class Settings extends Model
      */
     public $navigationLayout = [
         [
+            'type' => 'heading',
+            'title' => 'Test heading'
+        ],
+        [
             'title' => 'Pages',
-            'type' => 'entries',
-            'source' => 'libraryPages'
+            'type' => 'entriesNav',
+            'section' => 'libraryPages'
+        ],
+        [
+            'title' => 'Recipes',
+            'key' => 'recipes',
+            'type' => 'entriesListing',
+            'section' => 'someRecipes'
         ],
         [
             'title' => 'Categories',
-            'type' => 'categories',
+            'key' => 'categories',
+            'type' => 'categoriesNav',
             'source' => 'libraryCategories'
         ],
 //        [
@@ -77,13 +88,13 @@ class Settings extends Model
 //        ],
 //        [
 //        'type' => 'include',
-//            'source' => '_components/navigationGroups/pages'
+//            'source' => '_library/components/navigationGroups/pages'
 //        ]
     ];
 
     public $useLibraryAssets = 1;
 
-    public $assetsSource = '0';
+    public $assetsSource = null;
 
     public $entriesSections = [
         'libraryPages',

@@ -6992,7 +6992,7 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   padding: 0;
 }
 
-.navigation-group-item + .navigation-group-item {
+.navigation-item + .navigation-group-item {
   margin-top: 0.5em;
 }
 

@@ -1,0 +1,34 @@
+{% extends 'app.twig' %}
+
+{% block main %}
+    {% block pageHeader %}
+        <header class="page-header">
+            <div class="container">
+                <div class="page-header__breadcrumbs">
+                    {% block pageHeaderBreadcrumbs %}
+                        {% include '_library/components/breadcrumbs.twig' %}
+                    {% endblock %}
+                </div>
+                <div class="page-header__main">
+                    <div class="page-header__pageTitle">
+                        {% block pageHeaderTitle %}
+                            {% include '_library/components/pageTitle.twig' %}
+                        {% endblock %}
+                        <div class="page-header__category-roll">
+                            {% block pageHeaderNavigation %}
+                                {% include '_library/components/categoryRoll.twig' %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                    {# We can use embed to configure the page actions #}
+                    {% block pageHeaderActions %}
+                        {% include '_library/components/pageActions.twig' %}
+                    {% endblock %}
+                </div>
+            </div>
+        </header>
+    {% endblock %}
+    {% block pageMain %}
+        No page content defined
+    {% endblock %}
+{% endblock %}

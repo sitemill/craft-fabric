@@ -1,0 +1,50 @@
+{% if craft.library.settings.public %}
+    {% redirect '/' %}
+{% endif %}
+
+{% extends "_layouts/action-page.twig" %}
+
+{% block main %}
+    {% include '_library/components/branding.twig' %}
+    <form method="post" accept-charset="UTF-8">
+        {{ csrfInput() }}
+        {{ actionInput('users/login') }}
+
+        <div class="form-field form-field--join form-field--full-width form-field--join form-field--join-start">
+            <input id="loginName" class="focus:border-primary" type="text" name="loginName"
+                   placeholder="Username or Email" aria-label="Username or Email"
+                   value="{{ craft.app.user.rememberedUsername }}" required>
+        </div>
+
+        <div class="form-field form-field--full-width form-field--join form-field--join-end">
+            <input id="password" class="focus:border-primary" type="password" name="password" placeholder="Password"
+                   aria-label="Password" required>
+        </div>
+
+        <div class="form-field flex justify-between">
+            <label class="text-sm">
+                <input type="checkbox" name="rememberMe" value="1">
+                Keep me logged in
+            </label>
+            <a href="{{ url('forgotpassword') }}" class="text-sm text-primary">Forget your password?</a>
+        </div>
+        <div class="actions actions--vertical actions--space-top">
+            <input type="submit" value="Login" class="action action--full-width bg-primary text-on-primary">
+            {% if craft.app.projectConfig.get('users').allowPublicRegistration %}
+                <a class="action action--full-width border-primary text-primary"
+                   href="{{ url('register') }}">Register</a>
+            {% endif %}
+        </div>
+
+
+        {% if errorMessage is defined %}
+            <div class="message message--centered message--space-top status-error">
+                {{ errorMessage }}
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}
+
+
+
+

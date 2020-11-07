@@ -1,0 +1,36 @@
+{% if craft.library.settings.assetsSource == 'libraryAssets' %}
+    {% set assetSource = craft.libraryAssets %}
+{% else %}
+    {% set assetSource = craft.assets %}
+{% endif %}
+
+{% set asset = assetSource
+    .id(assetId)
+    .with(['file[0]'])
+    .one() %}
+
+{% set pageTitle = asset.title %}
+
+{% extends '_library/layouts/app.twig' %}
+
+{% block main %}
+
+    {% embed '_library/components/pageHeader' with {
+        'hidePageBreadcrumb': true,
+    }%}
+
+    {% endembed %}
+
+    <div class="asset">
+        <div class="container">
+            <div class="asset__wrapper">
+                <div class="asset__preview">
+                    {% include ['_library/components/preview/' ~ asset.kind, '_library/components/preview/_default',] %}
+                </div>
+                <div class="asset__meta">
+                    {% include '_library/components/assetMetaItems.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -10,7 +10,6 @@
 
 namespace sitemill\library;
 
-use sitemill\library\services\Download as DownloadService;
 use sitemill\library\variables\LibraryVariable;
 use sitemill\library\models\Settings;
 
@@ -33,7 +32,6 @@ use yii\base\Event;
  * @package   Library
  * @since     1.0.0
  *
- * @property  DownloadService $download
  */
 class Library extends Plugin
 {
@@ -91,7 +89,7 @@ class Library extends Plugin
             View::class,
             View::EVENT_REGISTER_SITE_TEMPLATE_ROOTS,
             function(RegisterTemplateRootsEvent $event) {
-                $event->roots['/'] = __DIR__ . '/resources/templates';
+                $event->roots['/'] = __DIR__ . '/templates/frontend';
             }
         );
 
@@ -100,15 +98,18 @@ class Library extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
             function(RegisterUrlRulesEvent $event) {
-                $event->rules['/'] = ['template' => '_pages/home'];
-                $event->rules['login'] = ['template' => '_pages/login'];
-                $event->rules['register'] = ['template' => '_pages/register'];
+                $event->rules['/'] = ['template' => '_library/pages/home'];
+                $event->rules['login'] = ['template' => '_library/pages/login'];
+                $event->rules['register'] = ['template' => '_library/pages/register'];
                 $event->rules['all'] = ['template' => '_pages/all'];
-                $event->rules['asset/<assetId:\d+>/?<assetSlug>'] = ['template' => '_pages/asset'];
-                $event->rules['page/<entryId:\d+>/?<entrySlug>'] = ['template' => '_pages/page'];
-                $event->rules['category/<categoryId:\d+>/?<categorySlug>'] = ['template' => '_pages/category'];
-                $event->rules['account'] = ['template' => '_pages/account'];
-                $event->rules['dialog/<action>/?<id:\d+>'] = ['template' => '_dialogs/index'];}
+                $event->rules['asset/<assetId:\d+>/?<assetSlug>'] = ['template' => '_library/pages/asset'];
+                $event->rules['page/<entryId:\d+>/?<entrySlug>'] = ['template' => '_library/pages/page'];
+                $event->rules['category/<categoryId:\d+>/?<categorySlug>'] = ['template' => '_library/pages/category'];
+                $event->rules['account'] = ['template' => '_library/pages/account'];
+                $event->rules['dialog/<action>/?<id:\d+>'] = ['template' => '_library/dialogs/index'];
+                $event->rules['<section>/entry/<entryId:\d+>/?<entrySlug>'] = ['template' => '_library/pages/page'];
+                $event->rules['<section>/listing/'] = ['template' => '_library/pages/entryListing'];
+            }
         );
 
 

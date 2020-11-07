@@ -1,0 +1,11 @@
+{% set entry = craft.entries.id(entryId).one() %}
+
+{% extends '_library/layouts/app.twig' %}
+
+{% block main %}
+    {% set pageTitle = entry.title  %}
+    {% include '_library/components/pageHeader' %}
+    {% set assets = craft.damAssets.limit(3).all() %}
+    <a href="{{ craft.dam.download(assets) }}">Download</a>
+    {{ librarySettings.assetsSource }}
+{% endblock %}

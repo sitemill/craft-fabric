@@ -27,19 +27,4 @@ class LibraryVariable
     {
         return Library::$plugin->getSettings();
     }
-
-    public function download($assets)
-    {
-        $ids = [];
-        if (is_array($assets)) {
-            foreach ($assets as $asset) {
-                $ids[] = $asset->id;
-            }
-        } else {
-            $ids[] = $assets->id;
-        }
-        return UrlHelper::actionUrl('/library/download/', [
-            'files' => $ids
-        ]);
-    }
 }
