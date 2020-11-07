@@ -1,4 +1,21 @@
-{% paginate assetsQuery as pageInfo, assets %}
+{# Get assets source #}
+{% if librarySettings.assetsSource == 'dam' %}
+    {% set assets = craft.damAssets %}
+{% else %}
+    {% set assets = craft.assets.folderId(librarySettings.assetsSource) %}
+{% endif %}
+
+
+{# set variables #}
+{% set query = query|default(assets
+    .search(keywords)
+    .kind(kind)
+    .relatedTo(category)
+    .orderBy(order)
+    .with(['file[0]'])
+    .limit(30)) %}
+
+{% paginate query as pageInfo, assets %}
 
 <div class="listing">
     <div class="listing__tools">

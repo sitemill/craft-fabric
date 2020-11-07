@@ -98,10 +98,11 @@ class Library extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
             function(RegisterUrlRulesEvent $event) {
-                $event->rules['/'] = ['template' => '_library/pages/home'];
+                $event->rules['/'] = ['template' => '_library/pages/all'];
                 $event->rules['login'] = ['template' => '_library/pages/login'];
                 $event->rules['register'] = ['template' => '_library/pages/register'];
-                $event->rules['all'] = ['template' => '_pages/all'];
+                $event->rules['all'] = ['template' => '_library/pages/all'];
+                $event->rules['search'] = ['template' => '_library/pages/all'];
                 $event->rules['asset/<assetId:\d+>/?<assetSlug>'] = ['template' => '_library/pages/asset'];
                 $event->rules['category/<categoryId:\d+>/?<categorySlug>'] = ['template' => '_library/pages/category'];
                 $event->rules['account'] = ['template' => '_library/pages/account'];

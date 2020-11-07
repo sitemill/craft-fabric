@@ -1,14 +1,8 @@
 {# TODO: option to turn live search ON - maybe not on by default? #}
 <form
-    action="{{ url('all') }}"
+    action="{{ url('search') }}"
     method="GET"
     class="search-bar"
-    data-hx-select=".main"
-    data-hx-get="{{ url('all') }}"
-    data-hx-indicator="#loading"
-    data-hx-target=".main"
-    data-hx-swap="outerHTML"
-    data-hx-push-url="true"
 >
     <i></i>
     <input
@@ -16,8 +10,8 @@
         type="text"
         name="q"
         placeholder="Search"
-        data-hx-select=".main" 
-        data-hx-get="{{ url('all') }}"
+        data-hx-select=".main"
+        data-hx-get="{{ url('search') }}"
         data-hx-indicator="#loading"
         data-hx-target=".main"
         data-hx-swap="outerHTML"

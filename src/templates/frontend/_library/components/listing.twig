@@ -1,32 +1,9 @@
-{% set entriesSections = craft.library.settings.entriesSections|default(null) %}
+{% set show = show|default('all') %}
 
-{% if librarySettings.assetsSource %}
-    {% if librarySettings.assetsSource == 'dam' %}
-        {% set assets = craft.damAssets %}
-    {% else %}
-        {% set assets = craft.assets.folderId(librarySettings.assetsSource) %}
-    {% endif %}
-
-    {% set assetsQuery = assets
-        .search(keywords)
-        .kind(kind)
-        .relatedTo(category)
-        .orderBy(order)
-        .with(['file[0]'])
-        .limit(30)
-    %}
-
+{% if librarySettings.assetsSource and show in ['all','assets'] %}
     {% include '_library/components/listing/assets.twig' %}
 {% endif %}
 
-{% if entriesSections %}
-    {% set entries = craft.entries.section(entriesSections) %}
-
-    {% set entriesQuery = entries
-        .search(keywords)
-        .relatedTo(category)
-        .orderBy(order)
-        .limit(30) %}
-
+{% if librarySettings.entrySources|length and show in ['all','entries'] %}
     {% include '_library/components/listing/entries.twig' %}
 {% endif %}

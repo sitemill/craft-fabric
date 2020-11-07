@@ -1,5 +1,22 @@
-{% paginate entriesQuery as pageInfo, entries %}
-
-{% for entry in entries %}
-    {{ entry.title }}
+{# Set default entries section selection based on settings #}
+{% set defaultEntriesSections = [] %}
+{% for source, value in librarySettings.entrySources  %}
+    {% set defaultEntriesSections = defaultEntriesSections|merge([source]) %}
 {% endfor %}
+
+{% set entrySections = entrySections|default(defaultEntriesSections) %}
+{% set query = query|default(craft.entries.section(entrySections)
+    .search(keywords)
+    .relatedTo(category)
+    .orderBy(order)
+    .limit(30)) %}
+
+{% set query = query|default %}
+
+{% paginate query as pageInfo, entries %}
+
+<div class="entry-listing">
+    {% for entry in entries %}
+        {{ entry.title }}
+    {% endfor %}
+</div>

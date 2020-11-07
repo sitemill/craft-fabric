@@ -66,7 +66,7 @@ class Settings extends Model
             'thumbAssetField' => 'thumbnail',
             'entryTemplate' => '_library/test.twig'
         ],
-        'recipes' => [
+        'someRecipes' => [
             'label' => 'Recipes',
             'descriptionFiled' => 'libraryDescription',
             'thumbnailField' => 'thumbnail',
