@@ -1,8 +1,11 @@
-{% extends '_dialogs/_layout.twig' %}
-
 {# Get asset #}
-{% set asset = craft.LibraryAssets.id(id).one() %}
+    {% if craft.library.settings.assetsSource == 'dam' %}
+        {% set asset = craft.damAssets.id(id).one().file() %}
+    {% else %}
+        {% set asset = craft.assets.id(id).one() %}
+    {% endif %}
 
+{% extends '_library/dialogs/_layout.twig' %}
 
 {% block main %}
     <img src="{{ asset.url }}" alt="">

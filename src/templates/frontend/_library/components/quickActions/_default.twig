@@ -11,7 +11,7 @@
     <h4>Quick actions</h4>
     {% block quickActionsMain %}
         {% include '_library/components/action.twig' with {
-            action: librarySettings.assetsSource == 'dam' ? craft.dam.download(asset) : asset.url,
+            action: craft.library.settings.assetsSource == 'dam' ? craft.dam.download(asset) : asset.url,
             text: 'Download'|t,
             size: buttonSize,
             classes: ['bg-primary','text-canvas'],

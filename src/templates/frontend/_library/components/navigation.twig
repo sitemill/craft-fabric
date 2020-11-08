@@ -5,7 +5,7 @@
         hx-push-url="true"
 >
 
-    {% for navigationItem in librarySettings.navigation %}
+    {% for navigationItem in craft.library.settings.navigation %}
         {% switch navigationItem.type %}
         {% case 'entriesNav' %}
             {% include '_library/components/navigationGroup.twig' with {

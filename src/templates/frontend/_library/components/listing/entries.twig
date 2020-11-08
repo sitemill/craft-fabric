@@ -1,22 +1,24 @@
 {# Set default entries section selection based on settings #}
 {% set defaultEntriesSections = [] %}
-{% for source, value in librarySettings.entrySources  %}
+{% for source, value in craft.library.settings.entrySources  %}
     {% set defaultEntriesSections = defaultEntriesSections|merge([source]) %}
 {% endfor %}
 
-{% set entrySections = entrySections|default(defaultEntriesSections) %}
-{% set query = query|default(craft.entries.section(entrySections)
+{% set sections = sections|default(defaultEntriesSections) %}
+
+{% set query = query|default(craft.entries.section(sections)
     .search(keywords)
     .relatedTo(category)
     .orderBy(order)
     .limit(30)) %}
 
-{% set query = query|default %}
 
 {% paginate query as pageInfo, entries %}
 
 <div class="entry-listing">
     {% for entry in entries %}
-        {{ entry.title }}
+        <a href="{{ url(entry.section.handle ~ '/entry/' ~ entry.id ~ '/' ~ entry.slug) }}">
+            {{ entry.title }}
+        </a><br>
     {% endfor %}
 </div>

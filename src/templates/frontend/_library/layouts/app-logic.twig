@@ -8,20 +8,10 @@
     {% endif %}
 {% endif %}
 
-{% set librarySettings = {
-    assetsSource : craft.library.settings.assetsSource|default(null),
-    entrySources: craft.library.settings.entrySources,
-    navigation: craft.library.settings.navigation
-} %}
-
 {# Let's set global user permissions once to help with performance #}
 {% set userPermissions = {
     'isAdmin' : currentUser.admin
 } %}
-
-{# TODO: replace this when we have collections entry type #}
-{# Collections enabled? #}
-{% set collectionsEnabled = craft.library.settings.enableCollections %}
 
 {# Get colors #}
 {% include '_library/settings/colors.twig' %}

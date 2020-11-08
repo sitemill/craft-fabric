@@ -207,7 +207,7 @@ class Settings extends Model
             ['pagesHandle', 'default', 'value' => 'pages'],
             [
                 [
-                    'navigationLayout',
+                    'navigation',
                     'fileKinds',
                     'ordering',
                     'defaultMetaItems'

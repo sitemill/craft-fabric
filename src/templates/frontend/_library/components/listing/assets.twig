@@ -1,5 +1,5 @@
 {# Get assets source #}
-{% if librarySettings.assetsSource == 'dam' %}
+{% if craft.library.settings.assetsSource == 'dam' %}
     {% set assets = craft.damAssets %}
 {% else %}
     {% set assets = craft.assets.folderId(librarySettings.assetsSource) %}

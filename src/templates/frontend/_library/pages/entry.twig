@@ -1,12 +1,11 @@
 {% set entry = craft.entries.id(entryId).one() %}
 
-{# Get source settings from config #}
-{# TODO: maybe make a variale for this #}
 {% extends '_library/layouts/app.twig' %}
 
 {% block main %}
 
-    {% set sourceSettings = librarySettings.entrySources[section|camel] %}
+    {# Get settings for entry's source #}
+    {% set sourceSettings = craft.library.settings.entrySources[section|camel] %}
 
 
     {% if sourceSettings.entryTemplate is defined %}

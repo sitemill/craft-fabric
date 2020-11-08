@@ -7,11 +7,7 @@
     {% set pageTitle = section.name  %}
     {% include '_library/components/pageHeader' %}
 
-    <div class="entryListing">
-        {% for entry in entries %}
-            <a href="{{ url(section.handle|kebab ~ '/entry/' ~ entry.id ~ '/' ~ entry.slug) }}">
-            {{ entry.title }}
-            </a><br>
-        {% endfor %}
-    </div>
+    {% include '_library/components/listing/entries.twig' with {
+        entrySections: section
+    } %}
 {% endblock %}
