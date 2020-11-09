@@ -184,21 +184,21 @@ class Library extends Plugin
             Craft::$app->view->hook('cp.entries.edit.settings', function(&$context) {
                 $sectionHandle = $context['sectionHandle'];
                 if (array_key_exists($sectionHandle, $this->getSettings()->entrySources) && $this->getSettings()->entrySources[$sectionHandle]['enabled']) {
-                    return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', $context);
+                    return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', ['element' => $context['element']]);
                 }
             });
 
             // Add public lightswitch to assets
             Craft::$app->view->hook('cp.assets.edit.settings', function(&$context) {
                 if ($context['element']['volume']->handle == $this->getSettings()->assetsSource) {
-                    return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', $context);
+                    return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', ['element' => $context['element']]);
                 }
             });
 
             // If DAM is installed, hook onto that template
             if (Craft::$app->plugins->getPlugin('dam')) {
                 Craft::$app->view->hook('dam.assets.edit.settings', function(&$context) {
-                    return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', $context);
+                    return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', ['element' => $context['element']]);
                 });
             }
         }
