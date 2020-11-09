@@ -10,6 +10,7 @@
 
 namespace sitemill\library;
 
+use craft\helpers\UrlHelper;
 use sitemill\library\variables\LibraryVariable;
 use sitemill\library\models\Settings;
 
@@ -135,13 +136,18 @@ class Library extends Plugin
             }
         );
 
-
-
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
             function(PluginEvent $event) {
                 if ($event->plugin === $this) {
+                    // Send them to our welcome screen
+                    $request = Craft::$app->getRequest();
+                    if ($request->isCpRequest) {
+                        Craft::$app->getResponse()->redirect(UrlHelper::cpUrl(
+                            'settings/plugins/library'
+                        ))->send();
+                    }
                 }
             }
         );

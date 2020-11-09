@@ -15,8 +15,8 @@
 {% import "_includes/forms" as forms %}
 
 
-{{ forms.lightswitch({
-    label: 'Public',
+{{ forms.lightswitchField({
+    label: 'Public Site',
     instructions: 'If enabled, the site will be accessible by everyone',
     id: 'public',
     name: 'public',
@@ -55,9 +55,9 @@
     }) %}
 {% endfor %}
 
-    {{ forms.select({
+    {{ forms.selectField({
         label: 'Assets source',
-        instructions: 'If enabled, the site will be accessible by everyone',
+        instructions: 'Select the asset source to use'|t('dam'),
         id: 'assetsSource',
         name: 'assetsSource',
         value: settings.assetsSource,
