@@ -46,7 +46,7 @@
     {% set sources = sources|merge({
         (volume.handle) : {
             label: volume.name,
-            value: folder.id
+            value: volume.handle
         }
     }) %}
 {% endfor %}
@@ -75,16 +75,10 @@
                 name: 'entrySources['~section.handle~'][template]',
                 value: settings.entrySources[section.handle].template is defined ? settings.entrySources[section.handle].template
             },
-            showInSearch: include('_includes/forms/lightswitch', {
-                name: 'entrySources['~section.handle~'][showInSearch]',
-                on: settings.entrySources[section.handle].showInSearch is defined ? settings.entrySources[section.handle].showInSearch : '',
-                small: true
-            }),
+            showInSearch: settings.entrySources[section.handle].showInSearch
         }|filter
     }) %}
 {% endfor %}
-
-
 
 {{ forms.editableTableField({
     label: "Entry Sources"|t('library'),
@@ -102,12 +96,6 @@
             heading: "Enabled"|t('app'),
             thin: true
         },
-        template:  {
-            type: 'template',
-            heading: "Entry template"|t('library'),
-            info: "Which template should be loaded when an entry’s URL is requested."|t('app'),
-            code: true
-        },
         showInSearch: {
             type: 'lightswitch',
             heading: "Show in search"|t('library'),
@@ -115,6 +103,58 @@
         }
     }|filter,
     rows: sections,
-    fullWidth: true,
+    fullWidth: false,
     staticRows: true
 }) }}
+
+
+{% if settings.assetsSource %}
+
+    {% set assetFields = [] %}
+
+    {% if craft.library.damInstalled and settings.assetsSource == 'dam' %}
+        {% set layoutId = craft.app.fields.getLayoutByType(
+            'sitemill\\dam\\elements\\DamAsset'
+            ).id %}
+    {% else %}
+        {% set layoutId = craft.app.volumes.volumeByHandle(
+            settings.assetsSource
+            ).fieldLayoutId %}
+    {% endif %}
+
+    {% if craft.app.fields.fieldsByLayoutId(layoutId)|length %}
+
+        {% for field in craft.app.fields.fieldsByLayoutId(layoutId) %}
+            {% set assetFields = assetFields|merge({
+                (field.handle): {
+                    label: field.name,
+                    enabled: settings.assetFields[field.handle].enabled,
+                }|filter
+            }) %}
+        {% endfor %}
+
+        {{ forms.editableTableField({
+            label: "Asset field layout"|t('library'),
+            instructions: "Define the fields that will show on an assets page"|t('library'),
+            id: 'assetFields',
+            name: 'assetFields',
+            cols: {
+                label: {
+                    type: 'heading',
+                    heading: "Field"|t('app'),
+                    thin: true
+                },
+                enabled: {
+                    type: 'lightswitch',
+                    heading: "Enabled"|t('app'),
+                    thin: true
+                }
+            }|filter,
+            rows: assetFields,
+            fullWidth: false,
+            staticRows: true,
+            minRows:assetFields|length,
+            maxRows:assetFields|length
+        }) }}
+    {% endif %}
+{% endif %}

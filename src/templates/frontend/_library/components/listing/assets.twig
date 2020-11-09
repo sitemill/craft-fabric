@@ -2,7 +2,7 @@
 {% if craft.library.settings.assetsSource == 'dam' %}
     {% set assets = craft.damAssets %}
 {% else %}
-    {% set assets = craft.assets.folderId(craft.library.settings.assetsSource) %}
+    {% set assets = craft.assets.volume(craft.library.settings.assetsSource) %}
 {% endif %}
 
 

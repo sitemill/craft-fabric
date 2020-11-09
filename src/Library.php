@@ -81,6 +81,8 @@ class Library extends Plugin
         parent::init();
         self::$plugin = $this;
 
+
+
         // Trigger loading of front-end Bundles
         $request = Craft::$app->getRequest();
         if (
@@ -120,7 +122,7 @@ class Library extends Plugin
             }
         );
 
-        
+
 
         // Register CP Routes
         Event::on(
@@ -168,6 +170,8 @@ class Library extends Plugin
             __METHOD__
         );
 
+
+
         // Register permissions
         Event::on(UserPermissions::class, UserPermissions::EVENT_REGISTER_PERMISSIONS, function(RegisterUserPermissionsEvent $event) {
             $event->permissions[Craft::t('library', 'Library')] = [
@@ -175,11 +179,15 @@ class Library extends Plugin
             ];
         });
 
+            Craft::$app->view->hook('cp.entries.edit.settings', function(&$context) {
+                $sectionHandle = $context['sectionHandle'];
+                if (array_key_exists($sectionHandle,$this->getSettings()->entrySources) && $this->getSettings()->entrySources[$sectionHandle]['enabled']) {
+                    return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', $context);
+                }
+            });
 
-        // Add the lightswitch to entries
-        Craft::$app->view->hook('cp.entries.edit.settings', function(&$context) {
-            return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', $context);
-        });
+
+
 
         // Add the lightswitch to assets
         Craft::$app->view->hook('cp.assets.edit.settings', function(&$context) {
@@ -239,4 +247,7 @@ class Library extends Plugin
         $view = Craft::$app->getView();
         $view->registerAssetBundle('sitemill\\library\\assetbundles\\frontend\\LibraryFrontendAssets');
     }
+
+
+
 }

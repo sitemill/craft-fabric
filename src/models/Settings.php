@@ -37,14 +37,19 @@ class Settings extends Model
     public $assetsSource = null;
 
     /**
-     * @var array Determines the components to be used in the navigation
+     * @var array Determines the entry sources
      */
     public $entrySources = [];
 
     /**
-     * @var array Determines the components to be used in the navigation
+     * @var array Determines the site navigation
      */
     public $navigation = [];
+
+    /**
+     * @var array Determines the fields shown on asset page
+     */
+    public $assetFields = [];
 
 
     /**
