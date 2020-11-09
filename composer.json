@@ -42,6 +42,7 @@
     "documentationUrl": "https://github.com/sitemill/craft-library/blob/master/README.md",
     "changelogUrl": "https://raw.githubusercontent.com/craft-sitemill/library/master/CHANGELOG.md",
     "components": {
+      "share": "sitemill\\library\\services\\Share"
     },
     "class": "sitemill\\library\\Library"
   }

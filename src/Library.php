@@ -10,9 +10,9 @@
 
 namespace sitemill\library;
 
-use craft\helpers\UrlHelper;
 use sitemill\library\variables\LibraryVariable;
 use sitemill\library\models\Settings;
+use sitemill\library\services\Share as ShareService;
 
 use Craft;
 use craft\base\Plugin;
@@ -23,6 +23,12 @@ use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\web\View;
+use craft\events\ElementEvent;
+use craft\events\RegisterUserPermissionsEvent;
+use craft\helpers\UrlHelper;
+use craft\services\Elements;
+use craft\services\UserPermissions;
+
 
 use yii\base\Event;
 
@@ -33,6 +39,7 @@ use yii\base\Event;
  * @package   Library
  * @since     1.0.0
  *
+ * @property  ShareService $share
  */
 class Library extends Plugin
 {
@@ -113,7 +120,7 @@ class Library extends Plugin
             }
         );
 
-
+        
 
         // Register CP Routes
         Event::on(
@@ -159,6 +166,47 @@ class Library extends Plugin
                 ['name' => $this->name]
             ),
             __METHOD__
+        );
+
+        // Register permissions
+        Event::on(UserPermissions::class, UserPermissions::EVENT_REGISTER_PERMISSIONS, function(RegisterUserPermissionsEvent $event) {
+            $event->permissions[Craft::t('library', 'Library')] = [
+                'library-manageShares' => ['label' => Craft::t('library', 'Toggle sharing on elements')]
+            ];
+        });
+
+
+        // Add the lightswitch to entries
+        Craft::$app->view->hook('cp.entries.edit.settings', function(&$context) {
+            return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', $context);
+        });
+
+        // Add the lightswitch to assets
+        Craft::$app->view->hook('cp.assets.edit.settings', function(&$context) {
+            return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', $context);
+        });
+
+        // If DAM is installed, hook onto that template
+        if (Craft::$app->plugins->getPlugin('dam')) {
+            Craft::$app->view->hook('dam.assets.edit.settings', function(&$context) {
+                return Craft::$app->getView()->renderTemplate('library/_components/switch.twig', $context);
+            });
+        }
+
+        // Toggle share status on element save
+        Event::on(
+            Elements::class,
+            Elements::EVENT_AFTER_SAVE_ELEMENT,
+            function(ElementEvent $event) {
+                $request = Craft::$app->getRequest();
+                $elementId = $event->element->id;
+                $isPublic = $request->getParam('elementPublic');
+                if ($isPublic) {
+                    Library::$plugin->share->createShare($elementId);
+                } else {
+                    Library::$plugin->share->removeShare($elementId);
+                }
+            }
         );
     }
 

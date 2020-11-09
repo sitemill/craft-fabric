@@ -21,22 +21,18 @@
     id: 'public',
     name: 'public',
     value: settings.public,
-    on: (settings.public is defined) ? settings.public : ""})
-}}
-
-
+    on: (settings.public is defined) ? settings.public : ""}) }}
 
 {% set sources = {
-        'disabled' : {
-            label: 'Disabled',
-            value: '0'
-        },
-    }
-%}
+    'disabled' : {
+        label: 'Disabled',
+        value: '0'
+    },
+} %}
 
-{% set plugin = craft.app.plugins.getPlugin('dam', false) %}
 
-{% if plugin is not null and plugin.isInstalled  %}
+
+{% if craft.library.damInstalled %}
     {% set sources = sources|merge({
         'dam' : {
             label: 'Digital Asset Manager',
@@ -55,15 +51,70 @@
     }) %}
 {% endfor %}
 
-    {{ forms.selectField({
-        label: 'Assets source',
-        instructions: 'Select the asset source to use'|t('dam'),
-        id: 'assetsSource',
-        name: 'assetsSource',
-        value: settings.assetsSource,
-        options: sources
-        })
-    }}
+{{ forms.selectField({
+    label: 'Assets Source'|t('library'),
+    instructions: 'Select the asset source to use'|t('library'),
+    id: 'assetsSource',
+    name: 'assetsSource',
+    value: settings.assetsSource,
+    options: sources
+}) }}
+
+{% set sections = [] %}
+
+{% for section in craft.sections.allSections %}
+    {% set sections = sections|merge({
+        (section.handle): {
+            section: section.name,
+            enabled: include('_includes/forms/lightswitch', {
+                name: 'entrySources['~section.handle~'][enabled]',
+                on: settings.entrySources[section.handle].enabled is defined ? settings.entrySources[section.handle].enabled : '',
+                small: true
+            }),
+            template: {
+                name: 'entrySources['~section.handle~'][template]',
+                value: settings.entrySources[section.handle].template is defined ? settings.entrySources[section.handle].template
+            },
+            showInSearch: include('_includes/forms/lightswitch', {
+                name: 'entrySources['~section.handle~'][showInSearch]',
+                on: settings.entrySources[section.handle].showInSearch is defined ? settings.entrySources[section.handle].showInSearch : '',
+                small: true
+            }),
+        }|filter
+    }) %}
+{% endfor %}
 
 
 
+{{ forms.editableTableField({
+    label: "Entry Sources"|t('library'),
+    instructions: "Decide which entry setions will be included by Library"|t('library'),
+    id: 'entrySources',
+    name: 'entrySources',
+    cols: {
+        section: {
+            type: 'heading',
+            heading: "Section"|t('app'),
+            thin: true
+        },
+        enabled: {
+            type: 'heading',
+            heading: "Enabled"|t('app'),
+            thin: true
+        },
+        template:  {
+            type: 'template',
+            heading: "Entry template"|t('library'),
+            info: "Which template should be loaded when an entry’s URL is requested."|t('app'),
+            code: true
+        },
+        showInSearch: {
+            type: 'lightswitch',
+            heading: "Show in search"|t('library'),
+            thin: true
+        }
+    }|filter,
+    rows: sections,
+    fullWidth: true,
+    staticRows: true
+}) }}

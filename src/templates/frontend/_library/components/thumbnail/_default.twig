@@ -1,7 +1,5 @@
-{% set file = asset.instance == 'sitemill\\dam\\elements\\DamAsset' ? asset.file : asset %}
-
 <div class="thumbnail">
     {% block thumbnail %}
-            <img src="{{ file.thumbUrl(600) }}" alt="{{ asset.title }}">
+            <img src="{{ asset.thumbUrl(600) }}" alt="{{ asset.title }}">
     {% endblock %}
 </div>

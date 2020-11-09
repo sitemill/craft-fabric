@@ -34,28 +34,18 @@ class Settings extends Model
     /**
      * @var string The handle of the asset volume used by Library
      */
-    public $assetsHandle = null;
+    public $assetsSource = null;
 
     /**
      * @var array Determines the components to be used in the navigation
      */
-    public $entrySources = [
-    ];
+    public $entrySources = [];
 
     /**
      * @var array Determines the components to be used in the navigation
      */
-    public $navigation = [
-    ];
+    public $navigation = [];
 
-    public $useLibraryAssets = 1;
-
-    public $assetsSource = 20;
-
-    public $entriesSections = [
-        'libraryPages',
-        'test'
-    ];
 
     /**
      * @var array Determines the file types used within Library
@@ -133,8 +123,6 @@ class Settings extends Model
     {
         return [
             ['public', 'boolean'],
-            ['assetsHandle', 'string'],
-            ['assetsHandle', 'default', 'value' => 'assets'],
             [
                 [
                     'navigation',

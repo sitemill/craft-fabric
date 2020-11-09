@@ -10,11 +10,8 @@
 
 namespace sitemill\library\variables;
 
-use craft\helpers\UrlHelper;
-use sitemill\library\Library;
-
 use Craft;
-use Traversable;
+use sitemill\library\Library;
 
 /**
  * @author    SiteMill
@@ -26,5 +23,16 @@ class LibraryVariable
     public function settings()
     {
         return Library::$plugin->getSettings();
+    }
+
+    public function isPublic($element)
+    {
+        return Library::$plugin->share->validateShare($element->id);
+    }
+
+    public function damInstalled()
+    {
+        $dam = Craft::$app->plugins->getPlugin('dam');
+        return $dam && $dam->isInstalled;
     }
 }
