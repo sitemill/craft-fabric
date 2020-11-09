@@ -32,79 +32,20 @@ class Settings extends Model
     public $public = false;
 
     /**
-     * @var bool Can users make collections
-     */
-    public $enableCollections = true;
-
-    /**
      * @var string The handle of the asset volume used by Library
      */
-    public $assetsHandle = 'libraryAssets';
-
-    /**
-     * @var string The handle of the pages section used by Library
-     */
-    public $pagesHandle = 'libraryPages';
-
-    /**
-     * @var string The handle of the category group used by Library
-     */
-    public $categoryGroupHandle = 'libraryCategories';
-
-    /**
-     * @var string The handle of the category group used by Library
-     */
-    public $tagGroupHandle = 'libraryTags';
+    public $assetsHandle = null;
 
     /**
      * @var array Determines the components to be used in the navigation
      */
     public $entrySources = [
-        'libraryPages' => [
-            'label' => 'Pages',
-            'descriptionField' => 'libraryDescription',
-            'thumbAssetField' => 'thumbnail',
-            'entryTemplate' => '_library/test.twig'
-        ],
-        'someRecipes' => [
-            'label' => 'Recipes',
-            'descriptionFiled' => 'libraryDescription',
-            'thumbnailField' => 'thumbnail',
-            'entryTemplate' => '_library/test.twig'
-        ]
     ];
 
     /**
      * @var array Determines the components to be used in the navigation
      */
     public $navigation = [
-        [
-            'type' => 'heading',
-            'title' => 'Test heading'
-        ],
-        [
-            'title' => 'Pages',
-            'type' => 'entriesNav',
-            'source' => 'libraryPages'
-        ],
-        [
-            'title' => 'Recipes',
-            'type' => 'entriesListing',
-            'source' => 'someRecipes',
-        ],
-        [
-            'title' => 'Categories',
-            'type' => 'categoriesNav',
-            'source' => 'libraryCategories'
-        ],
-//        [
-//            'type' => 'collections',
-//            'title' => 'Collections'
-//        ],
-//        [
-//        'type' => 'include',
-//            'source' => '_library/components/navigationGroups/pages'
-//        ]
     ];
 
     public $useLibraryAssets = 1;
@@ -162,16 +103,7 @@ class Settings extends Model
     /**
      * @var array Determines the default meta components for an asset
      */
-    public $defaultMetaItems = [
-        [
-            'type' => 'text',
-            'fieldHandle' => 'libraryDescription',
-        ],
-        [
-            'type' => 'tags',
-            'fieldHandle' => 'libraryTags'
-        ]
-    ];
+    public $metaItems = [];
 
 
 //    FRONT END
@@ -203,14 +135,13 @@ class Settings extends Model
             ['public', 'boolean'],
             ['assetsHandle', 'string'],
             ['assetsHandle', 'default', 'value' => 'assets'],
-            ['pagesHandle', 'string'],
-            ['pagesHandle', 'default', 'value' => 'pages'],
             [
                 [
                     'navigation',
                     'fileKinds',
                     'ordering',
-                    'defaultMetaItems'
+                    'metaItems',
+                    'colors'
                 ],
                 ArrayValidator::class,
             ],
