@@ -29,7 +29,7 @@ class Settings extends Model
     /**
      * @var bool Is the site open to the public?
      */
-    public $public = false;
+    public $private = 0;
 
     /**
      * @var string The handle of the asset volume used by Library
@@ -117,27 +117,27 @@ class Settings extends Model
     ];
 
 
-// TODO: update rules
-// Public Methods
-// =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            ['public', 'boolean'],
-            [
-                [
-                    'navigation',
-                    'fileKinds',
-                    'ordering',
-                    'metaItems',
-                    'colors'
-                ],
-                ArrayValidator::class,
-            ],
-        ];
-    }
+//// TODO: update rules
+//// Public Methods
+//// =========================================================================
+//
+//    /**
+//     * @inheritdoc
+//     */
+//    public function rules()
+//    {
+//        return [
+//            ['private', 'boolean'],
+//            [
+//                [
+//                    'navigation',
+//                    'fileKinds',
+//                    'ordering',
+//                    'metaItems',
+//                    'colors'
+//                ],
+//                ArrayValidator::class,
+//            ],
+//        ];
+//    }
 }

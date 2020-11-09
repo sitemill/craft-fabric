@@ -14,26 +14,23 @@
 
 {% import "_includes/forms" as forms %}
 
-
 {{ forms.lightswitchField({
-    label: 'Public Site',
-    instructions: 'If enabled, the site will be accessible by everyone',
-    id: 'public',
-    name: 'public',
-    value: settings.public,
-    on: (settings.public is defined) ? settings.public : ""}) }}
+    label: 'Private Site',
+    instructions: 'Enables the login system.',
+    id: 'private',
+    name: 'private',
+    on: (settings.private is defined) ? settings.private : ""}) }}
 
-{% set sources = {
+{# Define asset sources #}
+{% set assetSources = {
     'disabled' : {
         label: 'Disabled',
         value: '0'
     },
 } %}
 
-
-
 {% if craft.library.damInstalled %}
-    {% set sources = sources|merge({
+    {% set assetSources = assetSources|merge({
         'dam' : {
             label: 'Digital Asset Manager',
             value: 'dam'
@@ -43,7 +40,7 @@
 
 {% for volume in craft.app.volumes.allVolumes %}
     {% set folder = craft.app.assets.rootFolderByVolumeId(volume.id) %}
-    {% set sources = sources|merge({
+    {% set assetSources = assetSources|merge({
         (volume.handle) : {
             label: volume.name,
             value: volume.handle
@@ -57,7 +54,7 @@
     id: 'assetsSource',
     name: 'assetsSource',
     value: settings.assetsSource,
-    options: sources
+    options: assetSources
 }) }}
 
 {% set sections = [] %}
@@ -66,16 +63,8 @@
     {% set sections = sections|merge({
         (section.handle): {
             section: section.name,
-            enabled: include('_includes/forms/lightswitch', {
-                name: 'entrySources['~section.handle~'][enabled]',
-                on: settings.entrySources[section.handle].enabled is defined ? settings.entrySources[section.handle].enabled : '',
-                small: true
-            }),
-            template: {
-                name: 'entrySources['~section.handle~'][template]',
-                value: settings.entrySources[section.handle].template is defined ? settings.entrySources[section.handle].template
-            },
-            showInSearch: settings.entrySources[section.handle].showInSearch
+            enabled: settings.entrySources[section.handle].enabled is defined ? settings.entrySources[section.handle].enabled : '',
+            showInSearch: settings.entrySources[section.handle].showInSearch is defined ? settings.entrySources[section.handle].showInSearch : ''
         }|filter
     }) %}
 {% endfor %}
@@ -92,7 +81,7 @@
             thin: true
         },
         enabled: {
-            type: 'heading',
+            type: 'lightswitch',
             heading: "Enabled"|t('app'),
             thin: true
         },
@@ -128,7 +117,7 @@
             {% set assetFields = assetFields|merge({
                 (field.handle): {
                     label: field.name,
-                    enabled: settings.assetFields[field.handle].enabled,
+                    enabled: settings.assetFields[field.handle].enabled is defined ? settings.assetFields[field.handle].enabled : '',
                 }|filter
             }) %}
         {% endfor %}

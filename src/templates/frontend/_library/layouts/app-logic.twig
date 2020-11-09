@@ -1,6 +1,6 @@
 {# Check for user access #}
 {% set publicLayout = false %}
-{% if not craft.library.settings.public and not currentUser %}
+{% if craft.library.settings.private and not currentUser %}
     {% if publicPage is defined and publicPage == true %}
         {% set publicLayout = true %}
     {% else %}
