@@ -30,7 +30,7 @@
                             %}
                             {% set k = 20 %}
                             {% for i in range(1, k) %}
-                                {% for asset in assets.order('RAND()') %}
+                                {% for asset in assets.orderBy('RAND()').all() %}
                                     {% set file = craft.library.settings.assetsSource == 'dam' ? asset.file : asset %}
                                     <img src="{{ file.url({width:100,quality:10}) }}" alt="{{ asset.title }}">
                                 {% endfor %}

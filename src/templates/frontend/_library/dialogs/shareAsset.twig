@@ -10,10 +10,5 @@
 {% block main %}
     <img src="{{ asset.url }}" alt="">
 
-    {% if asset.libraryPublic %}
-        {{ url(siteUrl ~ craft.library.settings.folder ~ 'asset/' ~ asset.id) }}
-    {% else %}
-        This is not a public asset
-    {% endif %}
 
 {% endblock %}

@@ -1,4 +1,4 @@
-{% set file = craft.library.settings.assetsSource == 'libraryAssets' ? asset.file : asset %}
+{% set file = asset.instance == 'sitemill\\dam\\elements\\DamAsset' ? asset.file : asset %}
 
 <div class="asset-preview">
     {% block assetPreview %}
