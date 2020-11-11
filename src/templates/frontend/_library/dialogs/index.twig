@@ -1,3 +1,6 @@
 {% requireLogin %}
 
-{% include '_library/dialogs/' ~ action|camel with {id:id} %}
+{% include '_library/dialogs/' ~ action|camel with {
+    id:id,
+    action:action
+} %}

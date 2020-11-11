@@ -65,7 +65,20 @@ class Share extends Component
     /*
      * @return mixed
      */
-    public function validateShare($elementId) {
+    public function toggleShare($elementId)
+    {
+        if ($this->isPublic($elementId)) {
+            $this->removeShare($elementId);
+        } else {
+            $this->createShare($elementId);
+        }
+        return true;
+    }
+
+    /*
+     * @return mixed
+     */
+    public function isPublic($elementId) {
 
         $shareRecord = ShareRecord::find()
             ->where(['elementId' => $elementId])

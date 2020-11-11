@@ -27,43 +27,54 @@ class ShareController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['validate'];
+    public $allowAnonymous = true;
 
     // Public Methods
     // =========================================================================
 
+//    /**
+//     * @return mixed
+//     */
+//    public function actionCreate()
+//    {
+//        // Do they have permission?
+//        $this->requirePermission('library-manageShares');
+//
+//        $request = Craft::$app->getRequest();
+//        $elementId = $request->getRequiredParam('elementId');
+//
+//        return Library::$plugin->share->createShare($elementId);
+//    }
+//
+//    /**
+//     * @return mixed
+//     */
+//    public function actionDelete(int $elementId)
+//    {
+//        // Do they have permission?
+//        $this->requirePermission('library-manageShares');
+//        return Library::$plugin->share->removeShare($elementId);
+//    }
+
     /**
      * @return mixed
      */
-    public function actionCreate()
+    public function actionToggle()
     {
-        // Do they have permission?
+
+        $this->requirePostRequest();
         $this->requirePermission('library-manageShares');
 
         $request = Craft::$app->getRequest();
         $elementId = $request->getRequiredParam('elementId');
+        $isHtmx = $request->getParam('htmx');
 
-        return Library::$plugin->share->createShare($elementId);
-    }
+        Library::$plugin->share->toggleShare($elementId);
 
-    /**
-     * @return mixed
-     */
-    public function actionDelete($shareId)
-    {
-        // Do they have permission?
-        $this->requirePermission('library-manageShares');
-        return Library::$plugin->share->removeShare($shareId);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function actionValidate()
-    {
-        $request = Craft::$app->getRequest();
-        $elementId = $request->getRequiredParam('elementId');
-        return Library::$plugin->share->validateShare($elementId);
+        if ($isHtmx) {
+            return $this->renderTemplate('_library/dialogs/share', ['id' => $elementId]);
+        }
+        return $this->redirectToPostedUrl();
     }
 
 }

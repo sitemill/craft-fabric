@@ -1,24 +1,38 @@
 {% set title = title|default('Title') %}
+{% set formAction = formAction|default('') %}
 
 <div
-     id="dialog"
-     class="dialog dialog--active"
-     :class="{'dialog--active': dialogOpen === true}"
-     x-data="{ dialogOpen: true }"
-     @click.away="dialogOpen = false"
+        id="dialog"
+        class="dialog dialog--active"
+        :class="{'dialog--active': dialogOpen === true}"
+        x-data="{ dialogOpen: true }"
+        @click.away="dialogOpen = false"
 >
-    <div class="slideover__main">
-        <h1 class="slideover__title">{{ title }}</h1>
-        <a class="slideover__close" aria-hidden="true" @click="dialogOpen = false">Close</a>
-        {% block main %}
+    <form method="post"
+          accept-charset="UTF-8"
+          hx-ext="json-enc"
+          hx-post="{{ actionUrl(formAction) }}"
+          hx-target="{{ htmxSwapSection }}"
+          hx-select="{{ htmxSwapSection }}"
+          hx-swap="outerHTML"
+    >
+        <input type="hidden" name="action" value="{{ formAction }}">
+        <input type="hidden" name="htmx" value="true">
 
-        {% endblock %}
-    </div>
-    <div class="slideover__actions">
-        {% block actions %}
+        {{ csrfInput() }}
+        <div class="slideover__main">
+            <h1 class="slideover__title">{{ title }}</h1>
+            <a class="slideover__close" aria-hidden="true" @click="dialogOpen = false">Close</a>
+            {% block main %}
 
-        {% endblock %}
-    </div>
+            {% endblock %}
+        </div>
+        <div class="slideover__actions">
+            {% block actions %}
+
+            {% endblock %}
+        </div>
+    </form>
 </div>
 
 {% css %}

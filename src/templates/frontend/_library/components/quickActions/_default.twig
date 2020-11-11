@@ -46,7 +46,7 @@
             {% block quickActionsMore %}
                 {% include '_library/components/action.twig' with {
                     text: 'Share'|t,
-                    action: '/dialog/share-asset/' ~ asset.id,
+                    action: '/dialog/share/' ~ asset.id,
                     size: buttonSize,
                     classes: ['action--list-item'],
                     icon: 'fas fa-link',

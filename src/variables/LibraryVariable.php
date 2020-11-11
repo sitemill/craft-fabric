@@ -27,12 +27,17 @@ class LibraryVariable
 
     public function isPublic($element)
     {
-        return Library::$plugin->share->validateShare($element->id);
+        return Library::$plugin->share->isPublic($element->id);
     }
 
     public function damInstalled()
     {
         $dam = Craft::$app->plugins->getPlugin('dam');
         return $dam && $dam->isInstalled;
+    }
+
+    public function damActive()
+    {
+        return $this->settings()->assetsSource == 'dam';
     }
 }
