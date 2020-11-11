@@ -3,9 +3,11 @@
 
 {# Get asset #}
 {% if craft.library.damActive %}
-    {% set asset = craft.damAssets.id(id).one().file() %}
+    {% set asset = craft.damAssets.id(id).one() %}
+    {% set assetFile = asset.file %}
 {% else %}
     {% set asset = craft.assets.id(id).one() %}
+    {% set assetFile = asset %}
 {% endif %}
 
 {% extends '_library/dialogs/_layout.twig' %}
@@ -18,7 +20,7 @@
     <div id="public">
         {{ craft.library.isPublic(asset) ? 'public' : 'notpublic'}}
     </div>
-    <img src="{{ asset.thumbUrl(600) }}" alt="">
+    <img src="{{ assetFile.thumbUrl(600) }}" alt="">
 
 
 {% endblock %}

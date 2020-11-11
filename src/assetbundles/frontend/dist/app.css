@@ -6712,6 +6712,10 @@ html {
   width: 100%;
 }
 
+.breadcrumbs {
+  z-index: 10;
+}
+
 .branding {
   margin-bottom: 2em;
   text-align: center;
@@ -6732,8 +6736,9 @@ html {
 }
 
 .dialog {
+  display: none;
   background-color: white;
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   width: 500px;
@@ -6745,6 +6750,7 @@ html {
 }
 
 .dialog--active {
+  display: block;
   opacity: 1;
   right: 0px;
 }
@@ -6811,22 +6817,6 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   border-radius: 0 0 4px 4px;
   border-bottom-width: 1px;
   border-bottom-color: #C6C6C6;
-}
-
-.global-nav {
-  margin-left: 250px;
-  position: fixed;
-  right: 0;
-  left: 0;
-  top: 0;
-  background-color: rgba(246, 246, 246, 0.8);
-}
-
-.global-nav__main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
 }
 
 .htmx-indicator {
@@ -7024,6 +7014,15 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   color: black;
 }
 
+.page-actions {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
 .page-actions h3 {
   display: none;
 }
@@ -7046,11 +7045,12 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
 
 .page-header {
   background-color: #F6F6F6;
-  padding-top: 60px;
 }
 
 .page-header__breadcrumbs {
-  margin-bottom: 2em;
+  height: 60px;
+  display: flex;
+  align-items: center;
 }
 
 .page-header__category-roll {
@@ -7108,6 +7108,32 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
     left: 100%;
   }
 }
+.page-nav {
+  position: fixed;
+  bottom: 0px;
+  right: 0;
+  left: 0;
+  background-color: rgba(246, 246, 246, 0.8);
+}
+@media screen and (min-width: 768px) {
+  .page-nav {
+    margin-left: 250px;
+    top: 0;
+    bottom: auto;
+  }
+}
+
+.page-nav__main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.page-nav__actions {
+  width: 100%;
+}
+
 .quick-actions {
   display: flex;
   flex-direction: row-reverse;

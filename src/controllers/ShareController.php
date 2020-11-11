@@ -72,7 +72,7 @@ class ShareController extends Controller
         Library::$plugin->share->toggleShare($elementId);
 
         if ($isHtmx) {
-            return $this->renderTemplate('_library/dialogs/share', ['id' => $elementId]);
+            return $this->renderTemplate('_library/dialogs/share/', ['id' => $elementId]);
         }
         return $this->redirectToPostedUrl();
     }

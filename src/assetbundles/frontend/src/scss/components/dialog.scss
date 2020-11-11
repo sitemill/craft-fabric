@@ -1,6 +1,7 @@
 .dialog {
+    display: none;
     background-color: white;
-    position: absolute;
+    position: fixed;
     top:0;
     bottom: 0;
     width: 500px;
@@ -12,6 +13,7 @@
 }
 
 .dialog--active {
+    display: block;
     opacity: 1;
     right: 0px;
 }

@@ -4,27 +4,15 @@
 {% extends '_library/layouts/app.twig' %}
 
 {% block main %}
-    {% block globalNav %}
-        <div class="global-nav">
-            <div class="container">
-                <div class="global-nav__main">
-                    <div class="global-nav__breadcrumbs">
-                        {% block breadcrumbs %}
-                            {% include '_library/components/breadcrumbs.twig' %}
-                        {% endblock %}
-                    </div>
-                    <div class="global-nav__page-actions">
-                        {% block pageActions %}
-                            {% include '_library/components/pageActions.twig' %}
-                        {% endblock %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endblock %}
+
     {% block pageHeader %}
         <header class="page-header">
             <div class="container">
+                <div class="page-header__breadcrumbs">
+                    {% block breadcrumbs %}
+                        {% include '_library/components/breadcrumbs.twig' %}
+                    {% endblock %}
+                </div>
                 <div class="page-header__main">
                     <div class="page-header__pageTitle">
                         {% block pageTitle %}
@@ -45,4 +33,15 @@
     {% block pageMain %}
         No page content defined
     {% endblock %}
+    <div class="page-nav">
+        <div class="container">
+            <div class="page-nav__main">
+                <div class="page-nav__actions">
+                    {% block pageActions %}
+                        {% include '_library/components/pageActions.twig' %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,10 +1,12 @@
 .page-header {
     background-color: #F6F6F6;
-    padding-top: $global-nav-height;
 }
 
 .page-header__breadcrumbs {
-    margin-bottom: 2em;
+    height: $global-nav-height;
+    display: flex;
+   align-items: center;
+
 }
 
 .page-header__category-roll {

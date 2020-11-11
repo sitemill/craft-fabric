@@ -25,11 +25,11 @@
 @import './components/assetCardList';
 @import './components/assetMeta';
 @import './components/assetPreview';
+@import './components/breadcrumbs';
 @import './components/branding';
 @import './components/container';
 @import './components/dialog';
 @import './components/formField';
-@import './components/globalNav';
 @import './components/htmx';
 @import './components/listing';
 @import './components/listingFilter';
@@ -45,6 +45,7 @@
 @import './components/pageTitle';
 @import './components/pageHeader';
 @import './components/pageLoader';
+@import './components/pageNav';
 @import './components/quickActions';
 @import './components/searchBar';
 @import './components/sidebar';

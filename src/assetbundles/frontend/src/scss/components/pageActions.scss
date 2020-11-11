@@ -1,4 +1,10 @@
 .page-actions {
+    position: fixed;
+    top:0;
+    right:0;
+    height: $global-nav-height;
+    display: flex;
+    align-items: center;
 
 }
 
