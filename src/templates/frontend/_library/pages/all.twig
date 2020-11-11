@@ -1,13 +1,12 @@
-{% extends '_library/layouts/app.twig' %}
+{% set pageTitle = 'All Entries' %}
+{% extends '_library/layouts/page.twig' %}
 
-{% block main %}
+{% block pageHeader %}
     {% set pageTitle = keywords ? "Searching for '" ~ keywords ~ "'" : 'All Entries' %}
+    {{ parent() }}
+{% endblock %}
 
-    {% include '_library/components/pageHeader.twig' with {
-        'categoryRoll': true,
-        'hidePageBreadcrumb': true
-    }%}
+{% block pageMain %}
 
     {% include '_library/components/listing.twig' %}
-
 {% endblock %}

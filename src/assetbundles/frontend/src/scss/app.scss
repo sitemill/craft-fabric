@@ -18,8 +18,8 @@
 // Components
 @import './components/action';
 @import './components/actions';
-@import './components/action-page';
-@import './components/action-page-card';
+@import './components/actionPage';
+@import './components/actionPageCard';
 @import './components/asset';
 @import './components/assetCardGrid';
 @import './components/assetCardList';
@@ -28,13 +28,14 @@
 @import './components/branding';
 @import './components/container';
 @import './components/dialog';
-@import './components/form-field';
+@import './components/formField';
+@import './components/globalNav';
 @import './components/htmx';
 @import './components/listing';
 @import './components/listingFilter';
 @import './components/main';
 @import './components/message';
-@import './components/more-actions';
+@import './components/moreActions';
 @import './components/mosaic';
 @import './components/navigation';
 @import './components/navigationGroup';

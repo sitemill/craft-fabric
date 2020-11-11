@@ -1,18 +1,15 @@
 {% set entry = craft.entries.id(entryId).one() %}
+{% set pageTitle = entry.title %}
 
-{% extends '_library/layouts/app.twig' %}
-
-{% block main %}
+{% extends '_library/layouts/page.twig' %}
+{% block pageMain %}
 
     {# Get settings for entry's source #}
     {% set sourceSettings = craft.library.settings.entrySources[section|camel] %}
 
-
     {% if sourceSettings.entryTemplate is defined %}
         {% include sourceSettings.entryTemplate %}
     {% else %}
-        {% set pageTitle = entry.title  %}
-        {% include '_library/components/pageHeader' %}
 
         {% for fieldLayoutField in entry.fieldLayout.fields %}
             {% set field = craft.fields.getFieldById(fieldLayoutField.id) %}

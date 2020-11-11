@@ -1,29 +1,43 @@
-{% extends 'app.twig' %}
+{% set pageTitle = pageTitle|default('Default page title') %}
+{% set breadcrumbs = breadcrumbs|default([]) %}
+
+{% extends '_library/layouts/app.twig' %}
 
 {% block main %}
+    {% block globalNav %}
+        <div class="global-nav">
+            <div class="container">
+                <div class="global-nav__main">
+                    <div class="global-nav__breadcrumbs">
+                        {% block breadcrumbs %}
+                            {% include '_library/components/breadcrumbs.twig' %}
+                        {% endblock %}
+                    </div>
+                    <div class="global-nav__page-actions">
+                        {% block pageActions %}
+                            {% include '_library/components/pageActions.twig' %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
     {% block pageHeader %}
         <header class="page-header">
             <div class="container">
-                <div class="page-header__breadcrumbs">
-                    {% block pageHeaderBreadcrumbs %}
-                        {% include '_library/components/breadcrumbs.twig' %}
-                    {% endblock %}
-                </div>
                 <div class="page-header__main">
                     <div class="page-header__pageTitle">
-                        {% block pageHeaderTitle %}
+                        {% block pageTitle %}
                             {% include '_library/components/pageTitle.twig' %}
                         {% endblock %}
                         <div class="page-header__category-roll">
-                            {% block pageHeaderNavigation %}
-                                {% include '_library/components/categoryRoll.twig' %}
+                            {% block categoryRoll %}
+                                {% include '_library/components/categoryRoll.twig' with {
+                                    'categoryRoll': category ? category : false
+                                } %}
                             {% endblock %}
                         </div>
                     </div>
-                    {# We can use embed to configure the page actions #}
-                    {% block pageHeaderActions %}
-                        {% include '_library/components/pageActions.twig' %}
-                    {% endblock %}
                 </div>
             </div>
         </header>

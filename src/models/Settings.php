@@ -46,8 +46,17 @@ class Settings extends Model
      */
     public $navigation = [];
 
+
+
     /**
      * @var array Determines the fields shown on asset page
+     *
+     *  $assetFields = [
+     *      'description' => [
+     *          'enabled' => 1
+     *      ]
+     *  ]
+     *
      */
     public $assetFields = [];
 

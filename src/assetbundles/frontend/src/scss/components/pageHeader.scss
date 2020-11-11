@@ -1,6 +1,6 @@
 .page-header {
-    // background-color: rgba(127,127,127,0.1);
-    padding: 2em 0;
+    background-color: #F6F6F6;
+    padding-top: $global-nav-height;
 }
 
 .page-header__breadcrumbs {
@@ -12,7 +12,8 @@
 }
 
 .page-header__main {
-@media screen and (min-width:$navFull) {
+  padding: 2em 0;
+  @media screen and (min-width:$navFull) {
         display: flex;    
         align-items: center;
         justify-content: space-between;

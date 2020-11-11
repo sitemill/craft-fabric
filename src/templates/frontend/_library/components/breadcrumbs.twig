@@ -1,6 +1,6 @@
 {# Variables #}
 {% set pageTitle = pageTitle|default('Page title') %} {# The current page title #}
-{% set pageBreadcrumbs = pageBreadcrumbs|default([]) %} {# An array of the parent pages #}
+{% set pageBreadcrumbs = breadcrumbs|default([]) %} {# An array of the parent pages #}
 {% set hidePageBreadcrumb = hidePageBreadcrumb|default(false) %} {# Removes the current page from breadcrumbs #}
 
 {# Site name is always first #}

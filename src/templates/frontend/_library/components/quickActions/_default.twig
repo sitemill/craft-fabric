@@ -4,44 +4,32 @@
     You can ovveride quickActionsMore to modify the actions in the dropdown.
 #}
 {% set context = context|default('default') %}
-
+{% set index =  loop is defined ? loop.index : '' %}
 {% set buttonSize = context == 'card' ? 'small' : 'default' %}
 
 <div class="quick-actions">
     <h4>Quick actions</h4>
     {% block quickActionsMain %}
-        {% include '_library/components/action.twig' with {
-            action: craft.library.settings.assetsSource == 'dam' ? craft.dam.download(asset) : asset.url,
-            text: 'Download'|t,
-            size: buttonSize,
-            classes: ['bg-primary','text-canvas'],
-            icon: 'fas fa-download',
-            attributes: {
-                'title' : 'Download this asset'|t,
-                'download' : asset.title
-            }
-        } %}
-{#        TODO: re-do this when we have collection entry type #}
-{#        {% if (lightboxesEnabled and userPermissions.canEditLightboxes) %}#}
-{#            {% include '_library/components/action.twig' with {#}
-{#                text: 'Add to lightbox'|t,#}
-{#                action: '/dialog/add-to-lightbox/' ~ asset.id,#}
-{#                size: buttonSize,#}
-{#                style: 'icon-only',#}
-{#                icon: 'fas fa-plus',#}
-{#                target: 'dialog',#}
-{#                attributes: {#}
-{#                    'title' : 'Add asset to lightbox'|t,#}
-{#                }#}
-{#            } %}#}
-{#        {% endif %}#}
+        {% if (not craft.library.damActive and asset.url) %}
+            {% include '_library/components/action.twig' with {
+                action: craft.library.damActive ? craft.dam.download(asset) : asset.url,
+                text: 'Download'|t,
+                size: buttonSize,
+                classes: ['bg-primary','text-canvas'],
+                icon: 'fas fa-download',
+                attributes: {
+                    'title' : 'Download this asset'|t,
+                    'download' : asset.title
+                }
+            } %}
+        {% endif %}
     {% endblock %}
 
-    <div class="more-actions" x-data="{ dropdown{{ loop.index }}open: false }">
-        <div class="action action--{{ buttonSize }} action--icon-only bg-canvas" @click="dropdown{{ loop.index }}open = true">
+    <div class="more-actions" x-data="{ dropdown{{ index }}open: false }">
+        <div class="action action--{{ buttonSize }} action--icon-only bg-canvas" @click="dropdown{{ index }}open = true">
             <i class="fas fa-ellipsis-h" aria-hidden="true"></i> <span>{{ 'Actions'|t }}</span>
         </div>
-        <div class="more-actions__dropdown" x-show="dropdown{{ loop.index }}open" @click.away="dropdown{{ loop.index }}open = false">
+        <div class="more-actions__dropdown" x-show="dropdown{{ index }}open" @click.away="dropdown{{ index }}open = false">
             <ul class="more-actions__list">
             {% block quickActionsMore %}
                 {% include '_library/components/action.twig' with {

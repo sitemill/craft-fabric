@@ -35,6 +35,12 @@
 .asset-card-grid__actions {
     display: none;
     z-index: 10;
+    .quick-actions {
+        padding: 1em;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 }
 
 // Actions

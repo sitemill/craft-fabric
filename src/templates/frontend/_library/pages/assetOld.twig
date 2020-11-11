@@ -11,13 +11,16 @@
 
 {% set pageTitle = asset.title %}
 
-{% extends '_library/layouts/page.twig' %}
+{% extends '_library/layouts/app.twig' %}
 
-{% block pageActions %}
-    {% include ['_library/components/quickActions/' ~ asset.kind,'_library/components/quickActions/_default'] with {context: 'default'} %}
-{% endblock %}
+{% block main %}
 
-{% block pageMain %}
+    {% embed '_library/components/pageHeader' with {
+        'hidePageBreadcrumb': true,
+    } %}
+
+    {% endembed %}
+
     <div class="asset">
         <div class="container">
             <div class="asset__wrapper">
