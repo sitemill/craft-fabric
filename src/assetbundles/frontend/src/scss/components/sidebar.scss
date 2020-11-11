@@ -15,6 +15,11 @@
         right: auto;
         width: $sidebar-width-full;
     }
+    transition: right 1s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.sidebar--active {
+    right: 0;
 }
 
 .sidebar__main {
@@ -23,17 +28,4 @@
 
 .sidebar__footer {
 
-}
-
-
-.sidebar__toggle {
-    @media screen and (min-width:$navFull) {
-        display: none;
-    }
-}
-
-.sidebar__toggle:checked ~ .sidebar {
-    @media screen and (max-width:$navFull - 1px) {
-        right:0;
-    }
 }

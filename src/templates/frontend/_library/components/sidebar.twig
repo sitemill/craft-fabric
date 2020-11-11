@@ -1,18 +1,19 @@
-<input type="checkbox" class="sidebar__toggle" id="sidebar-toggle" aria-hidden checked />
-<nav class="sidebar" id="sidebar">
-    <div class="sidebar__main">
-        {% include '_library/extends/sidebarMainPre.twig' ignore missing %}
-        {% include '_library/components/branding.twig' %}
-        {% include '_library/components/searchBar.twig' %}
-        {% include '_library/components/navigation.twig' %}
-        {% include '_library/extends/sidebarMainPost.twig' ignore missing %}
-    </div>
-    <div class="sidebar__footer">
-        {% include '_library/extends/sidebarFooterPre.twig' ignore missing %}
-        {% if currentUser %}
-            {% include '_library/components/userAction.twig'%}
-        {% endif %}
-        {% include '_library/extends/sidebarFooterPost.twig' ignore missing %}
-    </div>
-</nav>
-
+<div x-data="{ sidebarOpen: false }">
+    <div @click="sidebarOpen = !sidebarOpen">Menu</div>
+    <nav class="sidebar" :class="{'sidebar--active': sidebarOpen }" id="sidebar" >
+        <div class="sidebar__main">
+            {% include '_library/extends/sidebarMainPre.twig' ignore missing %}
+            {% include '_library/components/branding.twig' %}
+            {% include '_library/components/searchBar.twig' %}
+            {% include '_library/components/navigation.twig' %}
+            {% include '_library/extends/sidebarMainPost.twig' ignore missing %}
+        </div>
+        <div class="sidebar__footer">
+            {% include '_library/extends/sidebarFooterPre.twig' ignore missing %}
+            {% if currentUser %}
+                {% include '_library/components/userAction.twig' %}
+            {% endif %}
+            {% include '_library/extends/sidebarFooterPost.twig' ignore missing %}
+        </div>
+    </nav>
+</div>

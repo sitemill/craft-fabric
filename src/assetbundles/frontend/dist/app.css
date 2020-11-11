@@ -7189,6 +7189,7 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   justify-content: space-between;
   transition: 0.2s right ease-in-out;
   z-index: 100;
+  transition: right 1s cubic-bezier(0.33, 1, 0.68, 1);
 }
 @media screen and (min-width: 768px) {
   .sidebar {
@@ -7197,16 +7198,8 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   }
 }
 
-@media screen and (min-width: 768px) {
-  .sidebar__toggle {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .sidebar__toggle:checked ~ .sidebar {
-    right: 0;
-  }
+.sidebar--active {
+  right: 0;
 }
 
 @media screen and (min-width: 768px) {
