@@ -10,7 +10,7 @@
 <div class="quick-actions">
     <h4>Quick actions</h4>
     {% block quickActionsMain %}
-        {% if (not craft.library.damActive and asset.url) %}
+        {% if not (craft.library.damActive and asset.url) %}
             {% include '_library/components/action.twig' with {
                 action: craft.library.damActive ? craft.dam.download(asset) : asset.url,
                 text: 'Download'|t,
