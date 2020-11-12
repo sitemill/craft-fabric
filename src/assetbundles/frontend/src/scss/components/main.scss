@@ -1,9 +1,18 @@
 .main {
-
+    transition: all $animation;
+    min-height: 100vh;
+    opacity: 1;
 }
 
 .main--allow-sidebar {
     @media screen and (min-width:$navFull) {
         margin-left: $sidebar-width-full;
+    }
+}
+
+.page--recessed .main {
+    @media screen and (max-width:$navFull - 1px) {
+        transform: scale3d(0.95, 0.95, 0.95);
+        opacity: 0.3;
     }
 }

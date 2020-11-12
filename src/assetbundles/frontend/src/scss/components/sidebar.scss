@@ -1,7 +1,7 @@
 .sidebar {
     position: fixed;
     display: flex;
-    right: -$sidebar-width-compact;
+    left: -$sidebar-width-compact;
     top:0;
     width: $sidebar-width-compact;
     height: 100vh;
@@ -12,15 +12,17 @@
     transition: 0.2s right ease-in-out;
     z-index: 100;
     @media screen and (min-width:$navFull) {
-        right: auto;
+        left: auto;
         width: $sidebar-width-full;
     }
-    transition: right 1s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: left $animation;
 }
 
+
 .sidebar--active {
-    right: 0;
+    left: 0;
 }
+
 
 .sidebar__main {
 
@@ -28,4 +30,23 @@
 
 .sidebar__footer {
 
+}
+
+.sidebar__toggle {
+    padding: 0.5em;
+    font-size: 1.5em;
+    position: fixed;
+    right:0;
+    z-index: 20;
+    span {
+        display: none;
+    }
+    @media screen and (min-width:$navFull) {
+        display: none;
+    }
+    transition: color $animation;
+}
+
+.sidebar__toggle--active {
+    color:white;
 }

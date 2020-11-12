@@ -6,7 +6,6 @@
   background-color: rgba($grey-soft,0.8);
   @media screen and (min-width: $tablet) {
     margin-left: $sidebar-width-full;
-
     top:0;
     bottom: auto;
   }
@@ -16,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: $global-nav-height;
+
 }
 
 .page-nav__actions {

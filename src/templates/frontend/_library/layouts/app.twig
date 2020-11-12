@@ -10,12 +10,12 @@
     {% include '_library/components/vendorHead.twig' %}
 </head>
 <body>
-    <div id="app" class="page type">
+    <div id="app" class="page type bg-primary" :class="{'page--recessed': sidebarOpen }" x-data="{ sidebarOpen: false }">
         {% if not publicLayout %}
             {% include '_library/components/sidebar.twig' %}
         {% endif %}
         <div id="page-loader" class="htmx-indicator"></div>
-        <main class="main {% if not publicLayout %}main--allow-sidebar{% endif %}" id="main">
+        <main class="main bg-canvas {% if not publicLayout %}main--allow-sidebar{% endif %}" id="main" >
             {% block main %}
                 No content
             {% endblock %}

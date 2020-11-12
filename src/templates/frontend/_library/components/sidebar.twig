@@ -1,5 +1,7 @@
-<div x-data="{ sidebarOpen: false }">
-    <div @click="sidebarOpen = !sidebarOpen">Menu</div>
+<div>
+    <div @click="{sidebarOpen = !sidebarOpen}" class="sidebar__toggle"  :class="{'sidebar__toggle--active': sidebarOpen }">
+        <i class="fas fa-bars text-primary" aria-hidden="true" x-show="!sidebarOpen"></i><i class="fas fa-times text-canvas" aria-hidden="true" x-show="sidebarOpen"></i> <span>Menu</span>
+    </div>
     <nav class="sidebar" :class="{'sidebar--active': sidebarOpen }" id="sidebar" >
         <div class="sidebar__main">
             {% include '_library/extends/sidebarMainPre.twig' ignore missing %}
