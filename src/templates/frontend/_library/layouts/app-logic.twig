@@ -1,13 +1,12 @@
 {# Check for user access #}
 {% set publicLayout = false %}
 {% if craft.library.settings.private and not currentUser %}
-    {% if true %}
+    {% if publicPage is defined and publicPage == true %}
         {% set publicLayout = true %}
     {% else %}
         {% requireLogin %}
     {% endif %}
 {% endif %}
-
 
 {% set userPermissions = {} %}
 {# Let's set global user permissions once to help with performance #}
