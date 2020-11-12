@@ -18,20 +18,14 @@
     transition: left $animation;
 }
 
-
-.sidebar--active {
-    left: 0;
-}
-
-
 .sidebar__main {
 
 }
 
+
 .sidebar__footer {
 
 }
-
 .sidebar__toggle {
     padding: 0.5em;
     font-size: 1.5em;
@@ -46,6 +40,12 @@
     }
     transition: color $animation;
 }
+
+
+.sidebar--active {
+    left: 0;
+}
+
 
 .sidebar__toggle--active {
     color:white;

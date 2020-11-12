@@ -3,11 +3,7 @@
 {% set pageBreadcrumbs = breadcrumbs|default([]) %} {# An array of the parent pages #}
 {% set hidePageBreadcrumb = hidePageBreadcrumb|default(false) %} {# Removes the current page from breadcrumbs #}
 
-{# Site name is always first #}
-{% set breadcrumbs = [{
-    'title': siteName,
-    'url' : '/' 
-}]%}
+{% set breadcrumbs = []%}
 
 {# If page breadcrumbs have been defined #}
 {% if pageBreadcrumbs %}
@@ -16,15 +12,24 @@
 
 {# TODO: do I ever want page title in breadcrumb? #}
 {# Last breadcrumb is always page title #}
-{% if pageTitle and not hidePageBreadcrumb %}
-    {% set breadcrumbs = breadcrumbs|merge([{
-        'title': pageTitle,
-        'url': '#'
-    }]) %}
-{% endif %}
+{#{% if pageTitle and not hidePageBreadcrumb %}#}
+{#    {% set breadcrumbs = breadcrumbs|merge([{#}
+{#        'title': pageTitle,#}
+{#        'url': '#'#}
+{#    }]) %}#}
+{#{% endif %}#}
 
 <nav class="breadcrumbs">
+    <a href="{{ siteUrl }}" aria-label="{{ siteName }}" class="breadcrumb breadcrumb--first">
+        {% if craft.app.editionName == 'Pro' and craft.rebrand.isIconUploaded() %}
+            <img class="breadcrumb__icon" src="{{ craft.rebrand.getIcon().url }}" alt="{{ siteName }}"> {{ siteName }}
+        {% else %}
+            {{ siteName }}
+        {% endif %}
+    </a>
     {% for breadcrumb in breadcrumbs %}
-        <a href="{{ breadcrumb.url }}">{{ breadcrumb.title }}</a> {% if not loop.last %} / {% endif %}
+        <a href="{{ breadcrumb.url }}" class="breadcrumb">
+            {{ breadcrumb.title }}
+        </a>
     {% endfor %}
 </nav>

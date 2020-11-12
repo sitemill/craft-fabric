@@ -6713,11 +6713,37 @@ html {
 }
 
 .breadcrumbs {
+  display: block;
+  align-items: center;
   z-index: 10;
+}
+@media screen and (min-width: 768px) {
+  .breadcrumbs {
+    display: flex;
+  }
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.breadcrumb:before {
+  content: "/";
+  display: inline-block;
+}
+
+.breadcrumb--first:before {
+  content: none;
+}
+
+.breadcrumb__icon {
+  width: 20px;
+  margin-right: 0.5em;
 }
 
 .branding {
-  margin-bottom: 2em;
+  margin: 1em 1em 2em;
   text-align: center;
 }
 
@@ -7023,8 +7049,6 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
 
 .page {
   min-height: 100vh;
-  background-color: white;
-  color: black;
 }
 
 .page-actions {
@@ -7071,7 +7095,7 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
 }
 
 .page-header__main {
-  padding: 2em 0;
+  padding: 1.5em 0;
 }
 @media screen and (min-width: 768px) {
   .page-header__main {
@@ -7210,10 +7234,6 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   }
 }
 
-.sidebar--active {
-  left: 0;
-}
-
 .sidebar__toggle {
   padding: 0.5em;
   font-size: 1.5em;
@@ -7229,6 +7249,10 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   .sidebar__toggle {
     display: none;
   }
+}
+
+.sidebar--active {
+  left: 0;
 }
 
 .sidebar__toggle--active {

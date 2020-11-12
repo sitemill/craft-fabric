@@ -1,13 +1,19 @@
 <div>
     <div @click="{sidebarOpen = !sidebarOpen}" class="sidebar__toggle"  :class="{'sidebar__toggle--active': sidebarOpen }">
-        <i class="fas fa-bars text-primary" aria-hidden="true" x-show="!sidebarOpen"></i><i class="fas fa-times text-canvas" aria-hidden="true" x-show="sidebarOpen"></i> <span>Menu</span>
+        <i class="fas fa-search" aria-hidden="true" x-show="!sidebarOpen"></i><i class="fas fa-times text-canvas" aria-hidden="true" x-show="sidebarOpen"></i> <span>Menu</span>
     </div>
     <nav class="sidebar" :class="{'sidebar--active': sidebarOpen }" id="sidebar" >
         <div class="sidebar__main">
             {% include '_library/extends/sidebarMainPre.twig' ignore missing %}
-            {% include '_library/components/branding.twig' %}
-            {% include '_library/components/searchBar.twig' %}
-            {% include '_library/components/navigation.twig' %}
+            <div class="sidebar__branding">
+                {% include '_library/components/branding.twig' %}
+            </div>
+            <div class="sidebar__searchbar">
+                {% include '_library/components/searchBar.twig' %}
+            </div>
+            <div class="sidebar__navigation">
+                {% include '_library/components/navigation.twig' %}
+            </div>
             {% include '_library/extends/sidebarMainPost.twig' ignore missing %}
         </div>
         <div class="sidebar__footer">

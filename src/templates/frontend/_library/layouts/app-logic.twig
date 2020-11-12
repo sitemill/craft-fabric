@@ -1,17 +1,21 @@
 {# Check for user access #}
 {% set publicLayout = false %}
 {% if craft.library.settings.private and not currentUser %}
-    {% if publicPage is defined and publicPage == true %}
+    {% if true %}
         {% set publicLayout = true %}
     {% else %}
         {% requireLogin %}
     {% endif %}
 {% endif %}
 
+
+{% set userPermissions = {} %}
 {# Let's set global user permissions once to help with performance #}
-{% set userPermissions = {
-    'isAdmin' : currentUser.admin
-} %}
+{% if currentUser %}
+    {% set userPermissions = {
+        'isAdmin' : currentUser.admin
+    } %}
+{% endif %}
 
 {# Get colors #}
 {% include '_library/settings/colors.twig' %}

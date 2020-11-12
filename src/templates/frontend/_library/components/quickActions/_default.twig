@@ -25,6 +25,7 @@
         {% endif %}
     {% endblock %}
 
+    {% if currentUser %}
     <div class="more-actions" x-data="{ dropdown{{ index }}open: false }">
         <div class="action action--{{ buttonSize }} action--icon-only bg-canvas" @click="dropdown{{ index }}open = true">
             <i class="fas fa-ellipsis-h" aria-hidden="true"></i> <span>{{ 'Actions'|t }}</span>
@@ -43,7 +44,7 @@
                         'title' : 'Get a public link for this asset'|t,
                     }
                 } %}
-                {% if userPermissions.isAdmin %}
+                {% if currentUser and userPermissions.isAdmin %}
                     {% include '_library/components/action.twig' with {
                         text: 'Edit'|t,
                         action: asset.cpEditUrl,
@@ -60,4 +61,5 @@
             </ul>
         </div>
     </div>
+    {% endif %}
 </div>

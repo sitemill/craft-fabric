@@ -11,6 +11,11 @@
 
 {% set pageTitle = asset.title %}
 
+{% set breadcrumbs = [{
+    'title': 'Assets'|t('library'),
+    'url': '/assets/'
+}] %}
+
 {% extends '_library/layouts/page.twig' %}
 
 {% block pageActions %}

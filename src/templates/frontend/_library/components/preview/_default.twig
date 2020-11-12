@@ -1,5 +1,6 @@
+{% set file = craft.library.damActive ? asset.file : asset %}
 <div class="asset-preview">
     {% block assetPreview %}
-            <img src="{{ asset.thumbUrl(1200) }}" alt="{{ asset.title }}">
+            <img src="{{ file.url({width:1200}) }}" alt="{{ asset.title }}">
     {% endblock %}
 </div>
