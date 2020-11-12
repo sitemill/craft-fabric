@@ -30,8 +30,8 @@
         <div class="action action--{{ buttonSize }} action--icon-only bg-canvas" @click="dropdown{{ index }}open = true">
             <i class="fas fa-ellipsis-h" aria-hidden="true"></i> <span>{{ 'Actions'|t }}</span>
         </div>
-        <div class="more-actions__dropdown" x-show="dropdown{{ index }}open" @click.away="dropdown{{ index }}open = false">
-            <ul class="more-actions__list">
+        <div class="dropdown" x-show="dropdown{{ index }}open" @click.away="dropdown{{ index }}open = false">
+            <ul class="dropdown__items">
             {% block quickActionsMore %}
                 {% include '_library/components/action.twig' with {
                     text: 'Share'|t,
