@@ -10,7 +10,7 @@
     .one() %}
 
 {% set pageTitle = asset.title %}
-
+{% set publicPage = craft.library.isPublic(asset) %}
 {% set breadcrumbs = [{
     'title': 'Assets'|t('library'),
     'url': '/assets/'

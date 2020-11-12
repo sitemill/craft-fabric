@@ -11,6 +11,7 @@
 </head>
 <body>
     <div id="app" class="page text-type bg-primary" :class="{'page--recessed': sidebarOpen }" x-data="{ sidebarOpen: false }">
+
         {% if not publicLayout %}
             {% include '_library/components/sidebar.twig' %}
         {% endif %}

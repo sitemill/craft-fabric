@@ -6514,7 +6514,7 @@ html {
 
 .action {
   display: inline-block;
-  padding: 0.7em;
+  padding: 0.5em;
   border-radius: 4px;
   background-color: #f0f0f0;
   color: #2d2d2d;
@@ -6747,7 +6747,7 @@ html {
 }
 
 .branding {
-  margin: 1em 1em 2em;
+  margin: 1em 2em 2em;
   text-align: center;
 }
 
@@ -6942,8 +6942,8 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
 
 @media screen and (max-width: 767px) {
   .page--recessed .main {
-    transform: scale3d(0.95, 0.95, 0.95);
-    opacity: 0.3;
+    transform: scale(0.95);
+    opacity: 0.9;
   }
 }
 

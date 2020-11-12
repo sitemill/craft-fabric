@@ -5,7 +5,6 @@
     {% set assets = craft.assets.volume(craft.library.settings.assetsSource) %}
 {% endif %}
 
-
 {# set variables #}
 {% set query = query|default(assets
     .search(keywords)

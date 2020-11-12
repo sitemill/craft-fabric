@@ -1,5 +1,6 @@
 {% set entry = craft.entries.id(entryId).one() %}
 {% set pageTitle = entry.title %}
+{% set publicPage = craft.library.isPublic(entry) %}
 
 {% extends '_library/layouts/page.twig' %}
 {% block pageMain %}
