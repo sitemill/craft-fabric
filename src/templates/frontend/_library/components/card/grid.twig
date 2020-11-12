@@ -1,0 +1,30 @@
+{% set id = id %}
+{% set route = route %}
+{% set kind = kind|default('entry') %}
+{% set title = title|default('') %}
+{% set thumbnail = thumbnail %}
+
+
+<article class="card-grid">
+    <div class="card-grid__wrapper">
+        <div class="card-grid__thumbnail">
+            {% include ['_library/components/thumbnail/' ~ kind,'_library/components/thumbnail/_default'] with {
+                alt: title,
+                thumbnail: thumbnail
+            } only %}
+        </div>
+        <header class="card-grid__header">
+            <h3 class="card-grid__title">
+                <a 
+                    href="{{ url(route ~ '/' ~ item.id ~ '/' ~ item.title|kebab ) }}"
+                    class="card-grid__action"
+                    >
+                    {{ title }}
+                </a>
+            </h3>
+        </header>
+        <div class="card-grid__actions">
+            {% include ['_library/components/quickActions/' ~ kind,'_library/components/quickActions/_default'] with {context: 'card'} %}
+        </div>
+    </div>
+</article>

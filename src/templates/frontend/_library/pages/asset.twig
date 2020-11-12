@@ -19,7 +19,7 @@
 {% extends '_library/layouts/page.twig' %}
 
 {% block pageActions %}
-    {% include ['_library/components/quickActions/' ~ asset.kind,'_library/components/quickActions/_default'] with {context: 'default'} %}
+    {% include ['_library/components/quickActions/' ~ asset.kind,'_library/components/quickActions/_default'] with {context: 'default', item:asset} %}
 {% endblock %}
 
 {% block pageMain %}

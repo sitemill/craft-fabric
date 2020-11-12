@@ -1,6 +1,6 @@
 {# Set default entries section selection based on settings #}
 {% set defaultEntriesSections = [] %}
-{% for source, value in craft.library.settings.entrySources  %}
+{% for source, value in craft.library.settings.entrySources if (value['enabled'] and value['showInSearch'])  %}
     {% set defaultEntriesSections = defaultEntriesSections|merge([source]) %}
 {% endfor %}
 
@@ -13,12 +13,10 @@
     .limit(30)) %}
 
 
-{% paginate query as pageInfo, entries %}
+{% paginate query as pageInfo, items %}
 
-<div class="entry-listing">
-    {% for entry in entries %}
-        <a href="{{ url(entry.section.handle ~ '/entry/' ~ entry.id ~ '/' ~ entry.slug) }}">
-            {{ entry.title }}
-        </a><br>
-    {% endfor %}
-</div>
+
+{% include '_library/components/listing.twig' with {
+    items: items,
+    type: 'entries'
+} %}

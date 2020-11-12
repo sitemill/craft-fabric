@@ -7,7 +7,7 @@
     {% set pageTitle = section.name  %}
     {% include '_library/components/pageHeader' %}
 
-    {% include '_library/components/listing/entries.twig' with {
+    {% include '../components/query' with {
         entrySections: section
     } %}
 {% endblock %}

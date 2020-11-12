@@ -1,9 +1,41 @@
-{% set show = show|default('all') %}
+{% set showFilters = showFilters|default(true) %}
+{% set showPagination = showPagination|default(true) %}
+{% set type = type %}{# Assets | Entries #}
 
-{% if craft.library.settings.assetsSource and show in ['all','assets'] %}
-    {% include '_library/components/listing/assets.twig' %}
-{% endif %}
-
-{% if craft.library.settings.entrySources|length and show in ['all','entries'] %}
-    {% include '_library/components/listing/entries.twig' %}
-{% endif %}
+<div class="listing">
+    {% if showFilters %}
+    <div class="listing__tools">
+        <div class="container">
+            <div class="listing__info">
+                {% include '_library/components/listingFilter.twig' %}
+            </div>
+            <div class="listing__actions">
+                {% include '_library/components/listingActions.twig' %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="listing__main" id="listing">
+        {% include '_library/components/listingContext.twig' %}
+        <div id="loading" class="htmx-indicator">
+            Loading
+        </div>
+        {# TODO: check if using lists helps with accesibility #}
+        <div class="listing__results">
+            {% for item in items %}
+                {% include '_library/components/card/' ~ layout with {
+                    id: item.id,
+                    title: item.title,
+                    route:  type == 'assets' ? 'asset' : item.section|kebab ~ '/entry',
+                    kind: item.instance == 'craft//elements//Asset' ? item.kind : 'entry',
+                    thumbnail: item.thumbUrl(600)
+                } %}
+            {% endfor %}
+        </div>
+        {% if showPagination %}
+        <div class="listing__pagination">
+            {% include '_library/components/listingPagination.twig' %}
+        </div>
+        {% endif %}
+    </div>
+</div>

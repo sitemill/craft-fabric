@@ -1,0 +1,22 @@
+{# Get assets source #}
+{% if craft.library.settings.assetsSource == 'dam' %}
+    {% set assets = craft.damAssets %}
+{% else %}
+    {% set assets = craft.assets.volume(craft.library.settings.assetsSource) %}
+{% endif %}
+
+{# set variables #}
+{% set query = query|default(assets
+    .search(keywords)
+    .kind(kind)
+    .relatedTo(category)
+    .orderBy(order)
+    .with(['file[0]'])
+    .limit(30)) %}
+
+{% paginate query as pageInfo, items %}
+
+{% include '_library/components/listing.twig' with {
+    items: items,
+    type: 'assets'
+} %}

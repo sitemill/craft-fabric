@@ -7,6 +7,11 @@
 {% endblock %}
 
 {% block pageMain %}
+    {% if craft.library.settings.assetsSource %}
+        {% include '_library/components/query/assets.twig' %}
+    {% endif %}
 
-    {% include '_library/components/listing.twig' %}
+    {% if craft.library.settings.entrySources|length %}
+        {% include '_library/components/query/entries.twig' %}
+    {% endif %}
 {% endblock %}

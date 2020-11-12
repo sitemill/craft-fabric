@@ -10,16 +10,16 @@
 <div class="quick-actions">
     <h4>Quick actions</h4>
     {% block quickActionsMain %}
-        {% if not (craft.library.damActive and asset.url) %}
+        {% if not (craft.library.damActive and item.url) %}
             {% include '_library/components/action.twig' with {
-                action: craft.library.damActive ? craft.dam.download(asset) : asset.url,
+                action: craft.library.damActive ? craft.dam.download(asset) : item.url,
                 text: 'Download'|t,
                 size: buttonSize,
                 classes: ['bg-primary','text-canvas'],
                 icon: 'fas fa-download',
                 attributes: {
                     'title' : 'Download this asset'|t,
-                    'download' : asset.title
+                    'download' : item.title
                 }
             } %}
         {% endif %}
@@ -35,7 +35,7 @@
             {% block quickActionsMore %}
                 {% include '_library/components/action.twig' with {
                     text: 'Share'|t,
-                    action: '/dialog/share/' ~ asset.id,
+                    action: '/dialog/share/' ~ item.id,
                     size: buttonSize,
                     classes: ['action--list-item'],
                     icon: 'fas fa-link',
@@ -47,7 +47,7 @@
                 {% if currentUser and userPermissions.isAdmin %}
                     {% include '_library/components/action.twig' with {
                         text: 'Edit'|t,
-                        action: asset.cpEditUrl,
+                        action: item.cpEditUrl,
                         size: buttonSize,
                         classes: ['action--list-item'],
                         icon: 'fas fa-pen',
