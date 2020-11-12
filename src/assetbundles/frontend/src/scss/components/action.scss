@@ -20,6 +20,10 @@ $action-bg-default: #f0f0f0;
   display: none;
 }
 
+.action--outline {
+  border:1px solid $text-default;
+}
+
 .action--small {
   font-size: 0.8em;
 }

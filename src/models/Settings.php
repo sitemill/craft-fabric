@@ -31,6 +31,7 @@ class Settings extends Model
      */
     public $private = 0;
 
+
     /**
      * @var string The handle of the asset volume used by Library
      */

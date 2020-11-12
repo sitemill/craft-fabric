@@ -1,8 +1,8 @@
-<div class="field">
-    <label for="filter-order" class="field__label">
+<div class="filter">
+    <label for="filter-order" class="filter__label">
         Sort
     </label>
-    <div class="field__input">
+    <div class="filter__input">
         <select name="order" id="filter-order">
             {% for item in craft.library.settings.ordering %}
                 <option value="{{ item.value }}"

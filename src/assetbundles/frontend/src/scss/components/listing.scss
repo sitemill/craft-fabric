@@ -5,10 +5,7 @@
 }
 
 .listing__tools {
-    @media screen and (min-width:1024px) {
-        position: absolute;
-        top:0;right:0;
-    }
+
     .container {
         display: flex;
     }
