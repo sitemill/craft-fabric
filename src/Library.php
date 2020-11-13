@@ -108,7 +108,7 @@ class Library extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
             function(RegisterUrlRulesEvent $event) {
-                $event->rules['/'] = ['template' => '_library/pages/listing'];
+                $event->rules['/'] = ['template' => '_library/pages/home'];
                 $event->rules['login'] = ['template' => '_library/pages/login'];
                 $event->rules['register'] = ['template' => '_library/pages/register'];
                 $event->rules['all'] = ['template' => '_library/pages/listing'];
@@ -123,7 +123,7 @@ class Library extends Plugin
                     'pattern' => '/listing/<elementType>/<elementSource>',
                     'template' => '_library/pages/listing',
                     'defaults' => [
-                        'elementType' => '',
+                        'elementType' => 'all',
                         'elementSource' => '',
                     ]
                 ];
