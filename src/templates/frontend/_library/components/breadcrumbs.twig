@@ -20,7 +20,7 @@
 {#{% endif %}#}
 
 <nav class="breadcrumbs">
-    <a href="{{ siteUrl }}" aria-label="{{ siteName }}" class="breadcrumb breadcrumb--first">
+    <a href="{{ siteUrl }}" aria-label="{{ siteName }}" class="breadcrumb breadcrumb--first text-type">
         {% if craft.app.editionName == 'Pro' and craft.rebrand.isIconUploaded() %}
             <img class="breadcrumb__icon" src="{{ craft.rebrand.getIcon().url }}" alt="{{ siteName }}"> {{ siteName }}
         {% else %}
@@ -28,7 +28,7 @@
         {% endif %}
     </a>
     {% for breadcrumb in breadcrumbs %}
-        <a href="{{ breadcrumb.url }}" class="breadcrumb">
+        <a href="{{ breadcrumb.url }}" class="breadcrumb  text-type">
             {{ breadcrumb.title }}
         </a>
     {% endfor %}
