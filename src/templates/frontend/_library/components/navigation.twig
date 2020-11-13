@@ -7,17 +7,17 @@
 
     {% for navigationItem in craft.library.settings.navigation %}
         {% switch navigationItem.type %}
-        {% case 'entriesNav' %}
+        {% case 'entryNav' %}
             {% include '_library/components/navigationGroup.twig' with {
                 title: navigationItem.title is defined ? navigationItem.title,
                 route: navigationItem.source|kebab,
                 type: 'entry',
                 items: craft.entries.section(navigationItem.source).all(),
             } %}
-        {% case 'entriesListing' %}
+        {% case 'entryListing' %}
             {% include '_library/components/navigationItem.twig' with {
                 title: navigationItem.title,
-                url: url(navigationItem.source|kebab ~ '/listing')
+                url: url('listing/entries/' ~ navigationItem.source|kebab)
             } %}
         {% case 'categoriesNav' %}
             {% include '_library/components/navigationGroup.twig' with {
@@ -26,13 +26,13 @@
                 route: 'category',
             } %}
         {% case 'heading' %}
-            <h3 class="navigation-group__title">{{ navigationItem.title }}</h3>
-            {# TODO: create collection navigation group #}
-            {# {% case 'collections' %} #}
-            {# {% include '_library/components/navigationGroup.twig' with { #}
-            {# title: navigationItem.title, #}
-            {# items: craft.libraryCollections #}
-            {# } %} #}
+            <h3 class="navigation-header">{{ navigationItem.title }}</h3>
+        {% case 'link' %}
+            {% include '_library/components/navigationItem.twig' with {
+                title: navigationItem.title,
+                url: url(navigationItem.source)
+            } %}
+
         {% case 'include' %}
             {% include navigationItem.source %}
         {% endswitch %}

@@ -7009,18 +7009,11 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
 }
 
 .navigation {
-  padding: 0.7em;
+  padding: 2em 0.7em;
 }
 
-.navigation-group + .navigation-group {
-  margin-top: 1.5em;
-}
-
-.navigation-group__title {
-  margin-top: 0;
-  font-size: 0.8em;
-  font-weight: 500;
-  color: rgba(127, 127, 127, 0.8);
+.navigation-group + .navigation-header, .navigation-item + .navigation-group, .navigation-group + .navigation-header {
+  margin-top: 1.5rem;
 }
 
 .navigation-group__items {
@@ -7028,8 +7021,26 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   margin: 0;
   padding: 0;
 }
+.navigation-group__items li + li {
+  margin-top: 0.3em;
+}
 
-.navigation-item + .navigation-group-item {
+.navigation-header {
+  text-transform: uppercase;
+  font-size: 0.6em;
+  font-weight: 800;
+  color: rgba(45, 45, 45, 0.3);
+  margin-top: 1em;
+  margin-bottom: 0.8em;
+}
+
+.navigation-item {
+  font-weight: 500;
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.navigation-item + .navigation-item {
   margin-top: 0.5em;
 }
 

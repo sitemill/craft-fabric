@@ -1,4 +1,7 @@
 .navigation {
-    padding: 0.7em;
+    padding: 2em 0.7em;
 }
 
+.navigation-group + .navigation-header, .navigation-item + .navigation-group, .navigation-group + .navigation-header {
+    margin-top: 1.5rem;
+}

@@ -1,6 +1,8 @@
 .navigation-item {
-    
+    font-weight: 500;
+    font-size: 0.9em;
+    text-decoration: none;
 }
-.navigation-item + .navigation-group-item {
+.navigation-item + .navigation-item {
     margin-top: 0.5em;
 }

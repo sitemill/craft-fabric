@@ -1,21 +1,17 @@
 .navigation-group {
-    
+
 }
 
 .navigation-group + .navigation-group {
-    margin-top: 1.5em;
-}
 
-.navigation-group__title {
-    margin-top: 0;
-    font-size: 0.8em;
-    font-weight: 500;
-    color: rgba(127,127,127,0.8);
 }
 
 .navigation-group__items {
     list-style: none;
     margin: 0;
     padding: 0;
+    li + li {
+        margin-top: 0.3em;
+    }
 }
 
