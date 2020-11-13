@@ -120,11 +120,11 @@ class Library extends Plugin
                 $event->rules['<section>/listing/'] = ['template' => '_library/pages/entryListing'];
                 $event->rules['category/<categoryId:\d+>/?<categorySlug>'] = ['template' => '_library/pages/listing'];
                 $event->rules[] = [
-                    'pattern' => '/listing/<elementType>/<source>',
+                    'pattern' => '/listing/<elementType>/<elementSource>',
                     'template' => '_library/pages/listing',
                     'defaults' => [
                         'elementType' => '',
-                        'source' => '',
+                        'elementSource' => '',
                     ]
                 ];
             }

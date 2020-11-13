@@ -2,42 +2,41 @@
 
 {% set show = 'all' %}
 {% set pageTitle = 'All items' %}
-{% set isCategory = 0 %}
 
-{# If this is a general listing, get the type#}
+{# Set up page settings #}
 {% if elementType is defined %}
     {% if elementType == 'entries' %}
         {% set show = 'entries' %}
-        {% set pageTitle = 'All Entries'  %}
+        {% set pageTitle = 'All entries' %}
+        {% if elementSource is defined %}
+            {% set entrySection = craft.entries.section(elementSource|camel) %}
+            {% set pageTitle = craft.sections.sectionByHandle(elementSource|camel).name %}
+        {% endif %}
     {% else %}
         {% set show = 'assets' %}
         {% set pageTitle = 'All Assets' %}
     {% endif %}
 {% endif %}
 
-{# If this is a category, get details #}
+{# Set up category if it exists #}
 {% if categoryId is defined %}
-    {% set isCategory = 1 %}
     {% set category = craft.categories.id(categoryId).one() %}
-    {# Generate category breadcrumb trail #}
+    {% set pageTitle = category.title %}
+    {# If category has parent, build breadcrumbs YUM #}
     {% if category.parent %}
         {% set breadcrumbs = [] %}
         {% for category in category.ancestors.all() %}
             {% set breadcrumbs = breadcrumbs|merge([{
                 'title' : category.title,
                 'url' : category.url
-            }])%}
+            }]) %}
         {% endfor %}
     {% endif %}
 {% endif %}
 
-{# Pass the page title to the header block #}
+
 {% block pageHeader %}
-    {% if isCategory %}
-        {% set pageTitle = category.title  %}
-    {% else %}
-        {% set pageTitle = keywords ? "Searching for '" ~ keywords ~ "'" : pageTitle %}
-    {% endif %}
+    {% set pageTitle = keywords ? "Searching for '" ~ keywords ~ "'" : pageTitle %}
     {{ parent() }}
 {% endblock %}
 
@@ -51,37 +50,37 @@
         {% endif %}
 
         {# Set query #}
-        {% set assetQuery = query|default(assets
+        {% set assetQuery = assets
             .search(keywords)
             .kind(kind)
             .relatedTo(category)
             .orderBy(order)
             .with(['file[0]'])
-            .limit(30)) %}
-
+            .limit(30) %}
 
         {% include '_library/components/listing.twig' with {
             type: 'assets',
             query: assetQuery
-        }%}
+        } %}
 
     {% endif %}
 
     {% if show in ['all','entries'] %}
 
-        {# Set default entries section selection based on settings #}
-        {% set defaultEntriesSections = [] %}
-        {% for source, value in craft.library.settings.entrySources if (value['enabled'] and value['showInSearch'])  %}
-            {% set defaultEntriesSections = defaultEntriesSections|merge([source]) %}
-        {% endfor %}
+        {# If entry section not defined then get all enabled sections #}
+        {% if entrySection is not defined %}
+            {% set defaultEntriesSections = [] %}
+            {% for source, value in craft.library.settings.entrySources if (value['enabled'] and value['showInSearch']) %}
+                {% set defaultEntriesSections = defaultEntriesSections|merge([source]) %}
+            {% endfor %}
+            {% set entrySection = craft.entries.section(defaultEntriesSections) %}
+        {% endif %}
 
-        {% set sections = sections|default(defaultEntriesSections) %}
-
-        {% set entryQuery = entryQuery|default(craft.entries.section(sections)
+        {% set entryQuery = entrySection
             .search(keywords)
             .relatedTo(category)
             .orderBy(order)
-            .limit(30)) %}
+            .limit(30) %}
 
         {% include '_library/components/listing.twig' with {
             query: entryQuery,
