@@ -119,9 +119,11 @@
             {% endif %}
 
             {% if hasEntries %}
-                <div class="container">
-                    <h2>Entries</h2>
-                </div>
+                {% if not elementSource %}
+                    <div class="container">
+                        <h2>Entries</h2>
+                    </div>
+                {% endif %}
                 {% include '_library/components/listing.twig' with {
                     items: entryQuery,
                     type: 'entries',
