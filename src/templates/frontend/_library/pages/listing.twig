@@ -3,6 +3,10 @@
 {% set show = 'all' %}
 {% set pageTitle = 'All items' %}
 
+{# Set defaults #}
+{% set hasAssets = 0 %}
+{% set hasEntries = 0 %}
+
 {# Set up page settings #}
 {% if elementType is defined %}
     {% if elementType == 'entries' %}
@@ -34,13 +38,15 @@
     {% endif %}
 {% endif %}
 
-
+{# Pass the page title to the page header #}
 {% block pageHeader %}
     {% set pageTitle = keywords ? "Searching for '" ~ keywords ~ "'" : pageTitle %}
     {{ parent() }}
 {% endblock %}
 
 {% block pageMain %}
+
+    {# If assets to be show, do an asset query #}
     {% if show in ['all','assets'] %}
         {# Get assets source #}
         {% if craft.library.settings.assetsSource == 'dam' %}
@@ -58,15 +64,11 @@
             .with(['file[0]'])
             .limit(30) %}
 
-        {% include '_library/components/listing.twig' with {
-            type: 'assets',
-            query: assetQuery
-        } %}
-
+        {% set hasAssets = assetQuery|length ? 1 %}
     {% endif %}
 
+    {# If entries to be shown, do an entry query #}
     {% if show in ['all','entries'] %}
-
         {# If entry section not defined then get all enabled sections #}
         {% if entrySection is not defined %}
             {% set defaultEntriesSections = [] %}
@@ -82,12 +84,27 @@
             .orderBy(order)
             .limit(30) %}
 
-        {% include '_library/components/listing.twig' with {
-            query: entryQuery,
-            type: 'entries',
-            showFilters: 0,
-            showContext: 0
-        } %}
-
+        {% set hasEntries = entryQuery|length ? 1 %}
     {% endif %}
+
+    {% if hasAssets or hasEntries %}
+        {% if hasAssets %}
+            {% include '_library/components/listing.twig' with {
+                type: 'assets',
+                query: assetQuery
+            } %}
+        {% endif %}
+
+        {% if hasEntries %}
+            {% include '_library/components/listing.twig' with {
+                query: entryQuery,
+                type: 'entries',
+                showFilters: 0,
+                showContext: 0
+            } %}
+        {% endif %}
+    {% else %}
+        No items found
+    {% endif %}
+
 {% endblock %}
