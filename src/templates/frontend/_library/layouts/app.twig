@@ -15,7 +15,9 @@
         {% if not publicLayout %}
             {% include '_library/components/sidebar.twig' %}
         {% endif %}
-        <div id="page-loader" class="htmx-indicator"></div>
+        <div class="page-loader" id="page-loader" class="htmx-indicator">
+            <div class="page-loader__bar bg-primary"></div>
+        </div>
         <main class="main bg-canvas {% if not publicLayout %}main--allow-sidebar{% endif %}" id="main" >
             {% block main %}
                 No content

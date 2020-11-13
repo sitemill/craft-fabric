@@ -1,4 +1,4 @@
-#page-loader {
+.page-loader {
     overflow: hidden;
     position: absolute;
     height:3px;
@@ -8,18 +8,22 @@
     z-index: 999;
 }
 
-#page-loader::before {
-    content: '';
+.page-loader__bar {
     position: absolute;
     height: 100%;
     width: 100%;
+    left: -100%;
     background-color: black;
     z-index: 999;
-     animation-name: page-loader;
-     animation-duration: 1s;
+}
+
+.page-loader.htmx-request .page-loader__bar {
+    animation-name: page-loader;
+    animation-duration: 1s;
+    animation-iteration-count:infinite;
 }
 
 @keyframes page-loader {
     0%   {left: -100%;}
     100% {left:100%}
-  }
+}

@@ -95,13 +95,17 @@
 {#        total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }}#}
         {% if hasAssets or hasEntries %}
             <div class="container">
-                {% include '_library/components/listingContext.twig' %}
-                {% include '_library/components/listingFilter.twig' %}
+                <div class="results__toolbar">
+                    {% include '_library/components/listingContext.twig' %}
+                    {% include '_library/components/listingFilter.twig' %}
+                </div>
+
             </div>
 
-            <div id="loading" class="htmx-indicator">
+            <div id="loasding" class="htmx-indicator">
                 Loading
             </div>
+
             {% if hasAssets %}
                 <div class="container">
                     <h2>Assets</h2>

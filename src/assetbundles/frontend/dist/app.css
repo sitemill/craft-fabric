@@ -7095,7 +7095,7 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   }
 }
 
-#page-loader {
+.page-loader {
   overflow: hidden;
   position: absolute;
   height: 3px;
@@ -7105,17 +7105,22 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   z-index: 999;
 }
 
-#page-loader::before {
-  content: "";
+.page-loader__bar {
   position: absolute;
   height: 100%;
   width: 100%;
+  left: -100%;
   background-color: black;
   z-index: 999;
+}
+
+.page-loader.htmx-request .page-loader__bar {
   -webkit-animation-name: page-loader;
           animation-name: page-loader;
   -webkit-animation-duration: 1s;
           animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
 }
 
 @-webkit-keyframes page-loader {
@@ -7168,6 +7173,21 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
 
 .quick-actions h4 {
   display: none;
+}
+
+.results {
+  padding-top: 1em;
+}
+
+.results__toolbar * + * {
+  margin-top: 1em;
+}
+@media screen and (min-width: 768px) {
+  .results__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .search-bar {
