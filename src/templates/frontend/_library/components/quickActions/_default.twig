@@ -44,7 +44,7 @@
                         'title' : 'Get a public link for this asset'|t,
                     }
                 } %}
-                {% if currentUser and userPermissions.isAdmin %}
+                {% if currentUser and currentUser.admin %}
                     {% include '_library/components/action.twig' with {
                         text: 'Edit'|t,
                         action: item.cpEditUrl,

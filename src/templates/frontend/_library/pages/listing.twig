@@ -1,1 +1,94 @@
-{{ elementType }}
+{% extends '_library/layouts/page.twig' %}
+
+{% set show = 'all' %}
+{% set pageTitle = 'All items' %}
+{% set isCategory = 0 %}
+
+{# If this is a general listing, get the type#}
+{% if elementType is defined %}
+    {% if elementType == 'entries' %}
+        {% set show = 'entries' %}
+        {% set pageTitle = 'All Entries'  %}
+    {% else %}
+        {% set show = 'assets' %}
+        {% set pageTitle = 'All Assets' %}
+    {% endif %}
+{% endif %}
+
+{# If this is a category, get details #}
+{% if categoryId is defined %}
+    {% set isCategory = 1 %}
+    {% set category = craft.categories.id(categoryId).one() %}
+    {# Generate category breadcrumb trail #}
+    {% if category.parent %}
+        {% set breadcrumbs = [] %}
+        {% for category in category.ancestors.all() %}
+            {% set breadcrumbs = breadcrumbs|merge([{
+                'title' : category.title,
+                'url' : category.url
+            }])%}
+        {% endfor %}
+    {% endif %}
+{% endif %}
+
+{# Pass the page title to the header block #}
+{% block pageHeader %}
+    {% if isCategory %}
+        {% set pageTitle = category.title  %}
+    {% else %}
+        {% set pageTitle = keywords ? "Searching for '" ~ keywords ~ "'" : pageTitle %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{% block pageMain %}
+    {% if show in ['all','assets'] %}
+        {# Get assets source #}
+        {% if craft.library.settings.assetsSource == 'dam' %}
+            {% set assets = craft.damAssets %}
+        {% else %}
+            {% set assets = craft.assets.volume(craft.library.settings.assetsSource) %}
+        {% endif %}
+
+        {# Set query #}
+        {% set assetQuery = query|default(assets
+            .search(keywords)
+            .kind(kind)
+            .relatedTo(category)
+            .orderBy(order)
+            .with(['file[0]'])
+            .limit(30)) %}
+
+
+        {% include '_library/components/listing.twig' with {
+            type: 'assets',
+            query: assetQuery
+        }%}
+
+    {% endif %}
+
+    {% if show in ['all','entries'] %}
+
+        {# Set default entries section selection based on settings #}
+        {% set defaultEntriesSections = [] %}
+        {% for source, value in craft.library.settings.entrySources if (value['enabled'] and value['showInSearch'])  %}
+            {% set defaultEntriesSections = defaultEntriesSections|merge([source]) %}
+        {% endfor %}
+
+        {% set sections = sections|default(defaultEntriesSections) %}
+
+        {% set entryQuery = entryQuery|default(craft.entries.section(sections)
+            .search(keywords)
+            .relatedTo(category)
+            .orderBy(order)
+            .limit(30)) %}
+
+        {% include '_library/components/listing.twig' with {
+            query: entryQuery,
+            type: 'entries',
+            showFilters: 0,
+            showContext: 0
+        } %}
+
+    {% endif %}
+{% endblock %}
