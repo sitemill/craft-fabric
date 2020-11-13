@@ -1,15 +1,12 @@
 <div class="listing-context">
-    <div class="container">
-        Listing {{ query|length }} assets
-        {% if category %} in '{{ category.title }}'{% endif %},
-        sorted by
+        Listing items
+        {% if category %} in '{{ category.title }}'{% endif %}, sorted by
         {% switch order %}
             {% case 'title asc' %}
                 Title ascending
             {% case 'title desc' %}
                 Title descending
         {% endswitch %}
-    </div>
 </div>
 
  

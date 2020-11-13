@@ -1,6 +1,7 @@
 {% extends '_library/layouts/page.twig' %}
 
-{% set show = 'all' %}
+{# Define the type of element the listing will show#}
+{% set show = elementType|default('all') %}
 {% set pageTitle = 'All items' %}
 
 {# Set defaults #}
@@ -8,16 +9,14 @@
 {% set hasEntries = 0 %}
 
 {# Set up page settings #}
-{% if elementType is defined %}
-    {% if elementType == 'entries' %}
-        {% set show = 'entries' %}
+{% if show != 'all' %}
+    {% if show == 'entries' %}
         {% set pageTitle = 'All entries' %}
         {% if elementSource is defined %}
             {% set entrySection = craft.entries.section(elementSource|camel) %}
             {% set pageTitle = craft.sections.sectionByHandle(elementSource|camel).name %}
         {% endif %}
     {% else %}
-        {% set show = 'assets' %}
         {% set pageTitle = 'All Assets' %}
     {% endif %}
 {% endif %}
@@ -45,7 +44,6 @@
 {% endblock %}
 
 {% block pageMain %}
-
     {# If assets to be show, do an asset query #}
     {% if show in ['all','assets'] %}
         {# Get assets source #}
@@ -56,13 +54,17 @@
         {% endif %}
 
         {# Set query #}
-        {% set assetQuery = assets
+        {% set assetQuery = assets %}
+
+        {% set totalAssets = assetQuery|length %}
+
+        {% set assetQuery = assetQuery
             .search(keywords)
             .kind(kind)
             .relatedTo(category)
             .orderBy(order)
             .with(['file[0]'])
-            .limit(30) %}
+            .limit(30)  %}
 
         {% set hasAssets = assetQuery|length ? 1 %}
     {% endif %}
@@ -78,7 +80,9 @@
             {% set entrySection = craft.entries.section(defaultEntriesSections) %}
         {% endif %}
 
-        {% set entryQuery = entrySection
+        {% set entryQuery = entrySection %}
+        {% set totalEntries = entryQuery|length %}
+        {% set entrySection = entrySection
             .search(keywords)
             .relatedTo(category)
             .orderBy(order)
@@ -87,24 +91,44 @@
         {% set hasEntries = entryQuery|length ? 1 %}
     {% endif %}
 
-    {% if hasAssets or hasEntries %}
-        {% if hasAssets %}
-            {% include '_library/components/listing.twig' with {
-                type: 'assets',
-                query: assetQuery
-            } %}
-        {% endif %}
+    <div class="results" id="results">
+{#        total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }}#}
+        {% if hasAssets or hasEntries %}
+            <div class="container">
+                {% include '_library/components/listingContext.twig' %}
+                {% include '_library/components/listingFilter.twig' %}
+            </div>
 
-        {% if hasEntries %}
-            {% include '_library/components/listing.twig' with {
-                query: entryQuery,
-                type: 'entries',
-                showFilters: 0,
-                showContext: 0
-            } %}
+            <div id="loading" class="htmx-indicator">
+                Loading
+            </div>
+            {% if hasAssets %}
+                <div class="container">
+                    <h2>Assets</h2>
+                </div>
+                {% include '_library/components/listing.twig' with {
+                    type: 'assets',
+                    items: assetQuery,
+                    showFilters: 0,
+                    showContext: 0
+                } only %}
+            {% endif %}
+
+            {% if hasEntries %}
+                <div class="container">
+                    <h2>Entries</h2>
+                </div>
+                {% include '_library/components/listing.twig' with {
+                    items: entryQuery,
+                    type: 'entries',
+                    showFilters: 0,
+                    showContext: 0
+                } only %}
+            {% endif %}
+        {% else %}
+            No items found
         {% endif %}
-    {% else %}
-        No items found
-    {% endif %}
+    </div>
+
 
 {% endblock %}

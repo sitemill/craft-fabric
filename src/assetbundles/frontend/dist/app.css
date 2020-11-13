@@ -6899,19 +6899,12 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   position: relative;
   padding-top: 2em;
   padding-bottom: 2em;
-}
-
-.listing__tools .container {
-  display: flex;
-}
-
-.listing__results {
   display: flex;
   flex-wrap: wrap;
   padding: 1em;
 }
 
-.listing__results:after {
+.listing:after {
   content: "";
   flex: auto;
 }
