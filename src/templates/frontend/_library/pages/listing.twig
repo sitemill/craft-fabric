@@ -28,7 +28,7 @@
         {% for category in category.ancestors.all() %}
             {% set breadcrumbs = breadcrumbs|merge([{
                 'title' : category.title,
-                'url' : category.url
+                'url' : '/category/' ~ category.id ~ '/' ~ category.slug
             }]) %}
         {% endfor %}
     {% endif %}
