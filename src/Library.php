@@ -124,7 +124,7 @@ class Library extends Plugin
                     'template' => '_library/pages/listing',
                     'defaults' => [
                         'elementType' => 'all',
-                        'elementSource' => '',
+                        'elementSource' => 0,
                     ]
                 ];
             }

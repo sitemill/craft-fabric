@@ -1,25 +1,32 @@
 {% extends '_library/layouts/page.twig' %}
 
-{# Define the type of element the listing will show#}
+{# Define the type of element the listing will show #}
 {% set show = elementType|default('all') %}
 {% set pageTitle = 'All items' %}
 
-{# Set defaults #}
-{% set hasAssets = 0 %}
-{% set hasEntries = 0 %}
+{% set sourcePage = 0 %}
 
 {# Set up page settings #}
 {% if show != 'all' %}
     {% if show == 'entries' %}
         {% set pageTitle = 'All entries' %}
-        {% if elementSource is defined %}
-            {% set entrySection = craft.entries.section(elementSource|camel) %}
-            {% set pageTitle = craft.sections.sectionByHandle(elementSource|camel).name %}
+        {% if elementSource  %}
+            {% set elementSource = elementSource|camel %}
+            {% set entrySection = craft.entries.section(elementSource) %}
+            {% set pageTitle = craft.sections.sectionByHandle(elementSource).name %}
+            {% set sourcePage = 1 %}
         {% endif %}
     {% else %}
         {% set pageTitle = 'All Assets' %}
+        {% set sourcePage = 1 %}
     {% endif %}
 {% endif %}
+
+{# Set defaults #}
+{% set hasAssets = 0 %}
+{% set hasEntries = 0 %}
+{% set queryLimit = sourcePage ? 30 : 5 %}
+
 
 {# Set up category if it exists #}
 {% if categoryId is defined %}
@@ -56,58 +63,81 @@
         {# Set query #}
         {% set assetQuery = assets %}
 
-        {% set totalAssets = assetQuery|length %}
-
         {% set assetQuery = assetQuery
             .search(keywords)
             .kind(kind)
             .relatedTo(category)
             .orderBy(order)
-            .with(['file[0]'])
-            .limit(30)  %}
+            .with(['file[0]']) %}
 
-        {% set hasAssets = assetQuery|length ? 1 %}
+        {% set assetQueryLength = assetQuery|length %}
+
+        {% set hasAssets = assetQueryLength %}
+
+        {% set assetQueryLimited = assetQuery
+            .limit(queryLimit) %}
+
+        {% set assetQueryLimitedLength = assetQueryLimited|length %}
+
     {% endif %}
 
     {# If entries to be shown, do an entry query #}
     {% if show in ['all','entries'] %}
-        {# If entry section not defined then get all enabled sections #}
-        {% if entrySection is not defined %}
-            {% set defaultEntriesSections = [] %}
-            {% for source, value in craft.library.settings.entrySources if (value['enabled'] and value['showInSearch']) %}
-                {% set defaultEntriesSections = defaultEntriesSections|merge([source]) %}
+
+        {% if elementSource %}
+            {% set sectionQuery = craft.entries
+                .section(elementSource)
+                .search(keywords)
+                .relatedTo(category)
+                .orderBy(order)
+                .limit(queryLimit) %}
+            {% set sectionQueryLength = sectionQuery|length %}
+            {% set entryQueries = { elementSource : {
+                'title': null,
+                'query':sectionQuery,
+                'length': sectionQueryLength
+                  }} %}
+            {% set hasEntries = sectionQueryLength %}
+        {% else %}
+            {% set entryQueries = {} %}
+            {% set totalEntries = 0 %}
+            {% for source, settings in craft.library.settings.entrySources if (settings['enabled'] and settings['showInSearch']) %}
+                {% set sectionQuery = craft.entries
+                    .section(source)
+                    .search(keywords)
+                    .relatedTo(category)
+                    .orderBy(order)
+                    .limit(queryLimit) %}
+                {% set sectionQueryLength = sectionQuery|length %}
+                {% set totalEntries = totalEntries + sectionQueryLength %}
+                {% if sectionQueryLength %}
+                    {% set entryQueries = entryQueries|merge({
+                        (source) : {
+                            'title': craft.sections.sectionByHandle(source).name,
+                            'query': sectionQuery,
+                            'length': sectionQueryLength
+                        }
+                    }) %}
+                {% endif %}
             {% endfor %}
-            {% set entrySection = craft.entries.section(defaultEntriesSections) %}
+            {% set hasEntries = totalEntries %}
         {% endif %}
 
-        {% set entryQuery = entrySection %}
-        {% set totalEntries = entryQuery|length %}
-        {% set entrySection = entrySection
-            .search(keywords)
-            .relatedTo(category)
-            .orderBy(order)
-            .limit(30) %}
 
-        {% set hasEntries = entryQuery|length ? 1 %}
     {% endif %}
 
     <div class="results" id="results">
-{#        total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }}#}
+        {# total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }} #}
         {% if hasAssets or hasEntries %}
             <div class="container">
                 <div class="results__toolbar">
                     {% include '_library/components/listingContext.twig' %}
                     {% include '_library/components/listingFilter.twig' %}
                 </div>
-
             </div>
 
-            <div id="loading" class="htmx-indicator">
-                Loading
-            </div>
             <div class="listing__main">
                 {% if hasAssets %}
-
                     <div class="container">
                         <h2>Assets</h2>
                     </div>
@@ -117,20 +147,32 @@
                         items: assetQuery
                     } only %}
 
+                    {% if assetQueryLength > queryLimit %}
+                        <div class="container">
+                            <a href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">View all results</a>
+                        </div>
+                    {% endif %}
                 {% endif %}
 
                 {% if hasEntries %}
+                    {% for sectionHandle, entryQuery  in entryQueries %}
+                        {% if entryQuery.title %}
+                            <div class="container">
+                                <h2>{{ entryQuery.title }}</h2>
+                            </div>
+                        {% endif %}
 
-                    {% if not elementSource %}
-                        <div class="container">
-                            <h2>Entries</h2>
-                        </div>
-                    {% endif %}
+                        {% include '_library/components/listing.twig' with {
+                            type: 'entry',
+                            items: entryQuery.query.all
+                        } only %}
 
-                    {% include '_library/components/listing.twig' with {
-                        type: 'entry',
-                        items: entryQuery
-                    } only %}
+                        {% if entryQuery.length > queryLimit %}
+                            <div class="container">
+                                <a href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">View all results</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
 
                 {% endif %}
             </div>
@@ -138,6 +180,5 @@
             No items found
         {% endif %}
     </div>
-
 
 {% endblock %}
