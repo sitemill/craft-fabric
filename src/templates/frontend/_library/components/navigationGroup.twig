@@ -2,8 +2,8 @@
 {% set items = items|default(null) %}
 {% set type = type|default(null) %}
 {% set route = route|default(null) %}
-
-{#/entrysection/entry/Id/slug#}
+{% set param = param|default(null) %}
+{% set url = url|default(null) %}
 
 {% set baseUrl = '' %}
 {% if route %}
@@ -13,15 +13,18 @@
     {% set baseUrl = baseUrl ~ type ~ '/' %}
 {% endif %}
 
-
 <nav class="navigation-group" aria-label="{{ title }} navigation">
     <h3 class="navigation-header">{{ title }}</h3>
     <ul class="navigation-group__items">
         {% for item in items %}
+            {% set itemUrl = url ? url : url(baseUrl ~ item.id ~ '/' ~ item.slug) %}
+            {% if param %}
+                {% set itemUrl = itemUrl ~ '?' ~ param ~ '=' ~ item.id %}
+            {% endif %}
             <li>
                 {% include '_library/components/navigationItem.twig' with {
                     title: item.title,
-                    url: url(baseUrl ~ item.id ~ '/' ~ item.slug)
+                    url: itemUrl
                 } only %}
             </li>
         {% endfor %}

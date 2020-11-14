@@ -23,7 +23,8 @@
             {% include '_library/components/navigationGroup.twig' with {
                 title: navigationItem.title is defined ? navigationItem.title,
                 items: craft.categories().group(navigationItem.source).level(1).all(),
-                route: 'category',
+                url: url('listing/all'),
+                param: 'category'
             } %}
         {% case 'heading' %}
             <h3 class="navigation-header">{{ navigationItem.title }}</h3>

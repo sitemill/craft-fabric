@@ -5,13 +5,13 @@
 {% set pageTitle = 'All items' %}
 
 {% set sourcePage = 0 %}
+{% set elementSource = elementSource is defined and elementSource ? elementSource|camel : 0 %}
 
 {# Set up page settings #}
 {% if show != 'all' %}
     {% if show == 'entries' %}
         {% set pageTitle = 'All entries' %}
         {% if elementSource  %}
-            {% set elementSource = elementSource|camel %}
             {% set entrySection = craft.entries.section(elementSource) %}
             {% set pageTitle = craft.sections.sectionByHandle(elementSource).name %}
             {% set sourcePage = 1 %}
@@ -29,7 +29,8 @@
 
 
 {# Set up category if it exists #}
-{% if categoryId is defined %}
+{% set categoryId = craft.app.request.getParam('category') %}
+{% if categoryId is defined and categoryId %}
     {% set category = craft.categories.id(categoryId).one() %}
     {% set pageTitle = category.title %}
     {# If category has parent, build breadcrumbs YUM #}
@@ -149,7 +150,7 @@
 
                     {% if assetQueryLength > queryLimit %}
                         <div class="container">
-                            <a href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">View all results</a>
+                            <a href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">View all {{ assetQueryLength }} results</a>
                         </div>
                     {% endif %}
                 {% endif %}
@@ -169,7 +170,7 @@
 
                         {% if entryQuery.length > queryLimit %}
                             <div class="container">
-                                <a href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">View all results</a>
+                                <a href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">View all {{ entryQuery.length }} results</a>
                             </div>
                         {% endif %}
                     {% endfor %}

@@ -10,7 +10,6 @@
 <article class="card-grid">
     <div class="card-grid__wrapper">
         <div class="card-grid__thumbnail">
-            {{ kind }}
             {% include ['_library/components/thumbnail/' ~ kind,'_library/components/thumbnail/_default'] with {
                 alt: title,
                 file: file
