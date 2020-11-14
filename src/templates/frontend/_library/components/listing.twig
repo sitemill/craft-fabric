@@ -7,11 +7,9 @@
 <div class="listing listing--{{ type }}">
     {% for item in items %}
         {% include '_library/components/card/' ~ layout with {
-            id: item.id,
-            title: item.title,
-            route:  type == 'assets' ? 'asset' : item.section|kebab ~ '/entry',
-            kind: item.instance == 'craft//elements//Asset' ? item.kind : 'entry',
-            thumbnail: item.thumbUrl(600)
-        } %}
+            item: item,
+            type: type,
+            thumbnail: '',
+        } only %}
     {% endfor %}
 </div>

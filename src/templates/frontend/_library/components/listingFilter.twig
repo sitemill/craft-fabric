@@ -9,10 +9,10 @@
     </div>
     <div class="dropdown" x-show="filtersOpen">
         <form action="/{{ craft.app.request.fullPath }}" method="GET"
-              data-hx-select="#results"
               data-hx-get="/{{ craft.app.request.fullPath }}"
               data-hx-indicator="#page-loader"
-              data-hx-target="#results"
+              data-hx-select=".listing__main"
+              data-hx-target=".listing__main"
               data-hx-swap="outerHTML"
               data-hx-push-url="true"
               hx-trigger="change"

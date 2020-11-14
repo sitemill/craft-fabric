@@ -102,35 +102,38 @@
 
             </div>
 
-            <div id="loasding" class="htmx-indicator">
+            <div id="loading" class="htmx-indicator">
                 Loading
             </div>
+            <div class="listing__main">
+                {% if hasAssets %}
 
-            {% if hasAssets %}
-                <div class="container">
-                    <h2>Assets</h2>
-                </div>
-                {% include '_library/components/listing.twig' with {
-                    type: 'assets',
-                    items: assetQuery,
-                    showFilters: 0,
-                    showContext: 0
-                } only %}
-            {% endif %}
-
-            {% if hasEntries %}
-                {% if not elementSource %}
                     <div class="container">
-                        <h2>Entries</h2>
+                        <h2>Assets</h2>
                     </div>
+
+                    {% include '_library/components/listing.twig' with {
+                        type: 'asset',
+                        items: assetQuery
+                    } only %}
+
                 {% endif %}
-                {% include '_library/components/listing.twig' with {
-                    items: entryQuery,
-                    type: 'entries',
-                    showFilters: 0,
-                    showContext: 0
-                } only %}
-            {% endif %}
+
+                {% if hasEntries %}
+
+                    {% if not elementSource %}
+                        <div class="container">
+                            <h2>Entries</h2>
+                        </div>
+                    {% endif %}
+
+                    {% include '_library/components/listing.twig' with {
+                        type: 'entry',
+                        items: entryQuery
+                    } only %}
+
+                {% endif %}
+            </div>
         {% else %}
             No items found
         {% endif %}

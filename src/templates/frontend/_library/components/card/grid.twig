@@ -1,22 +1,25 @@
-{% set id = id %}
-{% set route = route %}
-{% set kind = kind|default('entry') %}
-{% set title = title|default('') %}
-{% set thumbnail = thumbnail %}
-
+{% set item = item %}
+{% set type = type %}
+{% set id = item.id %}
+{% set title = item.title %}
+{% set route =  type == 'asset' ? 'asset' : item.section|kebab ~ '/entry' %}
+{% set file = craft.library.damActive ? item.file : item %}
+{% set kind = file.instance == 'craft\\elements\\Asset' ? item.kind : 'entry' %}
+{% set editUrl = currentUser and currentUser.admin ? item.cpEditUrl : 0  %}
 
 <article class="card-grid">
     <div class="card-grid__wrapper">
         <div class="card-grid__thumbnail">
+            {{ kind }}
             {% include ['_library/components/thumbnail/' ~ kind,'_library/components/thumbnail/_default'] with {
                 alt: title,
-                thumbnail: thumbnail
+                file: file
             } only %}
         </div>
         <header class="card-grid__header">
             <h3 class="card-grid__title">
                 <a 
-                    href="{{ url(route ~ '/' ~ item.id ~ '/' ~ item.title|kebab ) }}"
+                    href="{{ url(route ~ '/' ~ id ~ '/' ~ title|kebab ) }}"
                     class="card-grid__action"
                     >
                     {{ title }}
@@ -24,7 +27,14 @@
             </h3>
         </header>
         <div class="card-grid__actions">
-            {% include ['_library/components/quickActions/' ~ kind,'_library/components/quickActions/_default'] with {context: 'card'} %}
+            {% include ['_library/components/quickActions/' ~ kind,'_library/components/quickActions/_default'] with {
+                id: id,
+                title: title,
+                context: 'card',
+                file: file,
+                editUrl: editUrl,
+                kind: kind
+            } only %}
         </div>
     </div>
 </article>
