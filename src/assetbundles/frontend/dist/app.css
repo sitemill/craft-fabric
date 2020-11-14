@@ -7100,7 +7100,7 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
 .page-loader {
   overflow: hidden;
   position: absolute;
-  height: 3px;
+  height: 1px;
   top: 0px;
   right: 0px;
   left: 0;

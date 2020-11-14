@@ -14,6 +14,7 @@
           hx-post="{{ actionUrl(formAction) }}"
           hx-target="{{ htmxSwapSection }}"
           hx-select="{{ htmxSwapSection }}"
+          hx-indicator="#page-loader"
           hx-swap="outerHTML"
     >
         <input type="hidden" name="action" value="{{ formAction }}">
