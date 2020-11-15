@@ -31,7 +31,6 @@ class Settings extends Model
      */
     public $private = 0;
 
-
     /**
      * @var string The handle of the asset volume used by Library
      */
@@ -46,8 +45,6 @@ class Settings extends Model
      * @var array Determines the site navigation
      */
     public $navigation = [];
-
-
 
     /**
      * @var array Determines the fields shown on asset page
@@ -65,7 +62,7 @@ class Settings extends Model
     /**
      * @var array Determines the file types used within Library
      */
-    public $fileKinds = [
+    public $filterFileKinds = [
         'image' => [
             'title' => 'Image',
             'value' => 'image',
@@ -84,7 +81,7 @@ class Settings extends Model
     /**
      * @var array Determines the sorting options for assets
      */
-    public $ordering = [
+    public $filterOrdering = [
         [
             'label' => 'Title A-Z',
             'value' => 'title asc',
@@ -102,13 +99,6 @@ class Settings extends Model
             'value' => 'dateCreated asc',
         ]
     ];
-
-    // TODO: Write detailed instructions and examples
-
-    /**
-     * @var array Determines the default meta components for an asset
-     */
-    public $metaItems = [];
 
 
 //    FRONT END

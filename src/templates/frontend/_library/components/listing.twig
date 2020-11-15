@@ -10,8 +10,9 @@
     {% for item in items %}
         {% set thumbnail = '' %}
         {% if thumbnailField %}
-            {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one : null %}
-        {% else %}
+            {% set thumbField = item[thumbnailField].one %}
+            {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\dam\\elements\\DamAsset' ? thumbField.file : thumbField  %}
+        {% elseif elementType == 'asset' %}
             {% set thumbnail = craft.library.damActive ? item.file : item %}
         {% endif %}
         {% include '_library/components/card/' ~ layout with {
@@ -22,3 +23,9 @@
     {% endfor %}
 </div>
 
+
+{#{% if item[thumbnailField].one == 'sitemill\\dam\\fields\\DamAssetsField'  %}#}
+{#    {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one.file : null %}#}
+{#{% else %}#}
+{#    {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one : null %}#}
+{#{% endif %}#}

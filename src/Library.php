@@ -192,7 +192,8 @@ class Library extends Plugin
             ];
         });
 
-        if ($this->getSettings()->private) {
+
+        if ($this->getSettings()->private and is_array($this->getSettings()->entrySources)) {
             // Add public lightswitch to entries
             Craft::$app->view->hook('cp.entries.edit.settings', function(&$context) {
                 $sectionHandle = $context['sectionHandle'];

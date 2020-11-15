@@ -60,11 +60,36 @@
 {% set sections = [] %}
 
 {% for section in craft.sections.allSections %}
+
+    {% set section = craft.app.sections.sectionByHandle(section.handle) %}
+    {% set firstEntryType = section.getEntryTypes[0] %}
+    {% set fields = firstEntryType.getFieldLayout.getFields() %}
+    {% set assetFields = [{
+        label: 'None',
+        value: ''
+    }] %}
+    {% for field in fields if field.instance == 'craft\\fields\\Assets' or field.instance == 'sitemill\\dam\\fields\\DamAssetsField'  %}
+        {% set field = craft.fields.fieldById(field.id) %}
+        {% set assetFields = assetFields|merge([
+            {
+                label: field.name,
+                value: field.handle
+            }
+        ]) %}
+    {% endfor %}
+
     {% set sections = sections|merge({
         (section.handle): {
             section: section.name,
             enabled: settings.entrySources[section.handle].enabled is defined ? settings.entrySources[section.handle].enabled : '',
-            showInSearch: settings.entrySources[section.handle].showInSearch is defined ? settings.entrySources[section.handle].showInSearch : ''
+            showInSearch: settings.entrySources[section.handle].showInSearch is defined ? settings.entrySources[section.handle].showInSearch : '',
+            thumbnailField: include('_includes/forms/select', {
+                id: 'thumbnailField',
+                name: 'entrySources[' ~ section.handle ~ '][thumbnailField]',
+                small: true,
+                value: settings.entrySources[section.handle].thumbnailField is defined ? settings.entrySources[section.handle].thumbnailField : '',
+                options: assetFields
+            })
         }|filter
     }) %}
 {% endfor %}
@@ -79,6 +104,10 @@
             type: 'heading',
             heading: "Section"|t('app'),
             thin: true
+        },
+        thumbnailField: {
+            heading: "Thumbnail field"|t('library'),
+            type: 'heading'
         },
         enabled: {
             type: 'lightswitch',

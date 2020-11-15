@@ -97,7 +97,7 @@
                 'title': null,
                 'query':sectionQuery,
                 'length': sectionQueryLength,
-                'thumbnailField': craft.library.settings.entrySources[elementSource].thumbnailField
+                'thumbnailField': craft.library.settings.entrySources[elementSource].thumbnailField is defined ? craft.library.settings.entrySources[elementSource].thumbnailField
             }} %}
             {% set hasEntries = sectionQueryLength %}
         {% else %}
