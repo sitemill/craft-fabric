@@ -115,10 +115,16 @@ class Library extends Plugin
                 $event->rules['search'] = ['template' => '_library/pages/listing'];
                 $event->rules['asset/<assetId:\d+>/?<assetSlug>'] = ['template' => '_library/pages/asset'];
                 $event->rules['account'] = ['template' => '_library/pages/account'];
-                $event->rules['dialog/<action>/?<id:\d+>'] = ['template' => '_library/dialogs/index'];
                 $event->rules['<section>/entry/<entryId:\d+>/?<entrySlug>'] = ['template' => '_library/pages/entry'];
                 $event->rules['<section>/listing/'] = ['template' => '_library/pages/entryListing'];
                 $event->rules['category/<categoryId:\d+>/?<categorySlug>'] = ['template' => '_library/pages/listing'];
+                $event->rules[] = [
+                    'pattern' => 'dialog/<action>/<elementType>/<id:\d+>',
+                    'template' => '_library/dialogs/index',
+                    'defaults' => [
+                        'elementType' => '',
+                    ]
+                ];
                 $event->rules[] = [
                     'pattern' => '/listing/<elementType>/<elementSource>',
                     'template' => '_library/pages/listing',

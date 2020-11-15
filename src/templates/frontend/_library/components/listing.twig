@@ -1,12 +1,12 @@
 {# Required #}
 {% set items = items %}
-{% set type = type %} {# assets | entries #}
+{% set elementType = elementType %} {# assets | entries #}
 {% set thumbnailField = thumbnailField|default('') %}
 {% set layout = layout|default('grid') %}
 
 {# TODO: cache based on element id #}
 
-<div class="listing listing--{{ type }}">
+<div class="listing listing--{{ elementType }}">
     {% for item in items %}
         {% set thumbnail = '' %}
         {% if thumbnailField %}
@@ -16,7 +16,7 @@
         {% endif %}
         {% include '_library/components/card/' ~ layout with {
             item: item,
-            type: type,
+            elementType: elementType,
             thumbnail: thumbnail
         } only %}
     {% endfor %}

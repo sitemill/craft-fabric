@@ -130,54 +130,69 @@
     {% endif %}
 
     <div class="results" id="results">
-        {# total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }} #}
         {% if hasAssets or hasEntries %}
             <div class="container">
                 <div class="results__toolbar">
-                    {% include '_library/components/listingContext.twig' %}
+                    {#  TODO: get context back in #}
+                    {# total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }} #}
+                    {#{% include '_library/components/listingContext.twig' %}#}
+                    <div></div>
                     {% include '_library/components/listingFilter.twig' %}
                 </div>
             </div>
 
-            <div class="listing__main">
+            <div class="results__main">
                 {% if hasAssets %}
-                    <div class="container">
-                        <h2>Assets</h2>
-                    </div>
+                    {% if not sourcePage %}
+                        <div class="container">
+                            <h2 class="results__title">Assets</h2>
+                        </div>
+                    {% endif %}
 
                     {% include '_library/components/listing.twig' with {
-                        type: 'asset',
+                        elementType: 'asset',
                         items: assetQuery
                     } only %}
 
                     {% if assetQueryLength > queryLimit %}
-                        <div class="container">
-                            <a href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">View all {{ assetQueryLength }} results</a>
+                        <div class="container text-right">
+                            <a class="action action--large" href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">
+                                View all {{ assetQueryLength }} assets <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
                     {% endif %}
+                {% endif %}
+
+                {% if hasAssets and hasEntries %}
+                    <hr>
                 {% endif %}
 
                 {% if hasEntries %}
                     {% for sectionHandle, entryQuery in entryQueries %}
                         {% if entryQuery.title %}
                             <div class="container">
-                                <h2>{{ entryQuery.title }}</h2>
+                                <h2 class="results__title">{{ entryQuery.title }}</h2>
                             </div>
                         {% endif %}
 
                         {% include '_library/components/listing.twig' with {
-                            type: 'entry',
+                            elementType: 'entry',
                             items: entryQuery.query.all,
                             thumbnailField: entryQuery.thumbnailField
                         } only %}
 
                         {% if entryQuery.length > queryLimit %}
-                            <div class="container">
-                                <a href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">View all {{ entryQuery.length }} results</a>
+                            <div class="container text-right">
+                                <a class="action action--large" href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">
+                                    View all {{ entryQuery.length }} entries <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         {% endif %}
-                    {% endfor %}
 
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
             </div>
         {% else %}

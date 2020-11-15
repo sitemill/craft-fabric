@@ -1,9 +1,9 @@
 {% set item = item %}
-{% set type = type %}
+{% set elementType = elementType %}
 {% set id = item.id %}
 {% set title = item.title %}
-{% set route =  type == 'asset' ? 'asset' : item.section|kebab ~ '/entry' %}
-{% set kind = type == 'asset' ? item.kind : 'entry' %}
+{% set route =  elementType == 'asset' ? 'asset' : item.section|kebab ~ '/entry' %}
+{% set kind = elementType == 'asset' ? item.kind : 'entry' %}
 {% set editUrl = currentUser and currentUser.admin ? item.cpEditUrl : 0  %}
 {% set thumbnail = thumbnail %}
 
@@ -29,6 +29,7 @@
             {% include ['_library/components/quickActions/' ~ kind,'_library/components/quickActions/_default'] with {
                 id: id,
                 title: title,
+                elementType: elementType,
                 context: 'card',
                 element: item,
                 editUrl: editUrl,

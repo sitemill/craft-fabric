@@ -35,13 +35,13 @@
             {% block quickActionsMore %}
                 {% include '_library/components/action.twig' with {
                     text: 'Share'|t,
-                    action: '/dialog/share/' ~ id,
+                    action: url('/dialog/share/' ~ elementType ~ '/' ~ id),
                     size: buttonSize,
                     classes: ['action--list-item'],
                     icon: 'fas fa-link',
                     target: 'dialog',
                     attributes: {
-                        'title' : 'Get a public link for this asset'|t,
+                        'title' : 'Get a public link for this item'|t,
                     }
                 } %}
                 {% if editUrl %}

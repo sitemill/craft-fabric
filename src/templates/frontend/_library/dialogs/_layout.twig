@@ -1,5 +1,7 @@
 {% set title = title|default('Title') %}
-{% set formAction = formAction|default('') %}
+{% set formAction = formAction|default(null) %}
+{% set htmxTrigger = htmxTrigger|default(null) %}
+{% set htmxSwapSection = htmxSwapSection|default(null) %}
 
 <div
         id="dialog"
@@ -12,30 +14,30 @@
           accept-charset="UTF-8"
           hx-ext="json-enc"
           hx-post="{{ actionUrl(formAction) }}"
-          hx-target="{{ htmxSwapSection }}"
-          hx-select="{{ htmxSwapSection }}"
+          {% if htmxSwapSection %}hx-target="{{ htmxSwapSection }}"{% endif %}
+          {% if htmxSwapSection %}hx-select="{{ htmxSwapSection }}"{% endif %}
           hx-indicator="#page-loader"
           hx-swap="outerHTML"
+          {% if htmxTrigger %}hx-trigger="{{ htmxTrigger }}"{% endif %}
+          class="dialog__form"
     >
         <input type="hidden" name="action" value="{{ formAction }}">
         <input type="hidden" name="htmx" value="true">
+        <input type="hidden" name="elementId" value="{{ id }}">
+        <input type="hidden" name="elementType" value="{{ elementType }}">
+        <input type="hidden" name="refreshUrl" value="{{ craft.request.url }}">
 
         {{ csrfInput() }}
-        <div class="slideover__main">
-            <h1 class="slideover__title">{{ title }}</h1>
-            <a class="slideover__close" aria-hidden="true" @click="dialogOpen = false">Close</a>
+        <div class="dialog__main">
+            <h1 class="dialog__title">{{ title }}</h1>
             {% block main %}
 
             {% endblock %}
         </div>
-        <div class="slideover__actions">
+        <div class="dialog__actions">
             {% block actions %}
-
+                <a @click="dialogOpen = false" class="action action--large action--outline action--full-width text-primary bg-canvas border-primary">Close</a>
             {% endblock %}
         </div>
     </form>
 </div>
-
-{% css %}
-
-{% endcss %}

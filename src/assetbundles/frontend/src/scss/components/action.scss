@@ -2,7 +2,7 @@ $action-bg-default: #f0f0f0;
 
 .action {
   display: inline-block;
-  padding: 0.5em ;
+  padding: 0.5em 0.7em;
   border-radius: $ui-border-radius;
   background-color: $action-bg-default;
   color: $text-default;

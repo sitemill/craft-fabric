@@ -6163,6 +6163,18 @@ readers do not read off random characters that represent icons */
   font-size: 1rem;
 }
 
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
 /*! normalize.scss v8.0.1 | MIT License | github.com/necolas/normalize.scss */
 /* Document
    ========================================================================== */
@@ -6514,7 +6526,7 @@ html {
 
 .action {
   display: inline-block;
-  padding: 0.5em;
+  padding: 0.5em 0.7em;
   border-radius: 4px;
   background-color: #f0f0f0;
   color: #2d2d2d;
@@ -6779,6 +6791,14 @@ html {
   right: -500px;
   opacity: 0;
   transition: 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+  padding: 3em;
+}
+
+.dialog__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .dialog--active {
@@ -6883,6 +6903,14 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
   border-radius: 0 0 4px 4px;
   border-bottom-width: 1px;
   border-bottom-color: #C6C6C6;
+}
+
+hr {
+  margin: 2.5em 0;
+  border: none;
+  border-top: 1px solid rgba(51, 64, 77, 0.1);
+  height: 0;
+  color: transparent;
 }
 
 .htmx-indicator {
@@ -7190,6 +7218,10 @@ form .form-field--join:last-of-type input[type=text], form .form-field--join:las
     justify-content: space-between;
     align-items: center;
   }
+}
+
+.results__title {
+  margin: 0;
 }
 
 .search-bar {
