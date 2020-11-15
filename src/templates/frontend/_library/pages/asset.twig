@@ -19,7 +19,14 @@
 {% extends '_library/layouts/page.twig' %}
 
 {% block pageActions %}
-    {% include ['_library/components/quickActions/' ~ asset.kind,'_library/components/quickActions/_default'] with {context: 'default', item:asset} %}
+    {% include ['_library/components/quickActions/' ~ asset.kind,'_library/components/quickActions/_default']  with {
+        id: asset.id,
+        title: asset.title,
+        context: 'page',
+        element: asset,
+        editUrl: asset.cpEditUrl,
+        kind: 'asset'
+    } only  %}
 {% endblock %}
 
 {% block pageMain %}

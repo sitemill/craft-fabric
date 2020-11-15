@@ -3,16 +3,16 @@
 {% set id = item.id %}
 {% set title = item.title %}
 {% set route =  type == 'asset' ? 'asset' : item.section|kebab ~ '/entry' %}
-{% set file = craft.library.damActive ? item.file : item %}
-{% set kind = file.instance == 'craft\\elements\\Asset' ? item.kind : 'entry' %}
+{% set kind = type == 'asset' ? item.kind : 'entry' %}
 {% set editUrl = currentUser and currentUser.admin ? item.cpEditUrl : 0  %}
+{% set thumbnail = thumbnail %}
 
 <article class="card-grid">
     <div class="card-grid__wrapper">
         <div class="card-grid__thumbnail">
             {% include ['_library/components/thumbnail/' ~ kind,'_library/components/thumbnail/_default'] with {
                 alt: title,
-                file: file
+                thumbnail: thumbnail
             } only %}
         </div>
         <header class="card-grid__header">
@@ -30,7 +30,7 @@
                 id: id,
                 title: title,
                 context: 'card',
-                file: file,
+                element: item,
                 editUrl: editUrl,
                 kind: kind
             } only %}

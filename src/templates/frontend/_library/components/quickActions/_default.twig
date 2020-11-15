@@ -2,7 +2,7 @@
 {% set title = title %}
 {% set id = id %}
 {% set kind = kind %}
-{% set file = file %}
+{% set element = element %}
 {% set editUrl = editUrl %}
 {% set buttonSize = context == 'card' ? 'small' : 'default' %}
 
@@ -12,7 +12,7 @@
     {% block quickActionsMain %}
         {% if kind != 'entry' %}
             {% include '_library/components/action.twig' with {
-                action: craft.library.damActive ? craft.dam.download(file) : file.url,
+                action: craft.library.damActive ? craft.dam.download(element) : element.url,
                 text: 'Download'|t,
                 size: buttonSize,
                 classes: ['bg-primary','text-canvas'],

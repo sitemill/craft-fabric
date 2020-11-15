@@ -1,15 +1,24 @@
 {# Required #}
 {% set items = items %}
 {% set type = type %} {# assets | entries #}
-
+{% set thumbnailField = thumbnailField|default('') %}
 {% set layout = layout|default('grid') %}
+
+{# TODO: cache based on element id #}
 
 <div class="listing listing--{{ type }}">
     {% for item in items %}
+        {% set thumbnail = '' %}
+        {% if thumbnailField %}
+            {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one : null %}
+        {% else %}
+            {% set thumbnail = craft.library.damActive ? item.file : item %}
+        {% endif %}
         {% include '_library/components/card/' ~ layout with {
             item: item,
             type: type,
-            thumbnail: '',
+            thumbnail: thumbnail
         } only %}
     {% endfor %}
 </div>
+

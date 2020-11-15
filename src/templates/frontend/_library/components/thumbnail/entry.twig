@@ -1,0 +1,9 @@
+{% extends '_library/components/thumbnail/_default' %}
+
+{% block thumbnail %}
+    {% if thumbnail|length %}
+        <img src="{{ thumbnail.url({width:400}) }}" alt="{{ alt }}">
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
