@@ -15,12 +15,6 @@
         {% include sourceSettings.entryTemplate %}
     {% else %}
 
-        {% set sec = craft.sections.sectionByHandle('pages') %}
-        {% for settings in sec.siteSettings %}
-            {{  dump(settings.template) }}
-        {% endfor %}
-
-{#        {% craft.sections. %}#}
         {% for fieldLayoutField in entry.fieldLayout.fields %}
             {% set field = craft.fields.getFieldById(fieldLayoutField.id) %}
 
