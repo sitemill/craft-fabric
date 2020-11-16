@@ -6161,6 +6161,7 @@ readers do not read off random characters that represent icons */
 
 .text-base {
   font-size: 1rem;
+  line-height: 1.3em;
 }
 
 .text-right {
@@ -7035,7 +7036,7 @@ hr {
   padding: 2em 0.7em;
 }
 
-.navigation-group + .navigation-header, .navigation-item + .navigation-group, .navigation-group + .navigation-header {
+.navigation-group + .navigation-header, .navigation-item + .navigation-group, .navigation-group + .navigation-header, .navigation-group + .navigation-group {
   margin-top: 1.5rem;
 }
 
@@ -7094,6 +7095,16 @@ hr {
 
 .page-actions li + li {
   margin-left: 0.5em;
+}
+
+.page-content {
+  padding: 2em 0;
+}
+
+@media screen and (min-width: 1024px) {
+  .page-content__main {
+    width: 70%;
+  }
 }
 
 .page-title {
@@ -7206,11 +7217,7 @@ hr {
   display: none;
 }
 
-.results {
-  padding-top: 1em;
-}
-
-.results__toolbar * + * {
+.results__toolbar > * + * {
   margin-top: 1em;
 }
 @media screen and (min-width: 768px) {
@@ -7218,6 +7225,9 @@ hr {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .results__toolbar * + * {
+    margin-top: 0;
   }
 }
 

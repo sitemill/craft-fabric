@@ -1,8 +1,11 @@
-{% set entry = craft.entries.id(entryId).one() %}
+{% set entry = entryId is defined ? craft.entries.id(entryId).one() : entry %}
+{% set section = section is not defined ? entry.section : section %}
+
 {% set pageTitle = entry.title %}
 {% set publicPage = craft.library.isPublic(entry) %}
 
 {% extends '_library/layouts/page.twig' %}
+
 {% block pageMain %}
 
     {# Get settings for entry's source #}
@@ -12,22 +15,28 @@
         {% include sourceSettings.entryTemplate %}
     {% else %}
 
+        {% set sec = craft.sections.sectionByHandle('pages') %}
+        {% for settings in sec.siteSettings %}
+            {{  dump(settings.template) }}
+        {% endfor %}
+
+{#        {% craft.sections. %}#}
         {% for fieldLayoutField in entry.fieldLayout.fields %}
             {% set field = craft.fields.getFieldById(fieldLayoutField.id) %}
 
-               {% switch field.instance %}
-                    {% case 'craft\\fields\\PlainText' %}
-                        <h3>{{ field.name }}</h3>
-                        {{ entry.fieldValues[field.handle] }}
-                    {% case 'craft\\fields\\Matrix' %}
-                        {% for matrixBlock in entry.fieldValues[field.handle] %}
-                            <h3>{{ field.name }}</h3>
-                            {% for matrixField in matrixBlock.fieldLayout.fields %}
-                                <h3>{{ matrixField.name != '__blank__' ? matrixField.name }}</h3>
-                                {{ entry.fieldValues[field.handle][0][matrixField.handle] }}
-                            {% endfor %}
-                       {% endfor %}
-               {% endswitch %}
+            {% switch field.instance %}
+            {% case 'craft\\fields\\PlainText' %}
+                <h3>{{ field.name }}</h3>
+                {{ entry.fieldValues[field.handle] }}
+            {% case 'craft\\fields\\Matrix' %}
+                {% for matrixBlock in entry.fieldValues[field.handle] %}
+                    <h3>{{ field.name }}</h3>
+                    {% for matrixField in matrixBlock.fieldLayout.fields %}
+                        <h3>{{ matrixField.name != '__blank__' ? matrixField.name }}</h3>
+                        {{ entry.fieldValues[field.handle][0][matrixField.handle] }}
+                    {% endfor %}
+                {% endfor %}
+            {% endswitch %}
         {% endfor %}
     {% endif %}
 {% endblock %}

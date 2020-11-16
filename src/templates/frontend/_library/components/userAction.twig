@@ -1,16 +1,18 @@
-<a class="user-action" href="/account/" title="Edit your profile">
-    <div class="user-action__avatar">
-        {% if currentUser.getPhoto() %}
-            <img src="{{ currentUser.getPhoto().getUrl() }}" alt="Your profile image">
-        {% else %}
-            {# TODO: icon for no avatar #}
-        {% endif %}
-    </div>
-    <div class="user-action__name">
-        {% if currentUser.firstName %}
-            {{currentUser.firstName}}{{ currentUser.lastName ? ' ' ~ currentUser.lastName }}
-        {% else %}
-            {{ currentUser.name }}
-        {% endif %}
-    </div>
-</a>
+{#<a class="user-action" href="/account/" title="Edit your profile">#}
+{#    <div class="user-action__avatar">#}
+{#        {% if currentUser.getPhoto() %}#}
+{#            <img src="{{ currentUser.getPhoto().getUrl() }}" alt="Your profile image">#}
+{#        {% else %}#}
+{#            #}{# TODO: icon for no avatar #}
+{#        {% endif %}#}
+{#    </div>#}
+{#    <div class="user-action__name">#}
+{#        {% if currentUser.firstName %}#}
+{#            {{currentUser.firstName}}{{ currentUser.lastName ? ' ' ~ currentUser.lastName }}#}
+{#        {% else %}#}
+{#            {{ currentUser.name }}#}
+{#        {% endif %}#}
+{#    </div>#}
+{#</a>#}
+
+<a href="{{ logoutUrl }}" class="action"><i class="fas fa-sign-out-alt"></i> Logout</a>

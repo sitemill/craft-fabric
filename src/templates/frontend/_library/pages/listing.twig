@@ -33,6 +33,7 @@
 {% if categoryId is defined and categoryId %}
     {% set category = craft.categories.id(categoryId).one() %}
     {% set pageTitle = category.title %}
+    {% set sourcePage = 1 %}
     {# If category has parent, build breadcrumbs YUM #}
     {% if category.parent %}
         {% set breadcrumbs = [] %}

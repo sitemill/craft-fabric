@@ -89,7 +89,8 @@
                 small: true,
                 value: settings.entrySources[section.handle].thumbnailField is defined ? settings.entrySources[section.handle].thumbnailField : '',
                 options: assetFields
-            })
+            }),
+            entryTemplate: settings.entrySources[section.handle].entryTemplate is defined ? settings.entrySources[section.handle].entryTemplate : '',
         }|filter
     }) %}
 {% endfor %}
@@ -118,6 +119,10 @@
             type: 'lightswitch',
             heading: "Show in search"|t('library'),
             thin: true
+        },
+        entryTemplate: {
+            type: 'template',
+            heading: 'Template'
         }
     }|filter,
     rows: sections,
