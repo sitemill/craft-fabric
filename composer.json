@@ -2,7 +2,7 @@
   "name": "sitemill/craft-library",
   "description": "Library is framework for your Craft content.",
   "type": "craft-plugin",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "keywords": [
     "craft",
     "cms",
