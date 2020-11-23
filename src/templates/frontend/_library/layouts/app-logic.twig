@@ -27,8 +27,8 @@
 {% set layout = craft.app.request.getParam('layout')|default('grid') %}
 
 {# Get and cache the entry sources #}
+{% set entrySources = [] %}
 {% cache globally %}
-    {% set entrySources = [] %}
     {% for source, settings in craft.library.settings.entrySources if settings['enabled'] %}
         {% set entrySources = entrySources|merge({
             (source) : {
