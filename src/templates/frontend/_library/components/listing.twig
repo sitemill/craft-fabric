@@ -1,6 +1,6 @@
 {# Required #}
 {% set items = items %}
-{% set elementType = elementType %} {# assets | entries #}
+{% set elementType = elementType %} {# asset | entry #}
 {% set thumbnailField = thumbnailField|default('') %} {# We can accept a thumbnail field if we know entries are from same section #}
 {% set layout = layout|default('grid') %}
 
@@ -12,10 +12,11 @@
         {% if thumbnailField %}
             {% set thumbField = item[thumbnailField].one %}
             {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\dam\\elements\\DamAsset' ? thumbField.file : thumbField %}
-        {% elseif elementType == 'entry' %}
-            {% set thumbnail = entrySources[item.section].thumbnailField is defined ? entrySources[item.section].thumbnailField : '' %}
         {% elseif elementType == 'asset' %}
             {% set thumbnail = craft.library.damActive ? item.file : item %}
+        {% elseif elementType == 'entry' and entrySources[item.section.handle].thumbnailField %}
+            {% set thumbField = item[entrySources[item.section.handle].thumbnailField].one %}
+            {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\dam\\elements\\DamAsset' ? thumbField.file : thumbField %}
         {% endif %}
         {% include '_library/components/card/' ~ layout with {
             item: item,
