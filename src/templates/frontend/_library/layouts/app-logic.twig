@@ -26,6 +26,18 @@
 {% set order = craft.app.request.getParam('order')|default('title asc') %}
 {% set layout = craft.app.request.getParam('layout')|default('grid') %}
 
-{% block app %}
+{# Get and cache the entry sources #}
+{% cache globally %}
+    {% set entrySources = [] %}
+    {% for source, settings in craft.library.settings.entrySources if (settings['enabled'] and settings['showInSearch']) %}
+        {% set entrySources = entrySources|merge({
+            (source) : {
+                'title': craft.sections.sectionByHandle(source).name,
+                'thumbnailField': settings.thumbnailField is defined ? settings.thumbnailField
+            }
+        }) %}
+    {% endfor %}
+{% endcache %}
 
+{% block app %}
 {% endblock %}
