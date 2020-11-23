@@ -14,7 +14,7 @@
             {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\dam\\elements\\DamAsset' ? thumbField.file : thumbField %}
         {% elseif elementType == 'asset' %}
             {% set thumbnail = craft.library.damActive ? item.file : item %}
-        {% elseif elementType == 'entry' and entrySources[item.section.handle].thumbnailField %}
+        {% elseif (elementType == 'entry' and entrySources|length) and entrySources[item.section.handle].thumbnailField %}
             {% set thumbField = item[entrySources[item.section.handle].thumbnailField].one %}
             {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\dam\\elements\\DamAsset' ? thumbField.file : thumbField %}
         {% endif %}
@@ -25,10 +25,3 @@
         } only %}
     {% endfor %}
 </div>
-
-
-{# {% if item[thumbnailField].one == 'sitemill\\dam\\fields\\DamAssetsField'  %} #}
-{# {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one.file : null %} #}
-{# {% else %} #}
-{# {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one : null %} #}
-{# {% endif %} #}
