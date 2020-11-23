@@ -29,7 +29,7 @@
 {# Get and cache the entry sources #}
 {% cache globally %}
     {% set entrySources = [] %}
-    {% for source, settings in craft.library.settings.entrySources if (settings['enabled'] and settings['showInSearch']) %}
+    {% for source, settings in craft.library.settings.entrySources if settings['enabled'] %}
         {% set entrySources = entrySources|merge({
             (source) : {
                 'title': craft.sections.sectionByHandle(source).name,

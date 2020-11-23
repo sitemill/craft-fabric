@@ -18,7 +18,7 @@
         {% include '_library/components/card/' ~ layout with {
             item: item,
             elementType: elementType,
-            thumbnail: thumbnail
+            thumbnail: elementType == 'entries' ? entrySources[item.section].thumbnailField
         } only %}
     {% endfor %}
 </div>
