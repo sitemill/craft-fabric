@@ -12,7 +12,7 @@
     {% block quickActionsMain %}
         {% if kind != 'entry' %}
             {% include '_library/components/action.twig' with {
-                action: craft.library.damActive ? craft.dam.download(element) : element.url,
+                action: craft.library.damActive ? craft.dam.download([element.id]) : element.url,
                 text: 'Download'|t,
                 size: buttonSize,
                 classes: ['bg-primary','text-canvas'],
