@@ -111,6 +111,7 @@ class Library extends Plugin
                 $event->rules['/'] = ['template' => '_library/pages/home'];
                 $event->rules['login'] = ['template' => '_library/pages/login'];
                 $event->rules['register'] = ['template' => '_library/pages/register'];
+                $event->rules['forgotpassword'] = ['template' => '_library/pages/forgotpassword'];
                 $event->rules['all'] = ['template' => '_library/pages/listing'];
                 $event->rules['search'] = ['template' => '_library/pages/listing'];
                 $event->rules['asset/<assetId:\d+>/?<assetSlug>'] = ['template' => '_library/pages/asset'];

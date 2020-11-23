@@ -32,41 +32,47 @@
                         Your registration will be reviewed by an administrator.
                     </p>
                 {% endif %}
-                {% if not craft.app.config.general.useEmailAsUsername %}
-                    <div class="form-field form-field--join form-field--full-width form-field--join form-field--join-start">
-                        <input id="username" class="focus:border-primary" type="text" name="username" placeholder="Username"
-                               aria-label="Username"
-                                {%- if user is defined %} value="{{ user.username }}"{% endif -%} >
+                <div class="field-group field-group--join">
+                    {% if not craft.app.config.general.useEmailAsUsername %}
+                        <div class="form-field  form-field--full-width">
+                            <input id="username" class="focus:border-primary" type="text" name="username"
+                                   placeholder="Username"
+                                   aria-label="Username"
+                                    {%- if user is defined %} value="{{ user.username }}"{% endif -%} >
+                        </div>
+
+                        {% if user is defined %}
+                            {{ _self.errorList(user.getErrors('username')) }}
+                        {% endif %}
+                    {% endif %}
+
+                    <div class="form-field form-field--full-width">
+                        <input id="email" class="focus:border-primary" name="email" type="email" placeholder="Email"
+                               aria-label="Email"
+                                {%- if user is defined %} value="{{ user.email }}"{% endif %} >
                     </div>
 
+
                     {% if user is defined %}
-                        {{ _self.errorList(user.getErrors('username')) }}
+                        {{ _self.errorList(user.getErrors('email')) }}
                     {% endif %}
-                {% endif %}
 
-                <div class="form-field form-field--full-width form-field--join {{ craft.app.config.general.useEmailAsUsername == true ? 'form-field--join-start' }}">
-                    <input id="email" class="focus:border-primary" name="email" type="email" placeholder="Email"
-                           aria-label="Email"
-                            {%- if user is defined %} value="{{ user.email }}"{% endif %} >
+                    <div class="form-field form-field--full-width">
+                        <input id="password" class="focus:border-primary" type="password" name="password"
+                               placeholder="Password"
+                               aria-label="Password">
+                    </div>
+
+
+                    {% if user is defined %}
+                        {{ _self.errorList(user.getErrors('password')) }}
+                    {% endif %}
                 </div>
 
-
-                {% if user is defined %}
-                    {{ _self.errorList(user.getErrors('email')) }}
-                {% endif %}
-
-                <div class="form-field form-field--full-width form-field--join form-field--join-end">
-                    <input id="password" class="focus:border-primary" type="password" name="password"
-                           placeholder="Password"
-                           aria-label="Password">
-                </div>
-
-                {% if user is defined %}
-                    {{ _self.errorList(user.getErrors('password')) }}
-                {% endif %}
-
-                <div class="form-field form-field--full-width">
-                    <input type="submit" value="Register" class="action action--prominent bg-primary text-on-primary">
+                <div class="field-group">
+                    <div class="form-field form-field--full-width">
+                        <input type="submit" value="Register" class="action action--prominent bg-primary text-on-primary">
+                    </div>
                 </div>
 
 
