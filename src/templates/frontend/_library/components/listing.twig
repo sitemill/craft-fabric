@@ -1,17 +1,19 @@
 {# Required #}
 {% set items = items %}
 {% set elementType = elementType %} {# assets | entries #}
-
+{% set thumbnailField = thumbnailField|default('') %} {# We can accept a thumbnail field if we know entries are from same section #}
 {% set layout = layout|default('grid') %}
 
 {# TODO: cache based on element id #}
 
 <div class="listing listing--{{ elementType }}">
     {% for item in items %}
-        {% set thumbnailField = elementType == 'entries' ? entrySources[item.section].thumbnailField : 0%}
+        {% set thumbnail = '' %}
         {% if thumbnailField %}
             {% set thumbField = item[thumbnailField].one %}
-            {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\dam\\elements\\DamAsset' ? thumbField.file : thumbField  %}
+            {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\dam\\elements\\DamAsset' ? thumbField.file : thumbField %}
+        {% elseif elementType == 'entry' %}
+            {% set thumbnail = entrySources[item.section].thumbnailField is defined ? entrySources[item.section].thumbnailField : '' %}
         {% elseif elementType == 'asset' %}
             {% set thumbnail = craft.library.damActive ? item.file : item %}
         {% endif %}
@@ -24,8 +26,8 @@
 </div>
 
 
-{#{% if item[thumbnailField].one == 'sitemill\\dam\\fields\\DamAssetsField'  %}#}
-{#    {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one.file : null %}#}
-{#{% else %}#}
-{#    {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one : null %}#}
-{#{% endif %}#}
+{# {% if item[thumbnailField].one == 'sitemill\\dam\\fields\\DamAssetsField'  %} #}
+{# {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one.file : null %} #}
+{# {% else %} #}
+{# {% set thumbnail = item[thumbnailField]|length ? item[thumbnailField].one : null %} #}
+{# {% endif %} #}
