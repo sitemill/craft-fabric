@@ -5,7 +5,7 @@
 {% set route =  elementType == 'asset' ? 'asset' : item.section|kebab ~ '/entry' %}
 {% set kind = elementType == 'asset' ? item.kind : 'entry' %}
 {% set editUrl = currentUser and currentUser.admin ? item.cpEditUrl : 0  %}
-{% set thumbnail = thumbnail %}
+{% set thumbnail = thumbnail is defined ? thumbnail : 0 %}
 
 <article class="card-grid">
     <div class="card-grid__wrapper">

@@ -1,14 +1,14 @@
 {# Required #}
 {% set items = items %}
 {% set elementType = elementType %} {# assets | entries #}
-{% set thumbnailField = thumbnailField|default('') %}
+
 {% set layout = layout|default('grid') %}
 
 {# TODO: cache based on element id #}
 
 <div class="listing listing--{{ elementType }}">
     {% for item in items %}
-        {% set thumbnail = '' %}
+        {% set thumbnailField = elementType == 'entries' ? entrySources[item.section].thumbnailField : 0%}
         {% if thumbnailField %}
             {% set thumbField = item[thumbnailField].one %}
             {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\dam\\elements\\DamAsset' ? thumbField.file : thumbField  %}
@@ -18,7 +18,7 @@
         {% include '_library/components/card/' ~ layout with {
             item: item,
             elementType: elementType,
-            thumbnail: elementType == 'entries' ? entrySources[item.section].thumbnailField
+            thumbnail: thumbnail
         } only %}
     {% endfor %}
 </div>
