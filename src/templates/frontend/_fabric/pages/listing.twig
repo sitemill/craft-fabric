@@ -56,8 +56,8 @@
     {# If assets to be show, do an asset query #}
     {% if show in ['all','assets'] %}
         {# Get assets source #}
-        {% if craft.fabric.settings.assetsSource == 'dam' %}
-            {% set assets = craft.damAssets %}
+        {% if craft.fabric.siloActive %}
+            {% set assets = craft.siloAssets %}
         {% else %}
             {% set assets = craft.assets.volume(craft.fabric.settings.assetsSource) %}
         {% endif %}

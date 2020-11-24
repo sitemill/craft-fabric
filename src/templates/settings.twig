@@ -29,11 +29,11 @@
     },
 } %}
 
-{% if craft.fabric.damInstalled %}
+{% if craft.fabric.siloInstalled %}
     {% set assetSources = assetSources|merge({
-        'dam' : {
-            label: 'Digital Asset Manager',
-            value: 'dam'
+        'silo' : {
+            label: 'Silo',
+            value: 'silo'
         }
     }) %}
 {% endif %}
@@ -68,7 +68,7 @@
         label: 'None',
         value: ''
     }] %}
-    {% for field in fields if field.instance == 'craft\\fields\\Assets' or field.instance == 'sitemill\\dam\\fields\\DamAssetsField'  %}
+    {% for field in fields if field.instance == 'craft\\fields\\Assets' or field.instance == 'sitemill\\silo\\fields\\SiloAssetsField'  %}
         {% set field = craft.fields.fieldById(field.id) %}
         {% set assetFields = assetFields|merge([
             {
@@ -135,9 +135,9 @@
 
     {% set assetFields = [] %}
 
-    {% if craft.fabric.damInstalled and settings.assetsSource == 'dam' %}
+    {% if craft.fabric.siloInstalled and craft.fabric.siloActive %}
         {% set layoutId = craft.app.fields.getLayoutByType(
-            'sitemill\\dam\\elements\\DamAsset'
+            'sitemill\\silo\\elements\\SiloAsset'
             ).id %}
     {% else %}
         {% set layoutId = craft.app.volumes.volumeByHandle(

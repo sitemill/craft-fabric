@@ -1,4 +1,4 @@
-{% set file = craft.fabric.damActive ? asset.file : asset %}
+{% set file = craft.fabric.siloActive ? asset.file : asset %}
 <div class="asset-preview">
     {% block assetPreview %}
             <img src="{{ file.url({width:1200}) }}" alt="{{ asset.title }}">

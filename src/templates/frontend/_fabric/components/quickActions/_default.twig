@@ -12,7 +12,7 @@
     {% block quickActionsMain %}
         {% if kind != 'entry' %}
             {% include '_fabric/components/action.twig' with {
-                action: craft.fabric.damActive ? craft.dam.download([element.id]) : element.url,
+                action: craft.fabric.siloActive ? craft.silo.download([element.id]) : element.url,
                 text: 'Download'|t,
                 size: buttonSize,
                 classes: ['bg-primary','text-canvas'],

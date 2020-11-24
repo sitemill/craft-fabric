@@ -11,8 +11,10 @@
     {# Get settings for entry's source #}
     {% set sourceSettings = craft.fabric.settings.entrySources[section|camel] %}
 
-    {% if sourceSettings.entryTemplate is defined %}
+    {% if sourceSettings.entryTemplate is defined and sourceSettings.entryTemplate %}
+
         {% include sourceSettings.entryTemplate %}
+
     {% else %}
 
         {% for fieldLayoutField in entry.fieldLayout.fields %}
@@ -32,5 +34,6 @@
                 {% endfor %}
             {% endswitch %}
         {% endfor %}
+
     {% endif %}
 {% endblock %}

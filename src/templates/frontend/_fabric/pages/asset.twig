@@ -1,5 +1,5 @@
-{% if craft.fabric.settings.assetsSource == 'dam' %}
-    {% set assetSource = craft.damAssets %}
+{% if craft.fabric.siloActive %}
+    {% set assetSource = craft.siloAssets %}
 {% else %}
     {% set assetSource = craft.assets %}
 {% endif %}

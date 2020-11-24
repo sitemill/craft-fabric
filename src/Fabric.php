@@ -210,9 +210,9 @@ class Fabric extends Plugin
                 }
             });
 
-            // If DAM is installed, hook onto that template
-            if (Craft::$app->plugins->getPlugin('dam')) {
-                Craft::$app->view->hook('dam.assets.edit.settings', function(&$context) {
+            // If Silo is installed, hook onto that template
+            if (Craft::$app->plugins->getPlugin('silo')) {
+                Craft::$app->view->hook('silo.assets.edit.settings', function(&$context) {
                     return Craft::$app->getView()->renderTemplate('fabric/_components/switch.twig', ['element' => $context['element']]);
                 });
             }

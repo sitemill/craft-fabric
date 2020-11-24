@@ -5,8 +5,8 @@
 {% set thumbnail = 0 %}
 
 {% if elementType == 'asset' %}
-    {% if craft.fabric.damActive %}
-        {% set element = craft.damAssets.id(id).one() %}
+    {% if craft.fabric.siloActive %}
+        {% set element = craft.siloAssets.id(id).one() %}
 {#        {% set thumbnail = element.file %}#}
     {% else %}
         {% set element = craft.assets.id(id).one() %}

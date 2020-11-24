@@ -2,7 +2,7 @@
 {% set elementType = elementType %}
 {% set id = item.id %}
 {% set title = item.title %}
-{% set route =  elementType == 'asset' ? 'asset' : item.section|kebab ~ '/entry' %}
+{% set route =  elementType == 'asset' ? 'asset' : item.section.handle|kebab ~ '/entry' %}
 {% set kind = elementType == 'asset' ? item.kind : 'entry' %}
 {% set editUrl = currentUser and currentUser.admin ? item.cpEditUrl : 0  %}
 {% set thumbnail = thumbnail is defined ? thumbnail : 0 %}

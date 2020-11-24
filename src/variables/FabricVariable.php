@@ -30,14 +30,14 @@ class FabricVariable
         return Fabric::$plugin->share->isPublic($element->id);
     }
 
-    public function damInstalled()
+    public function siloInstalled()
     {
-        $dam = Craft::$app->plugins->getPlugin('dam');
-        return $dam && $dam->isInstalled;
+        $silo = Craft::$app->plugins->getPlugin('silo');
+        return $silo && $silo->isInstalled;
     }
 
-    public function damActive()
+    public function siloActive()
     {
-        return $this->settings()->assetsSource == 'dam';
+        return $this->settings()->assetsSource == 'silo';
     }
 }
