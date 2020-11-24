@@ -29,7 +29,7 @@
     },
 } %}
 
-{% if craft.library.damInstalled %}
+{% if craft.fabric.damInstalled %}
     {% set assetSources = assetSources|merge({
         'dam' : {
             label: 'Digital Asset Manager',
@@ -49,8 +49,8 @@
 {% endfor %}
 
 {{ forms.selectField({
-    label: 'Assets Source'|t('library'),
-    instructions: 'Select the asset source to use'|t('library'),
+    label: 'Assets Source'|t('fabric'),
+    instructions: 'Select the asset source to use'|t('fabric'),
     id: 'assetsSource',
     name: 'assetsSource',
     value: settings.assetsSource,
@@ -96,8 +96,8 @@
 {% endfor %}
 
 {{ forms.editableTableField({
-    label: "Entry Sources"|t('library'),
-    instructions: "Decide which entry setions will be included by Library"|t('library'),
+    label: "Entry Sources"|t('fabric'),
+    instructions: "Decide which entry setions will be included by Library"|t('fabric'),
     id: 'entrySources',
     name: 'entrySources',
     cols: {
@@ -107,7 +107,7 @@
             thin: true
         },
         thumbnailField: {
-            heading: "Thumbnail field"|t('library'),
+            heading: "Thumbnail field"|t('fabric'),
             type: 'heading'
         },
         enabled: {
@@ -117,7 +117,7 @@
         },
         showInSearch: {
             type: 'lightswitch',
-            heading: "Show in search"|t('library'),
+            heading: "Show in search"|t('fabric'),
             thin: true
         },
         entryTemplate: {
@@ -135,7 +135,7 @@
 
     {% set assetFields = [] %}
 
-    {% if craft.library.damInstalled and settings.assetsSource == 'dam' %}
+    {% if craft.fabric.damInstalled and settings.assetsSource == 'dam' %}
         {% set layoutId = craft.app.fields.getLayoutByType(
             'sitemill\\dam\\elements\\DamAsset'
             ).id %}
@@ -157,8 +157,8 @@
         {% endfor %}
 
         {{ forms.editableTableField({
-            label: "Asset field layout"|t('library'),
-            instructions: "Define the fields that will show on an assets page"|t('library'),
+            label: "Asset field layout"|t('fabric'),
+            instructions: "Define the fields that will show on an assets page"|t('fabric'),
             id: 'assetFields',
             name: 'assetFields',
             cols: {

@@ -1,0 +1,56 @@
+{% if craft.fabric.settings.assetsSource == 'dam' %}
+    {% set assetSource = craft.damAssets %}
+{% else %}
+    {% set assetSource = craft.assets %}
+{% endif %}
+
+{% set asset = assetSource
+    .id(assetId)
+    .with(['file[0]'])
+    .one() %}
+
+{% set pageTitle = asset.title %}
+{% set publicPage = craft.fabric.isPublic(asset) %}
+{% set breadcrumbs = [{
+    'title': 'Assets'|t('fabric'),
+    'url': '/listing/assets/'
+}] %}
+
+{% extends '_fabric/layouts/page.twig' %}
+
+{% block pageActions %}
+    {% include ['_fabric/components/quickActions/' ~ asset.kind,'_fabric/components/quickActions/_default']  with {
+        id: asset.id,
+        title: asset.title,
+        context: 'page',
+        element: asset,
+        elementType: 'asset',
+        editUrl: asset.cpEditUrl,
+        kind: 'asset'
+    } only  %}
+{% endblock %}
+
+{% block pageMain %}
+    <div class="asset">
+        <div class="container">
+            <div class="asset__wrapper">
+                <div class="asset__preview">
+                    {% include ['_fabric/components/preview/' ~ asset.kind, '_fabric/components/preview/_default'] %}
+                </div>
+                <div class="asset__meta">
+                    {% set assetFields = asset.fieldLayout.fields %}
+
+                    {% for fieldHandle, fieldSettings in craft.fabric.settings.assetFields if fieldSettings.enabled %}
+                        {% include '_fabric/components/field' with {
+                            handle: fieldHandle,
+                            settings: fieldSettings,
+                            element: asset
+                        } only %}
+                    {% endfor %}
+
+                    {% include '_fabric/components/assetMetaItems.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

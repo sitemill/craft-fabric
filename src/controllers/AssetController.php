@@ -4,13 +4,12 @@
  * @copyright Copyright (c) 2020 SiteMill
  */
 
-namespace sitemill\library\controllers;
+namespace sitemill\fabric\controllers;
 
-use craft\elements\Asset;
-use sitemill\library\Library;
+use sitemill\fabric\Fabric;
 
 use Craft;
-use craft\web\Controller;
+use craft\elements\Asset;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -19,7 +18,7 @@ use yii\web\Response;
 /**
  * Class AssetController
  *
- * @package sitemill\library\controllers
+ * @package sitemill\fabric\controllers
  */
 class AssetController
 {

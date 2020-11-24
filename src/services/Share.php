@@ -4,10 +4,10 @@
  * @copyright Copyright (c) 2020 SiteMill
  */
 
-namespace sitemill\library\services;
+namespace sitemill\fabric\services;
 
-use sitemill\library\Library;
-use sitemill\library\records\ShareRecord;
+use sitemill\fabric\Fabric;
+use sitemill\fabric\records\ShareRecord;
 
 use Craft;
 use craft\base\Component;

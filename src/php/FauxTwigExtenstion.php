@@ -52,7 +52,7 @@ namespace nystudio107\craft;
  * @property \nystudio107\twigpack\variables\ManifestVariable $twigpack
  * @property \modules\sitemodule\SiteModule $site
  * @mixin \craft\commerce\web\twig\CraftVariableBehavior
- * @mixin \sitemill\library\behaviours\CraftVariableBehavior
+ * @mixin \sitemill\fabric\behaviours\CraftVariableBehavior
  *
  * @author    nystudio107
  * @package   nystudio107\craft
@@ -106,7 +106,7 @@ class FauxTwigExtension extends \Twig\Extension\AbstractExtension implements \Tw
             'product' => new \craft\commerce\elements\Product(),
             // Third party globals
             'seomatic' => new \nystudio107\seomatic\variables\SeomaticVariable(),
-            'library' => new \sitemill\library\variables\LibraryVariable(),
+            'fabric' => new \sitemill\fabric\variables\FabricVariable(),
         ];
     }
 }

@@ -1,0 +1,20 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{# Get users lightboxes #}
+{% set action = 'tart' %}
+{% set lightboxSection = craft.fabric.settings['lightboxesHandle'] %}
+{% set lightboxes = craft.entries.section(lightboxSection).authorId(currentUser.id) %}
+
+{% extends 'dialogs/_layout.twig' %}
+
+{% block main %}
+    <form action="/actions/fabric/lightbox/remove" method="post">
+
+        {{ getCsrfInput() }}
+
+        <input type="hidden" name="lightboxId" id="lightboxId" value="224">
+        <input type="hidden" name="assetId" id="assetId" value="153">
+
+        <input type="submit" value="Submit">
+
+    </form>
+{% endblock %}

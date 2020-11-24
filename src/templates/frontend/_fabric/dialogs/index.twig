@@ -1,0 +1,6 @@
+{% requireLogin %}
+
+{% include '_fabric/dialogs/' ~ action|camel with {
+    id:id,
+    action:action
+} %}

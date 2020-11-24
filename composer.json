@@ -1,6 +1,6 @@
 {
-  "name": "sitemill/craft-library",
-  "description": "Library is framework for your Craft content.",
+  "name": "sitemill/craft-fabric",
+  "description": "Fabric is framework for your Craft content.",
   "type": "craft-plugin",
   "version": "1.0.0",
   "keywords": [
@@ -8,11 +8,11 @@
     "cms",
     "craftcms",
     "craft-plugin",
-    "library"
+    "fabric"
   ],
   "support": {
-    "docs": "https://github.com/sitemill/craft-library/blob/master/README.md",
-    "issues": "https://github.com/sitemill/craft-library/issues"
+    "docs": "https://github.com/sitemill/craft-fabric/blob/master/README.md",
+    "issues": "https://github.com/sitemill/craft-fabric/issues"
   },
   "license": "MIT",
   "authors": [
@@ -31,19 +31,19 @@
   },
   "autoload": {
     "psr-4": {
-      "sitemill\\library\\": "src/"
+      "sitemill\\fabric\\": "src/"
     }
   },
   "extra": {
-    "name": "Library",
-    "handle": "library",
+    "name": "Fabric",
+    "handle": "fabric",
     "developer": "SiteMill",
     "developerUrl": "https://sitemill.co",
-    "documentationUrl": "https://github.com/sitemill/craft-library/blob/master/README.md",
-    "changelogUrl": "https://raw.githubusercontent.com/craft-sitemill/library/master/CHANGELOG.md",
+    "documentationUrl": "https://github.com/sitemill/craft-fabric/blob/master/README.md",
+    "changelogUrl": "https://raw.githubusercontent.com/craft-sitemill/fabric/master/CHANGELOG.md",
     "components": {
-      "share": "sitemill\\library\\services\\Share"
+      "share": "sitemill\\fabric\\services\\Share"
     },
-    "class": "sitemill\\library\\Library"
+    "class": "sitemill\\fabric\\Fabric"
   }
 }

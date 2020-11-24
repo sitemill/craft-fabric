@@ -8,9 +8,9 @@
  * @copyright Copyright (c) 2020 SiteMill
  */
 
-namespace sitemill\library\models;
+namespace sitemill\fabric\models;
 
-use sitemill\library\Library;
+use sitemill\fabric\Fabric;
 
 use Craft;
 use craft\base\Model;

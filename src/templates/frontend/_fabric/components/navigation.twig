@@ -1,0 +1,42 @@
+<div
+        class="navigation"
+        hx-boost="true"
+        hx-indicator="#page-loader"
+        hx-push-url="true"
+>
+
+    {% for navigationItem in craft.fabric.settings.navigation %}
+        {% switch navigationItem.type %}
+        {% case 'entryNav' %}
+            {% include '_fabric/components/navigationGroup.twig' with {
+                title: navigationItem.title is defined ? navigationItem.title,
+                route: navigationItem.source|kebab,
+                type: 'entry',
+                items: craft.entries.section(navigationItem.source).all(),
+            } %}
+        {% case 'entryListing' %}
+            {% include '_fabric/components/navigationItem.twig' with {
+                title: navigationItem.title,
+                url: url('listing/entries/' ~ navigationItem.source|kebab)
+            } %}
+        {% case 'categoriesNav' %}
+            {% include '_fabric/components/navigationGroup.twig' with {
+                title: navigationItem.title is defined ? navigationItem.title,
+                items: craft.categories().group(navigationItem.source).level(1).all(),
+                url: url('listing/all'),
+                param: 'category'
+            } %}
+        {% case 'heading' %}
+            <h3 class="navigation-header">{{ navigationItem.title }}</h3>
+        {% case 'link' %}
+            {% include '_fabric/components/navigationItem.twig' with {
+                title: navigationItem.title,
+                url: url(navigationItem.source)
+            } %}
+
+        {% case 'include' %}
+            {% include navigationItem.source %}
+        {% endswitch %}
+    {% endfor %}
+
+</div>

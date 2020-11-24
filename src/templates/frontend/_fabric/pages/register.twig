@@ -1,0 +1,102 @@
+{% if currentUser %}
+    {# TODO: redirect to the home route if set #}
+    {% redirect '/' %}
+{% endif %}
+
+{% set userSettings = craft.app.projectConfig.get('users') %}
+{% set suspendByDefault = userSettings.suspendByDefault ? 1 : 0 %}
+{% set requireVerification = userSettings.requireEmailVerification ? 1 : 0 %}
+
+{% extends "_fabric/layouts/action-page.twig" %}
+
+{% block main %}
+    {% include '_fabric/components/branding.twig' %}
+
+    {% if craft.app.request.queryParam('status') == 'success' %}
+        <h2>Registration complete!</h2>
+        {% if suspendByDefault %}
+            <p>You will be notified once your account has been activated</p>
+        {% elseif requireVerification %}
+            <p>You will receive an e-mail to activate your account shortly.</p>
+        {% endif %}
+    {% else %}
+        {% if userSettings.allowPublicRegistration %}
+            <form method="post" accept-charset="UTF-8">
+
+                {{ csrfInput() }}
+                {{ actionInput('users/save-user') }}
+                {{ redirectInput('register?status=success&suspendByDefault=' ~ suspendByDefault ~ '&requireVerification=' ~ requireVerification) }}
+
+                {% if suspendByDefault %}
+                    <p class="message">
+                        Your registration will be reviewed by an administrator.
+                    </p>
+                {% endif %}
+                <div class="field-group field-group--join">
+                    {% if not craft.app.config.general.useEmailAsUsername %}
+                        <div class="form-field  form-field--full-width">
+                            <input id="username" class="focus:border-primary" type="text" name="username"
+                                   placeholder="Username"
+                                   aria-label="Username"
+                                    {%- if user is defined %} value="{{ user.username }}"{% endif -%} >
+                        </div>
+
+                        {% if user is defined %}
+                            {{ _self.errorList(user.getErrors('username')) }}
+                        {% endif %}
+                    {% endif %}
+
+                    <div class="form-field form-field--full-width">
+                        <input id="email" class="focus:border-primary" name="email" type="email" placeholder="Email"
+                               aria-label="Email"
+                                {%- if user is defined %} value="{{ user.email }}"{% endif %} >
+                    </div>
+
+
+                    {% if user is defined %}
+                        {{ _self.errorList(user.getErrors('email')) }}
+                    {% endif %}
+
+                    <div class="form-field form-field--full-width">
+                        <input id="password" class="focus:border-primary" type="password" name="password"
+                               placeholder="Password"
+                               aria-label="Password">
+                    </div>
+
+
+                    {% if user is defined %}
+                        {{ _self.errorList(user.getErrors('password')) }}
+                    {% endif %}
+                </div>
+
+                <div class="field-group">
+                    <div class="form-field form-field--full-width">
+                        <input type="submit" value="Register" class="action action--prominent bg-primary text-on-primary">
+                    </div>
+                </div>
+
+
+                {% if errorMessage is defined %}
+                    <div class="message message--centered message--space-top message--error">
+                        {{ errorMessage }}
+                    </div>
+                {% endif %}
+
+            </form>
+        {% else %}
+            <div class="message message--centered text-error">
+                Public registrations not allowed.
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% macro errorList(errors) %}
+    {% if errors %}
+        <ul class="errors">
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}

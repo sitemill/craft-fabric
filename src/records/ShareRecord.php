@@ -4,11 +4,8 @@
  * @copyright Copyright (c) 2020 SiteMill
  */
 
-namespace sitemill\library\records;
+namespace sitemill\fabric\records;
 
-use sitemill\library\Library;
-
-use Craft;
 use craft\db\ActiveRecord;
 
 /**
@@ -26,6 +23,6 @@ class ShareRecord extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%library_shares}}';
+        return '{{%fabric_shares}}';
     }
 }

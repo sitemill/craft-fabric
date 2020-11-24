@@ -1,0 +1,48 @@
+{% set pageTitle = pageTitle|default('Default page title') %}
+{% set breadcrumbs = breadcrumbs|default([]) %}
+
+{% extends '_fabric/layouts/app.twig' %}
+
+{% block main %}
+
+    {% block pageHeader %}
+        <header class="page-header">
+            <div class="container">
+                <div class="page-header__breadcrumbs">
+                    {% block breadcrumbs %}
+                        {% include '_fabric/components/breadcrumbs.twig' %}
+                    {% endblock %}
+                </div>
+                <div class="page-header__main">
+                    <div class="page-header__pageTitle">
+                        {% block pageTitle %}
+                            {% include '_fabric/components/pageTitle.twig' %}
+                        {% endblock %}
+                        <div class="page-header__category-roll">
+                            {% block categoryRoll %}
+                                {% include '_fabric/components/categoryRoll.twig' with {
+                                    'categoryRoll': category ? category : false
+                                } %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endblock %}
+    <div class="page-content">
+        {% block pageMain %}
+            No page content defined
+        {% endblock %}
+    </div>
+    <div class="page-nav">
+        <div class="container">
+            <div class="page-nav__main">
+                <div class="page-nav__actions">
+                    {% block pageActions %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

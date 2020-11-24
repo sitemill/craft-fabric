@@ -1,7 +1,7 @@
 {
-  "name": "craft-library",
+  "name": "craft-fabric",
   "version": "1.0.0",
-  "description": "Library is a framework for your Craft content",
+  "description": "Fabric is a framework for your Craft content",
   "main": "index.js",
   "scripts": {
     "dev": "npm run development",
@@ -19,15 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sitemill/craft-library.git"
+    "url": "git+https://github.com/sitemill/craft-fabric.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sitemill/craft-library/issues"
+    "url": "https://github.com/sitemill/craft-fabric/issues"
   },
-  "homepage": "https://github.com/sitemill/craft-library#readme",
+  "homepage": "https://github.com/sitemill/craft-fabric#readme",
   "devDependencies": {
     "cross-env": "^7.0.2",
     "laravel-mix": "^5.0.7",

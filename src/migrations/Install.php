@@ -4,11 +4,10 @@
  * @copyright Copyright (c) 2020 SiteMill
  */
 
-namespace sitemill\library\migrations;
-
-use craft\db\Table;
+namespace sitemill\fabric\migrations;
 
 use Craft;
+use craft\db\Table;
 use craft\config\DbConfig;
 use craft\db\Migration;
 
@@ -67,11 +66,11 @@ class Install extends Migration
     {
         $tablesCreated = false;
 
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%library_shares}}');
+        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%fabric_shares}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
-                '{{%library_shares}}',
+                '{{%fabric_shares}}',
                 [
                     'id' => $this->primaryKey(),
                     'dateCreated' => $this->dateTime()->notNull(),
@@ -93,12 +92,11 @@ class Install extends Migration
      */
     protected function createIndexes()
     {
-        $this->createIndex(null, '{{%library_shares}}', 'elementId', true);
+        $this->createIndex(null, '{{%fabric_shares}}', 'elementId', true);
         // Additional commands depending on the db driver
         switch ($this->driver) {
-            case DbConfig::DRIVER_MYSQL:
-                break;
             case DbConfig::DRIVER_PGSQL:
+            case DbConfig::DRIVER_MYSQL:
                 break;
         }
     }
@@ -108,8 +106,8 @@ class Install extends Migration
      */
     protected function addForeignKeys()
     {
-        $this->addForeignKey(null, '{{%library_shares}}', 'elementId', Table::ELEMENTS, 'id', 'CASCADE');
-        $this->addForeignKey(null, '{{%library_shares}}', 'sharerId', Table::USERS, 'id', 'CASCADE');
+        $this->addForeignKey(null, '{{%fabric_shares}}', 'elementId', Table::ELEMENTS, 'id', 'CASCADE');
+        $this->addForeignKey(null, '{{%fabric_shares}}', 'sharerId', Table::USERS, 'id', 'CASCADE');
     }
 
     /**
@@ -124,6 +122,6 @@ class Install extends Migration
      */
     protected function removeTables()
     {
-        $this->dropTableIfExists('{{%library_shares}}');
+        $this->dropTableIfExists('{{%fabric_shares}}');
     }
 }

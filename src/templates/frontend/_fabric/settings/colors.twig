@@ -1,0 +1,43 @@
+{% macro css(handle,color,parent = null) %}
+    .text-{{ parent ? parent ~ '-' }}{{ handle }} {
+        color: {{ color }};
+    }
+    .bg-{{ parent ? parent ~ '-' }}{{ handle }} {
+        background-color: {{ color }};
+    }
+    .bg-{{ parent ? parent ~ '-' }}{{ handle }}-50 {
+        background-color: {{ color }};
+    }
+    .border-{{ parent ? parent ~ '-' }}{{ handle }} {
+        border-color: {{ color }};
+    }
+    .focus\:border-{{ parent ? parent ~ '-' }}{{ handle }}:focus {
+        border-color: {{ color }}!important;
+    }
+{% endmacro %}
+
+{% macro textCss(handle,color,parent = null) %}
+    .{{ parent ? parent ~ '-' }}{{ handle }} {
+    color: {{ color }};
+    }
+{% endmacro %}
+
+{% macro colorLoop(items,parent) %}
+    {% for handle, color in items %}
+        {% if color is iterable %}
+            {{ _self.colorLoop(color,handle) }}
+        {% else %}
+            {% if parent == 'text' %}
+                {{ _self.textCss(handle,color,parent) }}
+            {% else %}
+                {{ _self.css(handle,color,parent) }}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% css %}
+    {% cache %}
+        {{ _self.colorLoop(craft.fabric.settings.colors) }}
+    {% endcache %}
+{% endcss %}

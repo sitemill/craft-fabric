@@ -1,0 +1,40 @@
+{% set item = item %}
+{% set elementType = elementType %}
+{% set id = item.id %}
+{% set title = item.title %}
+{% set route =  elementType == 'asset' ? 'asset' : item.section|kebab ~ '/entry' %}
+{% set kind = elementType == 'asset' ? item.kind : 'entry' %}
+{% set editUrl = currentUser and currentUser.admin ? item.cpEditUrl : 0  %}
+{% set thumbnail = thumbnail is defined ? thumbnail : 0 %}
+
+<article class="card-grid">
+    <div class="card-grid__wrapper">
+        <div class="card-grid__thumbnail">
+            {% include ['_fabric/components/thumbnail/' ~ kind,'_fabric/components/thumbnail/_default'] with {
+                alt: title,
+                thumbnail: thumbnail
+            } only %}
+        </div>
+        <header class="card-grid__header">
+            <h3 class="card-grid__title">
+                <a 
+                    href="{{ url(route ~ '/' ~ id ~ '/' ~ title|kebab ) }}"
+                    class="card-grid__action"
+                    >
+                    {{ title }}
+                </a>
+            </h3>
+        </header>
+        <div class="card-grid__actions">
+            {% include ['_fabric/components/quickActions/' ~ kind,'_fabric/components/quickActions/_default'] with {
+                id: id,
+                title: title,
+                elementType: elementType,
+                context: 'card',
+                element: item,
+                editUrl: editUrl,
+                kind: kind
+            } only %}
+        </div>
+    </div>
+</article>

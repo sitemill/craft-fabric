@@ -4,9 +4,9 @@
  * @copyright Copyright (c) 2020 SiteMill
  */
 
-namespace sitemill\library\controllers;
+namespace sitemill\fabric\controllers;
 
-use sitemill\library\Library;
+use sitemill\fabric\Fabric;
 
 use Craft;
 use craft\web\Controller;
@@ -28,7 +28,7 @@ class ShareController extends Controller
     public function actionToggle()
     {
         $this->requirePostRequest();
-        $this->requirePermission('library-manageShares');
+        $this->requirePermission('fabric-manageShares');
 
         $request = Craft::$app->getRequest();
         $elementId = $request->getRequiredParam('elementId');
@@ -36,7 +36,7 @@ class ShareController extends Controller
         $refreshUrl = $request->getRequiredParam('refreshUrl');
         $isHtmx = $request->getParam('htmx');
 
-        Library::$plugin->share->toggleShare($elementId);
+        Fabric::$plugin->share->toggleShare($elementId);
 
         if ($isHtmx) {
             return $this->redirect($refreshUrl);
