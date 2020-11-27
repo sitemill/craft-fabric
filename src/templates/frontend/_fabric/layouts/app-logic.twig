@@ -26,18 +26,17 @@
 {% set order = craft.app.request.getParam('order')|default('title asc') %}
 {% set layout = craft.app.request.getParam('layout')|default('grid') %}
 
-{# Get and cache the entry sources #}
+{# Get the entry sources #}
 {% set entrySources = [] %}
-{% cache globally %}
-    {% for source, settings in craft.fabric.settings.entrySources if settings['enabled'] %}
-        {% set entrySources = entrySources|merge({
-            (source) : {
-                'title': craft.sections.sectionByHandle(source).name,
-                'thumbnailField': settings.thumbnailField is defined ? settings.thumbnailField
-            }
-        }) %}
-    {% endfor %}
-{% endcache %}
+{% for source, settings in craft.fabric.settings.entrySources if settings['enabled'] %}
+    {% set entrySources = entrySources|merge({
+        (source) : {
+            'title': craft.sections.sectionByHandle(source).name,
+            'thumbnailField': settings.thumbnailField is defined ? settings.thumbnailField
+        }
+    }) %}
+{% endfor %}
+
 
 {% block app %}
 {% endblock %}
