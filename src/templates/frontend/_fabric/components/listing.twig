@@ -15,7 +15,7 @@
         {% elseif elementType == 'asset' %}
             {% set thumbnail = craft.fabric.siloActive ? item.file : item %}
         {% elseif (elementType == 'entry' and craft.fabric.settings.entrySources|length) and craft.fabric.settings.entrySources[item.section.handle].thumbnailField %}
-            {% set thumbField = item[entrySources[item.section.handle].thumbnailField].one %}
+            {% set thumbField = item[craft.fabric.settings.entrySources[item.section.handle].thumbnailField].one %}
             {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\silo\\elements\\SiloAsset' ? thumbField.file : thumbField %}
         {% endif %}
         {% include '_fabric/components/card/' ~ layout with {
