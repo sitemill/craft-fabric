@@ -99,7 +99,7 @@ class Fabric extends Plugin
             View::class,
             View::EVENT_REGISTER_SITE_TEMPLATE_ROOTS,
             function(RegisterTemplateRootsEvent $event) {
-                $event->roots['/'] = __DIR__ . '/templates/frontend';
+                $event->roots['_fabric'] = __DIR__ . '/templates/frontend';
             }
         );
 
