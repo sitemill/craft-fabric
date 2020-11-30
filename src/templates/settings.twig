@@ -133,8 +133,16 @@
 
 
 {% if settings.assetsSource is not null %}
+    {% set assetFields = [] %}
 
-    {% set assetFields = settings.baseAssetFields %}
+    {% for handle, baseField in settings.baseAssetFields %}
+        {% set assetFields = assetFields|merge({
+            (handle): {
+                label: baseField.label,
+                enabled: settings.assetFields[handle].enabled is defined ? settings.assetFields[handle].enabled : '',
+            }
+        }) %}
+    {% endfor %}
 
     {% if craft.fabric.siloInstalled and craft.fabric.siloActive %}
         {% set layoutId = craft.app.fields.getLayoutByType(
