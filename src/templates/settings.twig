@@ -68,7 +68,7 @@
         label: 'None',
         value: ''
     }] %}
-    {% for field in fields if field.instance == 'craft\\fields\\Assets' or field.instance == 'sitemill\\silo\\fields\\SiloAssetsField'  %}
+    {% for field in fields if field.instance == 'craft\\fields\\Assets' or field.instance == 'sitemill\\silo\\fields\\SiloAssetsField' %}
         {% set field = craft.fields.fieldById(field.id) %}
         {% set assetFields = assetFields|merge([
             {
@@ -131,9 +131,10 @@
 }) }}
 
 
-{% if settings.assetsSource %}
 
-    {% set assetFields = [] %}
+{% if settings.assetsSource is not null %}
+
+    {% set assetFields = settings.baseAssetFields %}
 
     {% if craft.fabric.siloInstalled and craft.fabric.siloActive %}
         {% set layoutId = craft.app.fields.getLayoutByType(
@@ -145,39 +146,42 @@
             ).fieldLayoutId %}
     {% endif %}
 
-    {% if craft.app.fields.fieldsByLayoutId(layoutId)|length %}
 
-        {% for field in craft.app.fields.fieldsByLayoutId(layoutId) %}
-            {% set assetFields = assetFields|merge({
-                (field.handle): {
-                    label: field.name,
-                    enabled: settings.assetFields[field.handle].enabled is defined ? settings.assetFields[field.handle].enabled : '',
-                }|filter
-            }) %}
-        {% endfor %}
+    {% for field in craft.app.fields.fieldsByLayoutId(layoutId) %}
+        {% set assetFields = assetFields|merge({
+            (field.handle): {
+                label: field.name,
+                enabled: settings.assetFields[field.handle].enabled is defined ? settings.assetFields[field.handle].enabled : '',
+            }
+        }) %}
+    {% endfor %}
 
-        {{ forms.editableTableField({
-            label: "Asset field layout"|t('fabric'),
-            instructions: "Define the fields that will show on an assets page"|t('fabric'),
-            id: 'assetFields',
-            name: 'assetFields',
-            cols: {
-                label: {
-                    type: 'heading',
-                    heading: "Field"|t('app'),
-                    thin: true
-                },
-                enabled: {
-                    type: 'lightswitch',
-                    heading: "Enabled"|t('app'),
-                    thin: true
-                }
-            }|filter,
-            rows: assetFields,
-            fullWidth: false,
-            staticRows: true,
-            minRows:assetFields|length,
-            maxRows:assetFields|length
-        }) }}
-    {% endif %}
+    {{ forms.editableTableField({
+        label: "Asset field layout"|t('fabric'),
+        instructions: "Define the fields that will show on an assets page"|t('fabric'),
+        id: 'assetFields',
+        name: 'assetFields',
+        cols: {
+            label: {
+                type: 'heading',
+                heading: "Field"|t('app'),
+                thin: true
+            },
+            enabled: {
+                type: 'lightswitch',
+                heading: "Enabled"|t('app'),
+                thin: true
+            }
+        }|filter,
+        rows: assetFields,
+        fullWidth: false,
+        staticRows: true,
+        minRows:assetFields|length,
+        maxRows:assetFields|length
+    }) }}
+
+    {% for handle,field in assetFields %}
+        <input type="hidden" name="assetFields[{{ handle }}][label]" value="{{ field.label }}">
+    {% endfor %}
+
 {% endif %}

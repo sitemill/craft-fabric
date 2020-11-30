@@ -1,13 +1,13 @@
 {% if craft.fabric.siloActive %}
-    {% set assetSource = craft.siloAssets %}
+    {% set asset = craft.siloAssets
+        .id(assetId)
+        .with(['file[0]'])
+        .one() %}
 {% else %}
-    {% set assetSource = craft.assets %}
+    {% set asset = craft.assets
+        .id(assetId)
+        .one() %}
 {% endif %}
-
-{% set asset = assetSource
-    .id(assetId)
-    .with(['file[0]'])
-    .one() %}
 
 {% set pageTitle = asset.title %}
 {% set publicPage = craft.fabric.isPublic(asset) %}
@@ -38,17 +38,13 @@
                     {% include ['_fabric/components/preview/' ~ asset.kind, '_fabric/components/preview/_default'] %}
                 </div>
                 <div class="asset__meta">
-                    {% set assetFields = asset.fieldLayout.fields %}
-
                     {% for fieldHandle, fieldSettings in craft.fabric.settings.assetFields if fieldSettings.enabled %}
-                        {% include '_fabric/components/field' with {
+                        {% include '_fabric/components/metaItems' with {
                             handle: fieldHandle,
                             settings: fieldSettings,
                             element: asset
                         } only %}
                     {% endfor %}
-
-                    {% include '_fabric/components/assetMetaItems.twig' %}
                 </div>
             </div>
         </div>

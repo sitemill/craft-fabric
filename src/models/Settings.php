@@ -67,7 +67,27 @@ class Settings extends Model
      *  ]
      *
      */
-    public $assetFields = [];
+    public $assetFields = [
+
+    ];
+
+    /**
+     * @var array The default asset fields
+     */
+    public $baseAssetFields = [
+        'fabric_size' => [
+            'label' => 'File Size',
+            'enabled' => 1
+        ],
+        'fabric_dimensions' => [
+            'label' => 'Dimensions',
+            'enabled' => 1
+        ],
+        'fabric_kind' => [
+            'label' => 'File Kind',
+            'enabled' => 1
+        ]
+    ];
 
 
     /**
