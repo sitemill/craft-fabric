@@ -81,6 +81,7 @@ class Fabric extends Plugin
         parent::init();
         self::$plugin = $this;
 
+
         // Trigger loading of front-end Bundles
         $request = Craft::$app->getRequest();
         if (
@@ -91,6 +92,11 @@ class Fabric extends Plugin
             $this->registerFrontEndAssetBundles();
         }
 
+        // Trigger loading of global back-end asset bundle
+        if ($request->isCpRequest) {
+            $this->registerCpBundles();
+        }
+
         // Register front-end templates
         Event::on(
             View::class,
@@ -99,6 +105,7 @@ class Fabric extends Plugin
                 $event->roots['_fabric'] = __DIR__ . '/templates/_frontend';
             }
         );
+
 
         // Register routes
         Event::on(
@@ -134,6 +141,7 @@ class Fabric extends Plugin
             }
         );
 
+
         // Register CP Routes
         Event::on(
             UrlManager::class,
@@ -141,6 +149,7 @@ class Fabric extends Plugin
             function(RegisterUrlRulesEvent $event) {
             }
         );
+
 
         // Register Library variable
         Event::on(
@@ -152,6 +161,7 @@ class Fabric extends Plugin
                 $variable->set('fabric', FabricVariable::class);
             }
         );
+
 
         // Do something on install
         Event::on(
@@ -170,6 +180,7 @@ class Fabric extends Plugin
             }
         );
 
+
         Craft::info(
             Craft::t(
                 'fabric',
@@ -180,10 +191,9 @@ class Fabric extends Plugin
         );
 
 
-
         // Register permissions
         Event::on(UserPermissions::class, UserPermissions::EVENT_REGISTER_PERMISSIONS, function(RegisterUserPermissionsEvent $event) {
-            $event->permissions[Craft::t('fabric', 'fabric')] = [
+            $event->permissions[Craft::t('fabric', 'Fabric')] = [
                 'fabric-manageShares' => ['label' => Craft::t('fabric', 'Toggle sharing on elements')]
             ];
         });
@@ -213,8 +223,6 @@ class Fabric extends Plugin
                 });
             }
         }
-
-
 
 
         // Toggle share status on element save
@@ -263,6 +271,12 @@ class Fabric extends Plugin
     {
         $view = Craft::$app->getView();
         $view->registerAssetBundle('sitemill\\fabric\\assetbundles\\frontend\\FabricFrontendAssets');
+    }
+
+    protected function registerCpBundles()
+    {
+        $view = Craft::$app->getView();
+        $view->registerAssetBundle('sitemill\\fabric\\assetbundles\\cp\\FabricCpAssets');
     }
 
 }

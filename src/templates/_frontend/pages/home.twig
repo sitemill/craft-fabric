@@ -1,1 +1,9 @@
-{% redirect '/listing/all' %}
+{% if craft.fabric.settings.homeRouteOverride != null %}
+    {% redirect url(craft.fabric.settings.homeRouteOverride) %}
+{% else %}
+    {% if craft.fabric.settings.entrySources|length %}
+        {% redirect url('listing/all') %}
+    {% else %}
+        {% redirect url('listing/assets') %}
+    {% endif %}
+{% endif %}

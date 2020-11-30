@@ -14,6 +14,7 @@ use sitemill\fabric\Fabric;
 
 use Craft;
 use craft\base\Model;
+use craft\helpers\UrlHelper;
 use craft\validators\ArrayValidator;
 
 /**
@@ -31,20 +32,30 @@ class Settings extends Model
      */
     public $private = 0;
 
+
     /**
      * @var string The handle of the asset volume used by Library
      */
     public $assetsSource = null;
+
 
     /**
      * @var array Determines the entry sources
      */
     public $entrySources = [];
 
+
     /**
      * @var array Determines the site navigation
      */
     public $navigation = [];
+
+
+    /**
+     * @var array Determines the home route
+     */
+    public $homeRouteOverride = '';
+
 
     /**
      * @var array Determines the fields shown on asset page
