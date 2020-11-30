@@ -81,8 +81,6 @@ class Fabric extends Plugin
         parent::init();
         self::$plugin = $this;
 
-
-
         // Trigger loading of front-end Bundles
         $request = Craft::$app->getRequest();
         if (
@@ -93,13 +91,12 @@ class Fabric extends Plugin
             $this->registerFrontEndAssetBundles();
         }
 
-
         // Register front-end templates
         Event::on(
             View::class,
             View::EVENT_REGISTER_SITE_TEMPLATE_ROOTS,
             function(RegisterTemplateRootsEvent $event) {
-                $event->roots['_fabric'] = __DIR__ . '/templates/frontend';
+                $event->roots['_fabric'] = __DIR__ . '/templates/_frontend';
             }
         );
 
@@ -137,8 +134,6 @@ class Fabric extends Plugin
             }
         );
 
-
-
         // Register CP Routes
         Event::on(
             UrlManager::class,
@@ -146,7 +141,6 @@ class Fabric extends Plugin
             function(RegisterUrlRulesEvent $event) {
             }
         );
-
 
         // Register Library variable
         Event::on(
@@ -159,6 +153,7 @@ class Fabric extends Plugin
             }
         );
 
+        // Do something on install
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
@@ -194,6 +189,7 @@ class Fabric extends Plugin
         });
 
 
+        // Register public switch
         if ($this->getSettings()->private and is_array($this->getSettings()->entrySources)) {
             // Add public lightswitch to entries
             Craft::$app->view->hook('cp.entries.edit.settings', function(&$context) {
