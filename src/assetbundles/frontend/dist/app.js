@@ -38,8 +38,8 @@ window.htmx = htmx_org__WEBPACK_IMPORTED_MODULE_0___default.a;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/dmatthams/code/craft-library/src/assetbundles/frontend/src/js/app.js */"./src/assetbundles/frontend/src/js/app.js");
-module.exports = __webpack_require__(/*! /Users/dmatthams/code/craft-library/src/assetbundles/frontend/src/scss/app.scss */"./src/assetbundles/frontend/src/scss/app.scss");
+__webpack_require__(/*! /Users/dmatthams/code/craft-fabric/src/assetbundles/frontend/src/js/app.js */"./src/assetbundles/frontend/src/js/app.js");
+module.exports = __webpack_require__(/*! /Users/dmatthams/code/craft-fabric/src/assetbundles/frontend/src/scss/app.scss */"./src/assetbundles/frontend/src/scss/app.scss");
 
 
 /***/ })
