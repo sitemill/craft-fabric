@@ -38,6 +38,7 @@ class FabricVariable
 
     public function siloActive()
     {
-        return $this->settings()->assetsSource == 'silo';
+        $silo = Craft::$app->plugins->getPlugin('silo');
+        return $silo && $silo->isInstalled && ($this->settings()->assetsSource == 'silo');
     }
 }

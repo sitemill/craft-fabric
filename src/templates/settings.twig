@@ -130,8 +130,6 @@
     staticRows: true
 }) }}
 
-
-
 {% if settings.assetsSource is not null %}
     {% set assetFields = [] %}
 
@@ -144,7 +142,7 @@
         }) %}
     {% endfor %}
 
-    {% if craft.fabric.siloInstalled and craft.fabric.siloActive %}
+    {% if craft.fabric.siloActive %}
         {% set layoutId = craft.app.fields.getLayoutByType(
             'sitemill\\silo\\elements\\SiloAsset'
             ).id %}
