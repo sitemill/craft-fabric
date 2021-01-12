@@ -6,19 +6,19 @@
 {% block main %}
 
     {% block pageHeader %}
-        <header class="page-header">
-            <div class="container">
-                <div class="page-header__breadcrumbs">
+        <header class="page-header || bg-gray-100 dark:bg-gray-800">
+            <div class="container-full">
+                <div class="page-header__breadcrumbs || flex items-center h-10">
                     {% block breadcrumbs %}
                         {% include '_fabric/components/breadcrumbs.twig' %}
                     {% endblock %}
                 </div>
-                <div class="page-header__main">
-                    <div class="page-header__pageTitle">
+                <div class="page-header__main || py-6 md:flex md:items-center md:justify-between">
+                    <div class="page-header__page-title">
                         {% block pageTitle %}
                             {% include '_fabric/components/pageTitle.twig' %}
                         {% endblock %}
-                        <div class="page-header__category-roll">
+                        <div class="page-header__category-roll || ">
                             {% block categoryRoll %}
                                 {% include '_fabric/components/categoryRoll.twig' with {
                                     'categoryRoll': category ? category : false
@@ -35,10 +35,10 @@
             No page content defined
         {% endblock %}
     </div>
-    <div class="page-nav">
+    <div class="page-nav || fixed bottom-0 right-0 left-0 bg-gray-100 dark:bg-gray-800 bg-transparent bg-opacity-80 md:ml-sidebar md:top-0 md:bottom-auto">
         <div class="container">
-            <div class="page-nav__main">
-                <div class="page-nav__actions">
+            <div class="page-nav__main || flex items-center justify-between">
+                <div class="page-nav__actions || w-full">
                     {% block pageActions %}
                     {% endblock %}
                 </div>

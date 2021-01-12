@@ -1,7 +1,7 @@
 {% set url = url %}
 {% set title = title %}
 
-<a class="navigation-item {{ craft.app.request.absoluteUrl == url ? 'navigation-item--active' }} text-type"
+<a class="navigation-item || block font-medium text-sm no-underline my-3 {{ craft.app.request.absoluteUrl == url ? '' }} "
         href="{{ url }}"
         title="View {{ title }}">
     {{ title }}

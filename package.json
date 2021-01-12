@@ -29,6 +29,8 @@
   },
   "homepage": "https://github.com/sitemill/craft-fabric#readme",
   "devDependencies": {
+    "browser-sync": "^2.26.13",
+    "browser-sync-webpack-plugin": "^2.0.1",
     "cross-env": "^7.0.2",
     "laravel-mix": "^5.0.7",
     "laravel-mix-purgecss": "^5.0.0",
@@ -43,6 +45,6 @@
     "htmx.org": "0.2.0",
     "autoprefixer": "^10.0.4",
     "postcss": "^8.1.10",
-    "tailwindcss": "^2.0.1"
+    "tailwindcss": "^2.0.2"
   }
 }

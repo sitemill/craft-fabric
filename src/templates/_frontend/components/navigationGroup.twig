@@ -14,7 +14,7 @@
 {% endif %}
 
 <nav class="navigation-group" aria-label="{{ title }} navigation">
-    <h3 class="navigation-header">{{ title }}</h3>
+    <h3 class="navigation-header || uppercase text-xs font-bold mt-4 mb-3 opacity-30 tracking-wide">{{ title }}</h3>
     <ul class="navigation-group__items">
         {% for item in items %}
             {% set itemUrl = url ? url : url(baseUrl ~ item.id ~ '/' ~ item.slug) %}

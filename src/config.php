@@ -83,9 +83,11 @@ return [
      * categoriesNav - shows all categories for the category group defined in 'source
      */
     'navigation' => [
-        'type' => 'link',
-        'title' => 'Home',
-        'source' => '/'
+        [
+            'type' => 'link',
+            'title' => 'Home',
+            'source' => '/'
+        ]
     ],
 
     /*
@@ -93,7 +95,7 @@ return [
      * ----------
      * Select which of the asset source's fields to show on the asset page eg.
      *
-     *  $assetFields = [
+     *  'assetFields' = [
      *      'description' => [
      *          'enabled' => 1
      *      ]

@@ -13,7 +13,7 @@ mix.js(config.path + 'src/js/app.js', config.path + 'dist/app.js').extract(['htm
 mix.sass(config.path + 'src/scss/app.scss', config.path + 'dist/')
     .options({
         processCssUrls: false,
-        postCss: [tailwindcss('./tailwind.config.frontend.js')]
+        postCss: [tailwindcss('./tailwind.config.js')]
     })
     .purgeCss({
         enabled: mix.inProduction(),
@@ -21,3 +21,11 @@ mix.sass(config.path + 'src/scss/app.scss', config.path + 'dist/')
     })
 
 mix.copy(config.path + 'src/fonts/*', config.path + 'dist/')
+
+mix.browserSync({
+    proxy: 'craft-sandbox.local',
+    files: [
+        'src/assetbundles/frontend/dist/**/*.*',
+        'src/templates/_frontend/**/*.twig'
+    ]
+});

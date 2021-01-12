@@ -165,7 +165,7 @@
                 {% endif %}
 
                 {% if hasAssets and hasEntries %}
-                    <hr>
+                    {% include '_fabric/components/hr.twig' %}
                 {% endif %}
 
                 {% if hasEntries %}
@@ -197,7 +197,9 @@
                 {% endif %}
             </div>
         {% else %}
-            No items found
+            <div class="container">
+                No items found
+            </div>
         {% endif %}
     </div>
 
