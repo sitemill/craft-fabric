@@ -1,20 +1,54 @@
-{% set text = text|default('Default action') %}
+{# Action - Creates a button #}
+
+{#
+    Variables
+#}
+
+{# text <string> [required] Defines the text to display on the action #}
+{% set text = text %}
+
+{# action <string> Defines the href of the action #}
 {% set action = action|default('#') %}
+
+{# target <string> Defines the target of the action #}
 {% set target = target|default(null) %}
+
+{# size <string> Defines the size of the button small|default|large #}
 {% set size = size|default('default') %}
+
+{# type <string> Defines the type of the action
+'default': A standard html <a> hyperlink
+'list-item': Wraps an <a> with a <li>
+'submit': Creates a <button> element with type="submit" #}
+{% set type = type|default('default') %}
+
+{# style <string> Defines the style of the action
+'default': A standard button
+'icon-only': Shows only an icon and hides text
+#}
 {% set style = style|default('default') %}
+
+{# icon <string> Defines the font awesome icon e.g. 'fas fa-download' #}
 {% set icon = icon|default(null) %}
+
+{# attributes <array> A list of additional arttributes as an array e.g.
+    {
+        'title' : 'Download this asset',
+        'download' : true
+    }
+#}
 {% set attributes = attributes|default({}) %}
-{% set classes = classes|default({}) %}
 
-{% set classes = classes|merge([
-    'action',
-    'action--' ~ size
-]) %}
+{# fullWidth <bool> Stretch the button to the width of the container #}
+{% set fullWidth = fullWidth|default(false) %}
 
-{% if icon %}
-    {% set classes = classes|merge(['action--has-icon']) %}
-{% endif %}
+{# click <string> Adds an alpine @click attribute  #}
+{% set click = click|default(null) %}
+
+
+{#
+    Logic
+#}
 
 {# If target is dialog, add htmx goodness #}
 {% if target %}
@@ -24,15 +58,26 @@
             'hx-target': '#dialog',
             'hx-swap' : 'outerHTML swap:0.3s',
             'data-hx-indicator': '#page-loader'
-        })  %}
+        }) %}
     {% else %}
         {% set attributes = target ? attributes|merge({'target': target}) %}
     {% endif %}
 {% endif %}
 
-
-{{ style == 'list-item' ? '<li>' }}
-<a href="{{ action }}" class="{% for class in classes %}{{ class }} {% endfor %}" {% for attr,value in attributes %}{{ attr }}="{{ value }}"{% endfor %}>
-    {% if icon %}<i class="{{ icon }}" aria-hidden="true"></i> {% endif %}<span>{{ text }}</span>
-</a>
-{{ style == 'list-item' ? '</li>' }}
+{#
+    Template
+#}
+{{ type == 'list-item' ? '<li>' }}
+<{{ type == 'submit' ? 'button type="submit"' : 'a' }}
+    {% if type != 'submit' %}href="{{ action }}"{% endif %}
+    class="inline-block px-3 py-2 rounded  text-gray-900 cursor-pointer border-0 no-underline
+        {{ fullWidth ? 'w-full text-center' }}
+        {{ type == 'list-item' ? 'bg-transparent' : 'bg-gray-400' }}
+        {{ size == 'large' ? 'text-lg' }}
+        {{ size == 'small' ? 'text-sm' }}
+        {{ style == 'outline' ? 'border border-solid border-gray-500' }}"
+    {% if click %}@click="{{ click }}"{% endif %}
+    {% for attr,value in attributes %}{{ attr }}="{{ value }}"{% endfor %}>
+        {% if icon %}<i class="{{ icon }}" aria-hidden="true"></i> {% endif %}<span class="{{ style == "icon-only" ? 'hidden' }}">{{ text }}</span>
+</{{ type == 'submit' ? 'button' : 'a' }}>
+{{ type == 'list-item' ? '</li>' }}

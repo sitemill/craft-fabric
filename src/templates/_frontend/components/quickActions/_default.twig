@@ -15,7 +15,6 @@
                 action: craft.fabric.siloActive ? craft.silo.download([element.id]) : element.url,
                 text: 'Download'|t,
                 size: buttonSize,
-                classes: ['bg-primary','text-canvas'],
                 icon: 'fas fa-download',
                 attributes: {
                     'title' : 'Download this asset'|t,
@@ -27,9 +26,17 @@
 
     {% if currentUser %}
     <div class="more-actions" x-data="{ dropdown{{ id }}open: false }">
-        <div class="action action--{{ buttonSize }} action--icon-only bg-canvas" @click="dropdown{{ id }}open = true">
-            <i class="fas fa-ellipsis-h" aria-hidden="true"></i> <span>{{ 'Actions'|t }}</span>
-        </div>
+
+        {% include '_fabric/components/action.twig' with {
+            text: 'Actions'|t,
+            size: buttonSize,
+            style: 'icon-only',
+            icon: 'fas fa-ellipsis-h',
+            attributes: {
+                '@click' : 'dropdown' ~ id ~ 'open = true',
+            }
+        } %}
+
         <div class="dropdown" x-show="dropdown{{ id }}open" @click.away="dropdown{{ id }}open = false">
             <ul class="dropdown__items">
             {% block quickActionsMore %}
@@ -37,7 +44,7 @@
                     text: 'Share'|t,
                     action: url('/dialog/share/' ~ elementType ~ '/' ~ id),
                     size: buttonSize,
-                    classes: ['action--list-item'],
+                    type: 'list-item',
                     icon: 'fas fa-link',
                     target: 'dialog',
                     attributes: {
@@ -49,7 +56,7 @@
                         text: 'Edit'|t,
                         action: editUrl,
                         size: buttonSize,
-                        classes: ['action--list-item'],
+                        type: 'list-item',
                         icon: 'fas fa-pen',
                         target: 'blank',
                         attributes: {

@@ -4,9 +4,12 @@
 <div class="listing-filter"
      x-data="{ filtersOpen: false }"
      @click.away="filtersOpen = false">
-    <div class="action action--outline bg-canvas border-primary text-primary" @click="filtersOpen = !filtersOpen">
-        <i class="fas fa-filter" aria-hidden="true"></i> <span>{{ 'Filters'|t }}</span>
-    </div>
+    {% include '_fabric/components/action.twig' with {
+        text: 'Filters'|t,
+        icon: 'fas fa-filter',
+        style: 'outline',
+        click: 'filtersOpen = !filtersOpen'
+    } %}
     <div class="dropdown" x-show="filtersOpen">
         <form action="/{{ craft.app.request.fullPath }}" method="GET"
               data-hx-get="/{{ craft.app.request.fullPath }}"

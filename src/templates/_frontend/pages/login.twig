@@ -32,7 +32,15 @@
                 <a href="{{ url('forgotpassword') }}" class="text-sm text-primary">Forget your password?</a>
             </div>
             <div class="actions actions--vertical actions--space-top">
-                <input type="submit" value="Login" class="action action--full-width bg-primary text-on-primary">
+                {% include '_fabric/components/action.twig' with {
+                    type: 'submit',
+                    fullWidth: true,
+                    text: 'Login'|t,
+                    size: 'large',
+                    attributes: {
+                        'title' : 'Login'|t
+                    }
+                } %}
                 {% if craft.app.projectConfig.get('users').allowPublicRegistration %}
                     <a class="action action--full-width border-primary text-primary"
                        href="{{ url('register') }}">Register</a>
