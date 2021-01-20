@@ -8,7 +8,8 @@
         text: 'Filters'|t,
         icon: 'fas fa-filter',
         style: 'outline',
-        click: 'filtersOpen = !filtersOpen'
+        color: 'primary',
+        attributes: {'@click':'filtersOpen = !filtersOpen'}
     } %}
     <div class="dropdown" x-show="filtersOpen">
         <form action="/{{ craft.app.request.fullPath }}" method="GET"

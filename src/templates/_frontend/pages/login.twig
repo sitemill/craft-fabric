@@ -5,7 +5,8 @@
 {% extends "_fabric/layouts/action-page.twig" %}
 
 {% block main %}
-    {% include '_fabric/components/branding.twig' %}
+
+
     <form method="post" accept-charset="UTF-8" class="space-y-3">
         {{ csrfInput() }}
         {{ actionInput('users/login') }}
@@ -30,10 +31,9 @@
             } %}
         </div>
 
-        <div class="space-y-5">
+        <div class="space-y-6">
 
-
-            <div class="flex justify-between">
+            <div class="space-y-2 md:space-y-0 md:flex md:justify-between">
                 {% include '_fabric/components/field/checkbox.twig' with {
                     type: 'checkbox',
                     id: 'rememberMe',
@@ -41,9 +41,8 @@
                     label: 'Keep me logged in'|t,
                     size: 'small'
                 } %}
-                <a href="{{ url('forgotpassword') }}" class="text-sm text-primary">Forget your password?</a>
+                <a href="{{ url('forgotpassword') }}" class="text-right block text-sm text-primary">Forget your password?</a>
             </div>
-
 
             <div class="space-y-2">
                 {% include '_fabric/components/action.twig' with {
@@ -51,6 +50,7 @@
                     type: 'submit',
                     size: 'large',
                     fullWidth: true,
+                    color: 'primary',
                     attributes: {
                         'title' : 'Login'|t
                     }
@@ -61,7 +61,8 @@
                         style: 'outline',
                         action: url('register'),
                         size: 'large',
-                        fullWidth: true
+                        fullWidth: true,
+                        color: 'primary'
                     } %}
                 {% endif %}
             </div>

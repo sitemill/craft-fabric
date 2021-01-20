@@ -1,11 +1,18 @@
 module.exports = {
     purge: false,
-    darkMode: 'media', // or 'media' or 'class'
+    darkMode: 'class', // or 'media' or 'class'
     theme: {
         extend: {
             spacing: {
                 'sidebar': '275px',
-                'sidebar-negative': '-275px',
+                'sidebar-negative': '-275px'
+            },
+            maxWidth: {
+                'brand': '230px',
+                'action-page-card': '350px'
+            },
+            colors: {
+                primary: '#6816D0',
             }
         },
         container: {
@@ -23,25 +30,5 @@ module.exports = {
     variants: {
         extend: {},
     },
-    plugins: [
-        function({addComponents}) {
-            addComponents({
-                '.container-full': {
-                    "@apply container": {},
-                    '@screen sm': {
-                        maxWidth: '100%',
-                    },
-                    '@screen md': {
-                        maxWidth: '100%',
-                    },
-                    '@screen lg': {
-                        maxWidth: '100%',
-                    },
-                    '@screen xl': {
-                        maxWidth: '100%',
-                    },
-                }
-            })
-        }
-    ],
+    plugins: [],
 }

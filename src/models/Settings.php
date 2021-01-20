@@ -139,12 +139,8 @@ class Settings extends Model
      */
     public $colors = [
         // Theme colours
-        'canvas' => 'white',
-        'type' => '#333',
         'primary' => '#6816D0',
-        'text' => [
-            'on-primary' => 'white'
-        ]
+        'secondary' => ''
     ];
 
 

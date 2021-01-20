@@ -10,8 +10,6 @@
 {% extends "_fabric/layouts/action-page.twig" %}
 
 {% block main %}
-    {% include '_fabric/components/branding.twig' %}
-
     {% if craft.app.request.queryParam('status') == 'success' %}
         <h2>Registration complete!</h2>
         {% if suspendByDefault %}

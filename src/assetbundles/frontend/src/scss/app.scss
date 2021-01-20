@@ -6,7 +6,7 @@ $fa-font-path: "./";
 
 @import 'variables.scss';
 // Vendor files
-//@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/brands';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
@@ -21,8 +21,6 @@ $fa-font-path: "./";
 @import 'base';
 
 // Components
-@import './components/actionPage';
-@import './components/actionPageCard';
 @import './components/asset';
 @import './components/assetCardList';
 @import './components/assetMeta';
@@ -44,7 +42,6 @@ $fa-font-path: "./";
 @import './components/pageActions';
 @import './components/pageContent';
 @import './components/pageLoader';
-@import './components/quickActions';
 @import './components/results';
 @import './components/searchBar';
 @import './components/sidebarToggle';

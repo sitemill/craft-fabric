@@ -42,8 +42,11 @@
 {# fullWidth <bool> Stretch the button to the width of the container #}
 {% set fullWidth = fullWidth|default(false) %}
 
-{# click <string> Adds an alpine @click attribute  #}
-{% set click = click|default(null) %}
+{# color <string> the colour of the background/outline #}
+{% set color = color|default('gray-500') %}
+
+{# textColor <string> the colour of the text #}
+{% set textColor = textColor|default('white') %}
 
 
 {#
@@ -71,14 +74,16 @@
 {{ type == 'list-item' ? '<li>' }}
 <{{ type == 'submit' ? 'button type="submit"' : 'a' }}
     {% if type != 'submit' %}href="{{ action }}"{% endif %}
-    class="inline-block px-3 py-2 rounded  text-gray-900 cursor-pointer no-underline
+    class="inline-block px-3 py-2 rounded cursor-pointer no-underline
         {{ fullWidth ? 'w-full text-center' }}
-        {{ type == 'list-item' or style == 'outline' ? 'bg-transparent' : 'bg-gray-400' }}
+        {{ type == 'list-item' or style == 'outline' ? 'bg-transparent text-gray-900' : 'bg-' ~ color }}
         {{ size == 'large' ? 'text-lg' }}
         {{ size == 'small' ? 'text-sm' }}
-        {{ style == 'outline' ? 'border border-solid border-gray-500' : 'border-0' }}"
-    {% if click %}@click="{{ click }}"{% endif %}
+        {{ style == 'outline' ? 'border border-solid border-' ~ color ~ ' text-' ~ color : 'border-0 text-' ~ textColor  }}"
     {% for attr,value in attributes %}{{ attr }}="{{ value }}"{% endfor %}>
         {% if icon %}<i class="{{ icon }}" aria-hidden="true"></i> {% endif %}<span class="{{ style == "icon-only" ? 'hidden' }}">{{ text }}</span>
 </{{ type == 'submit' ? 'button' : 'a' }}>
 {{ type == 'list-item' ? '</li>' }}
+
+
+{# TODO: title should be baked-in attribute #}

@@ -1,7 +1,7 @@
-<div class="branding">
+<div class="branding || w-full h-full max-w-brand">
     <a href="{{ siteUrl }}" aria-label="{{ siteName }}">
     {% if craft.app.editionName == 'Pro' and craft.rebrand.isLogoUploaded() %}
-        <img width="{{ craft.rebrand.getLogo().size[0] }}" height="{{ craft.rebrand.getLogo().size[1] }}" src="{{ craft.rebrand.getLogo().url }}" alt="{{ siteName }}">
+        <img class="w-full h-full" src="{{ craft.rebrand.getLogo().url }}" alt="{{ siteName }}">
     {% else %}
         {{ siteName }}
     {% endif %}

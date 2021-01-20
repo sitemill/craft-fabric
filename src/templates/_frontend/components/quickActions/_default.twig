@@ -6,8 +6,8 @@
 {% set editUrl = editUrl %}
 {% set buttonSize = context == 'card' ? 'small' : 'default' %}
 
-<div class="quick-actions">
-    <h4>Quick actions</h4>
+<div class="flex flex-row-reverse items-start space-x-1">
+    <h4 class="hidden">Quick actions</h4>
 
     {% block quickActionsMain %}
         {% if kind != 'entry' %}
@@ -16,6 +16,7 @@
                 text: 'Download'|t,
                 size: buttonSize,
                 icon: 'fas fa-download',
+                color: 'primary',
                 attributes: {
                     'title' : 'Download this asset'|t,
                     'download' : title
@@ -25,49 +26,51 @@
     {% endblock %}
 
     {% if currentUser %}
-    <div class="more-actions" x-data="{ dropdown{{ id }}open: false }">
+        <div class="more-actions" x-data="{ dropdown{{ id }}open: false }">
 
-        {% include '_fabric/components/action.twig' with {
-            text: 'Actions'|t,
-            size: buttonSize,
-            style: 'icon-only',
-            icon: 'fas fa-ellipsis-h',
-            attributes: {
-                '@click' : 'dropdown' ~ id ~ 'open = true',
-            }
-        } %}
+            {% include '_fabric/components/action.twig' with {
+                text: 'Actions'|t,
+                size: buttonSize,
+                style: 'icon-only',
+                icon: 'fas fa-ellipsis-h',
+                color: 'white',
+                textColor: 'gray-900',
+                attributes: {
+                    '@click' : 'dropdown' ~ id ~ 'open = true'
+                }
+            } %}
 
-        <div class="dropdown" x-show="dropdown{{ id }}open" @click.away="dropdown{{ id }}open = false">
-            <ul class="dropdown__items">
-            {% block quickActionsMore %}
-                {% include '_fabric/components/action.twig' with {
-                    text: 'Share'|t,
-                    action: url('/dialog/share/' ~ elementType ~ '/' ~ id),
-                    size: buttonSize,
-                    type: 'list-item',
-                    icon: 'fas fa-link',
-                    target: 'dialog',
-                    attributes: {
-                        'title' : 'Get a public link for this item'|t,
-                    }
-                } %}
-                {% if editUrl %}
-                    {% include '_fabric/components/action.twig' with {
-                        text: 'Edit'|t,
-                        action: editUrl,
-                        size: buttonSize,
-                        type: 'list-item',
-                        icon: 'fas fa-pen',
-                        target: 'blank',
-                        attributes: {
-                            'title' : 'Edit asset in control panel'|t,
-                        }
-                    } %}
-                {% endif %}
-            {% endblock %}
-            </ul>
+            <div class="dropdown" x-show="dropdown{{ id }}open" @click.away="dropdown{{ id }}open = false">
+                <ul class="dropdown__items">
+                    {% block quickActionsMore %}
+                        {% include '_fabric/components/action.twig' with {
+                            text: 'Share'|t,
+                            action: url('/dialog/share/' ~ elementType ~ '/' ~ id),
+                            size: buttonSize,
+                            type: 'list-item',
+                            icon: 'fas fa-link',
+                            target: 'dialog',
+                            attributes: {
+                                'title' : 'Get a public link for this item'|t,
+                            }
+                        } %}
+                        {% if editUrl %}
+                            {% include '_fabric/components/action.twig' with {
+                                text: 'Edit'|t,
+                                action: editUrl,
+                                size: buttonSize,
+                                type: 'list-item',
+                                icon: 'fas fa-pen',
+                                target: 'blank',
+                                attributes: {
+                                    'title' : 'Edit asset in control panel'|t,
+                                }
+                            } %}
+                        {% endif %}
+                    {% endblock %}
+                </ul>
+            </div>
         </div>
-    </div>
     {% endif %}
 
 </div>

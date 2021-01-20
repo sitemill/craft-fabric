@@ -2,7 +2,7 @@
 
 <input
         type="{{ type }}"
-        class="border-l border-r border-t border-solid border-gray-400 p-3
+        class="border-l border-r border-t border-solid border-gray-400 p-3 hover:shadow-inner
             {{ fullwidth ? 'w-full' }}
             {% if position == 'start' %}rounded-t{% elseif position == 'end' %}rounded-b border-b{% else %}rounded border-t border-b{% endif %}"
         {% if id %}id="{{ id }}"{% endif %}
