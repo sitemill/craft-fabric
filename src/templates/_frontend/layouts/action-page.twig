@@ -20,23 +20,6 @@
                     </div>
                 </div>
                 <div class="action-page__supporting bg-primary">
-                    <div class="mosaic">
-                        <div class="mosaic__inner">
-{#                            {% set assets = craft.fabric.settings.assetsSource == 'dam' ? craft.siloAssets : craft.assets.folderId(craft.fabric.settings.assetsSource)  %}#}
-{#                            {% set assets = assets#}
-{#                                .kind('image')#}
-{#                                .with(['file[0]'])#}
-{#                                .limit(30)#}
-{#                            %}#}
-{#                            {% set k = 20 %}#}
-{#                            {% for i in range(1, k) %}#}
-{#                                {% for asset in assets.orderBy('RAND()').all() %}#}
-{#                                    {% set file = craft.fabric.settings.assetsSource == 'dam' ? asset.file : asset %}#}
-{#                                    <img src="{{ file.url({width:100,quality:10}) }}" alt="{{ asset.title }}">#}
-{#                                {% endfor %}#}
-{#                            {% endfor %}#}
-                        </div>
-                    </div>
                     <div class="action-page__overlay bg-primary"></div>
                 </div>
             </div>

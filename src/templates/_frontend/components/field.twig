@@ -1,0 +1,46 @@
+{# type <string> The field type #}
+{% set type = type|default('text') %}
+
+{# id <string> The id attribute of the field #}
+{% set id = id|default(null) %}
+
+{# name <string> The name attribute of the field #}
+{% set name = name|default(null) %}
+
+{# label <string> The label prepended to the input #}
+{% set label = label|default(null) %}
+
+{# showlabel <bool> Whether the label before the input is visible #}
+{% set showlabel = showlabel|default(true) %}
+
+{# placeholder <string> The field's placeholder text #}
+{% set placeholder = placeholder|default(null) %}
+
+{# value <string> The set value of the field #}
+{% set value = value|default(null) %}
+
+{# required <bool> Whether this field is required #}
+{% set required = required|default(false) %}
+
+{# fullwidth <bool> Stretch the field to the width of the container #}
+{% set fullwidth = fullwidth|default(true) %}
+
+{# arialabel <string> Define the aria description #}
+{% set arialabel = arialabel|default(label is defined ? label : null) %}
+
+{# postition <string> if field is part of a group then define postition to style appropriately
+    'start': The first field of a column of fields
+    'end': The last field of a column of fields
+#}
+{% set position = position|default(null) %}
+
+{% if type not in ['text','password','email'] %}
+    {% set include = type %}
+{% else %}
+    {% set include = 'text' %}
+{% endif %}
+
+<div>
+    {% if label %}<label {% if id %}for="{{ id }}"{% endif %} class="block">{{ label }}</label>{% endif %}
+    {% include '_fabric/components/input/' ~ include %}
+</div>

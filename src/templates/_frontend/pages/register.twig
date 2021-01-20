@@ -71,7 +71,15 @@
 
                 <div class="field-group">
                     <div class="form-field form-field--full-width">
-                        <input type="submit" value="Register" class="action action--prominent bg-primary text-on-primary">
+                        {% include '_fabric/components/action.twig' with {
+                            text: 'Register'|t,
+                            type: 'submit',
+                            size: 'large',
+                            fullWidth: true,
+                            attributes: {
+                                'title' : 'Register'|t
+                            }
+                        } %}
                     </div>
                 </div>
 
