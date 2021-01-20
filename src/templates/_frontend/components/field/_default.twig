@@ -28,19 +28,33 @@
 {# arialabel <string> Define the aria description #}
 {% set arialabel = arialabel|default(label is defined ? label : null) %}
 
+{# size <string> The size of the input
+    'small': A compact form field #}
+{% set size = size|default('default') %}
+
+{# labelPosition <string> Whether the label is before the field ('default'), or 'wrap' #}
+{% set labelPosition = labelPosition|default('default') %}
+
 {# postition <string> if field is part of a group then define postition to style appropriately
     'start': The first field of a column of fields
     'end': The last field of a column of fields
 #}
 {% set position = position|default(null) %}
 
-{% if type not in ['text','password','email'] %}
-    {% set include = type %}
-{% else %}
-    {% set include = 'text' %}
-{% endif %}
-
 <div>
-    {% if label %}<label {% if id %}for="{{ id }}"{% endif %} class="block">{{ label }}</label>{% endif %}
-    {% include '_fabric/components/input/' ~ include %}
+    {% if label %}
+        {% if labelPosition == 'default' %}
+            <label {% if name %}for="{{ name }}"{% endif %} class="block {{ size == 'small' ? 'text-sm' }}">{{ label }}</label>
+        {% elseif labelPosition == 'wrap' %}
+            <label class="block {{ size == 'small' ? 'text-sm' }}">
+        {% endif %}
+    {% endif %}
+
+    {% block field %}
+        {% include ['_fabric/components/input/' ~ type, '_fabric/components/input/text.twig'] %}
+    {% endblock %}
+
+    {% if label and labelPosition == 'wrap' %}
+        {{ label }}</label>
+    {% endif %}
 </div>

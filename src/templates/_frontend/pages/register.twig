@@ -52,7 +52,6 @@
                                 {%- if user is defined %} value="{{ user.email }}"{% endif %} >
                     </div>
 
-
                     {% if user is defined %}
                         {{ _self.errorList(user.getErrors('email')) }}
                     {% endif %}

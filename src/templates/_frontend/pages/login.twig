@@ -11,7 +11,7 @@
         {{ actionInput('users/login') }}
 
         <div>
-            {% include '_fabric/components/field.twig' with {
+            {% include '_fabric/components/field/text.twig' with {
                 id: 'loginName',
                 name: 'loginName',
                 placeholder: 'Username or Email'|t,
@@ -20,7 +20,7 @@
                 position: 'start'
             } %}
 
-            {% include '_fabric/components/field.twig' with {
+            {% include '_fabric/components/field/password.twig' with {
                 type: 'password',
                 id: 'password',
                 name: 'password',
@@ -30,37 +30,42 @@
             } %}
         </div>
 
-        <div class="field-group space-y-5">
-            <div class="form-field flex justify-between">
-                <label class="text-sm">
-                    <input type="checkbox" name="rememberMe" value="1">
-                    Keep me logged in
-                </label>
+        <div class="space-y-5">
+
+
+            <div class="flex justify-between">
+                {% include '_fabric/components/field/checkbox.twig' with {
+                    type: 'checkbox',
+                    id: 'rememberMe',
+                    name: 'rememberMe',
+                    label: 'Keep me logged in'|t,
+                    size: 'small'
+                } %}
                 <a href="{{ url('forgotpassword') }}" class="text-sm text-primary">Forget your password?</a>
             </div>
 
-            <div class="actions actions--vertical actions--space-top">
-                <div class="space-y-2">
+
+            <div class="space-y-2">
+                {% include '_fabric/components/action.twig' with {
+                    text: 'Login'|t,
+                    type: 'submit',
+                    size: 'large',
+                    fullWidth: true,
+                    attributes: {
+                        'title' : 'Login'|t
+                    }
+                } %}
+                {% if craft.app.projectConfig.get('users').allowPublicRegistration %}
                     {% include '_fabric/components/action.twig' with {
-                        text: 'Login'|t,
-                        type: 'submit',
+                        text: 'Register'|t,
+                        style: 'outline',
+                        action: url('register'),
                         size: 'large',
-                        fullWidth: true,
-                        attributes: {
-                            'title' : 'Login'|t
-                        }
+                        fullWidth: true
                     } %}
-                    {% if craft.app.projectConfig.get('users').allowPublicRegistration %}
-                        {% include '_fabric/components/action.twig' with {
-                            text: 'Register'|t,
-                            style: 'outline',
-                            action: url('register'),
-                            size: 'large',
-                            fullWidth: true
-                        } %}
-                    {% endif %}
-                </div>
+                {% endif %}
             </div>
+
             {% if errorMessage is defined %}
                 <div class="message message--centered message--space-top status-error">
                     {{ errorMessage }}
