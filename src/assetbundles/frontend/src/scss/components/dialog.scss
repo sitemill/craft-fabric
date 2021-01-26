@@ -1,16 +1,16 @@
 .dialog {
-    display: none;
-    background-color: white;
-    position: fixed;
-    top:0;
-    bottom: 0;
-    width: 500px;
-    z-index: 100;
-    box-shadow: 0px 0px 46px -12px rgba(0,0,0,0.5);
-    right: -500px;
-    opacity: 0;
-    transition: 0.3s cubic-bezier(0.33, 1, 0.68, 1);
-    padding: 3em;
+    //display: none;
+    //background-color: white;
+    //position: fixed;
+    //top:0;
+    //bottom: 0;
+    //width: 500px;
+    //z-index: 100;
+    //box-shadow: 0px 0px 46px -12px rgba(0,0,0,0.5);
+    //right: -500px;
+    //opacity: 0;
+    //transition: 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    //padding: 3em;
 
 }
 
@@ -26,39 +26,18 @@
 }
 
 .dialog--active {
-    display: block;
-    opacity: 1;
-    right: 0px;
+    //display: block;
+    //opacity: 1;
+    //right: 0px;
 }
 
 .dialog.htmx-swapping {
-    opacity: 0;
-    right: -500px;
+    //opacity: 0;
+    //right: -500px;
 }
 
 .dialog-enter {
     #dialog__content {
         display: none !important;
     }
-}
-
-.dialog-enter-start {
-    right: -500px;
-
-}
-
-.dialog-enter-end {
-    right: 0px;
-}
-
-.dialog-leave {
-    //right:-500px;
-}
-
-.dialog-leave-start {
-
-}
-
-.dialog-leave-end {
-
 }

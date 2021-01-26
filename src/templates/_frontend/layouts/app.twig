@@ -24,8 +24,10 @@
         </main>
         {% include '_fabric/components/vendorFoot.twig' %}
     </div>
-    <div id="dialog" class="dialog">
-    </div>
+
+    {# Initialize dialogs #}
+    {% include '_fabric/dialogs' %}
+
 </body>
 </html>
 {% endblock %}

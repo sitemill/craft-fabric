@@ -1,11 +1,11 @@
 module.exports = {
     purge: false,
-    darkMode: 'class', // or 'media' or 'class'
+    darkMode: 'media', // or 'media' or 'class'
     theme: {
         extend: {
             spacing: {
                 'sidebar': '275px',
-                'sidebar-negative': '-275px'
+                'dialog': '500px',
             },
             maxWidth: {
                 'brand': '230px',
