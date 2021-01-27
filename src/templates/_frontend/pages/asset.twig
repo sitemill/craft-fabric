@@ -19,7 +19,7 @@
 {% extends '_fabric/layouts/page.twig' %}
 
 {% block pageActions %}
-    {% include ['_fabric/components/quickActions/' ~ asset.kind,'_fabric/components/quickActions/_default']  with {
+    {% include ['_fabric/components/quickActions/' ~ asset.kind,'_fabric/components/quickActions']  with {
         id: asset.id,
         title: asset.title,
         context: 'page',
@@ -35,7 +35,7 @@
         <div class="container">
             <div class="asset__wrapper | lg:flex">
                 <div class="asset__preview | w-full max-w-3xl lg:w-3/5 lg:flex-shrink-0">
-                    {% include ['_fabric/components/preview/' ~ asset.kind, '_fabric/components/preview/_default'] %}
+                    {% include ['_fabric/components/preview/' ~ asset.kind, '_fabric/components/preview'] %}
                 </div>
                 <div class="asset__meta | mt-6 lg:mt-0 lg:ml-8 lg:flex-grow-0">
                     {% for fieldHandle, fieldSettings in craft.fabric.settings.assetFields if fieldSettings.enabled %}

@@ -32,16 +32,11 @@ class ShareController extends Controller
 
         $request = Craft::$app->getRequest();
         $elementId = $request->getRequiredParam('elementId');
-        $elementType = $request->getRequiredParam('elementType');
-        $refreshUrl = $request->getRequiredParam('refreshUrl');
-        $isHtmx = $request->getParam('htmx');
+        $redirect = $request->getRequiredParam('redirect');
 
         Fabric::$plugin->share->toggleShare($elementId);
 
-        if ($isHtmx) {
-            return $this->redirect($refreshUrl);
-        }
-        return $this->redirectToPostedUrl();
+        return $this->redirect($redirect);
     }
 
 }

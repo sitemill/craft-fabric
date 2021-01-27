@@ -1,0 +1,6 @@
+{% set file = craft.fabric.siloActive ? asset.file : asset %}
+<div class="asset-preview">
+    {% block assetPreview %}
+            <img src="{{ file.url({width:1200}) }}" alt="{{ asset.title }}" class="w-full">
+    {% endblock %}
+</div>

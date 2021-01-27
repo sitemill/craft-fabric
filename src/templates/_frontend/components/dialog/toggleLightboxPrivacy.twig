@@ -1,0 +1,19 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{# Get users lightboxes #}
+{% set action = 'tart' %}
+{% set lightboxSection = craft.fabric.settings['lightboxesHandle'] %}
+{% set lightboxes = craft.entries.section(lightboxSection).authorId(currentUser.id) %}
+
+{% extends '_fabric/components/dialog' %}
+
+{% block main %}
+    <form action="/actions/fabric/lightbox/toggle-privacy" method="post">
+
+        {{ getCsrfInput() }}
+
+        <input type="hidden" name="lightboxId" id="lightboxId" value="224">
+
+        <input type="submit" value="Submit">
+
+    </form>
+{% endblock %}

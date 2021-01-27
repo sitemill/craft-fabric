@@ -1,9 +1,0 @@
-{% if action is defined %}
-    {% include '_fabric/dialogs/' ~ action|camel with {
-        id:id,
-        action:action
-    } %}
-{% else %}
-{#    If no action defined, #}
-    {% include '_fabric/dialogs/empty.twig' %}
-{% endif %}
