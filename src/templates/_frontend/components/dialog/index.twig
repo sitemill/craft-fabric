@@ -9,78 +9,67 @@
 {% endif %}
 
 
-<div class="dialog | transition-all ease-in-out duration-500 bg-white fixed top-0 bottom-0 w-dialog m-4 z-50 shadow-2xl p-12 rounded-lg right-0 opacity-100"
-     x-data="{dialogOpen: false, showContent: false}"
+<div class="dialog | transition-all duration-700 bg-white fixed top-0 bottom-0 w-dialog m-4 z-50 shadow-2xl p-12 rounded-lg right-0 opacity-100"
+     x-data="{dialogOpen: false,showContent: false}"
      x-show="dialogOpen"
-     x-transition:enter-start="opacity-0 transform -right-dialog"
+     @htmx:after-swap.camel.window="showContent = true"
+     x-transition:enter-start="ease-in opacity-0 transform -right-dialog"
      x-transition:enter-end="opacity-100 transform right-0"
-     x-transition:leave-start="opacity-100 transform right-0"
+     x-transition:leave-start="ease-out opacity-100 transform right-0"
      x-transition:leave-end="opacity-0 transform -right-dialog"
-     @click.away="dialogOpen = false"
->
-    <template x-on:dialog.window="dialogOpen = $event.detail.open"></template>
-    <span @htmx:before-request.camel.window="showContent = false"></span>
-    <span @htmx:after-swap.camel.window="showContent = true"></span>
+     @click.away="dialogOpen = false; showContent = false;"
+     @dialog.window="dialogOpen = $event.detail.open">
 
-    <div id="dialog" x-show="showContent">
-        {% if formAction %}
-            <form method="post"
-                  accept-charset="UTF-8"
-                  hx-ext="json-enc"
-                  hx-post="{{ actionUrl(formAction) }}"
-                  {% if htmxSwapSection %}hx-target="{{ htmxSwapSection }}"{% endif %}
-                    {% if htmxSwapSection %}hx-select="{{ htmxSwapSection }}"{% endif %}
-                  hx-indicator="#page-loader"
-                  hx-swap="outerHTML"
-                    {% if htmxTrigger %}hx-trigger="{{ htmxTrigger }}"{% endif %}
-                  class="dialog__form | flex flex-col justify-between h-full"
-            >
-                <input type="hidden" name="action" value="{{ formAction }}">
-                <input type="hidden" name="htmx" value="true">
-                <input type="hidden" name="elementId" value="{{ id }}">
-                <input type="hidden" name="redirect" value="{{ formRedirect }}">
+    <div class="dialog__content-wrap | transition-all ease-in-out duration-100"
+         x-show="showContent"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
 
-                {{ csrfInput() }}
-                <div class="dialog__main">
-                    <h1 class="dialog__title">{{ title }}</h1>
-                    {% block main %}
+        <div class="dialog__content" id="dialog">
+            {% if formAction %}
+                <form method="post"
+                      accept-charset="UTF-8"
+                      hx-ext="json-enc"
+                      hx-post="{{ actionUrl(formAction) }}"
+                      {% if htmxSwapSection %}hx-target="{{ htmxSwapSection }}"{% endif %}
+                      {% if htmxSwapSection %}hx-select="{{ htmxSwapSection }}"{% endif %}
+                      {% if htmxTrigger %}hx-trigger="{{ htmxTrigger }}"{% endif %}
+                      hx-indicator="#page-loader"
+                      hx-swap="outerHTML"
+                      class="dialog__form | flex flex-col justify-between h-full"
+                >
+                    <input type="hidden" name="action" value="{{ formAction }}">
+                    <input type="hidden" name="htmx" value="true">
+                    <input type="hidden" name="elementId" value="{{ id }}">
+                    <input type="hidden" name="redirect" value="{{ formRedirect }}">
 
-                    {% endblock %}
-                </div>
-                <div class="dialog__actions">
-                    {% block actions %}
-                        {% include '_fabric/components/action.twig' with {
-                            text: 'Close'|t,
-                            size: 'large',
-                            style: 'outline',
-                            color: 'primary',
-                            icon: 'fas fa-times',
-                            fullWidth: true,
-                            attributes: {
-                                'title' : 'Close this dialog'|t,
-                                '@click' : 'dialogOpen = false'
-                            }
-                        } only %}
-                    {% endblock %}
-                </div>
-            </form>
-        {% endif %}
+                    {{ csrfInput() }}
+                    <div class="dialog__main">
+                        <h1 class="dialog__title">{{ title }}</h1>
+                        {% block main %}
+
+                        {% endblock %}
+                    </div>
+                    <div class="dialog__actions">
+                        {% block actions %}
+                            {% include '_fabric/components/action' with {
+                                text: 'Close'|t,
+                                size: 'large',
+                                style: 'outline',
+                                color: 'primary',
+                                icon: 'fas fa-times',
+                                fullWidth: true,
+                                attributes: {
+                                    'title' : 'Close this dialog'|t,
+                                    '@click' : 'dialogOpen = false; showContent = false;'
+                                }
+                            } only %}
+                        {% endblock %}
+                    </div>
+                </form>
+            {% endif %}
+        </div>
     </div>
 </div>
-
-{% css %}
-
-#dialog.htmx-swapping {
-  display: none !important;
-}
-
-{% endcss %}
-
-{#{% js %}#}
-{#document.body.addEventListener('htmx:beforeRequest', function(evt) {#}
-{#    $dispatch('dialogcontent', { show: false })#}
-{#});#}
-{#document.body.addEventListener('htmx:afterSwap', function(evt) {#}
-{#    $dispatch('dialogcontent', { show: false })#}
-{#});#}
-{#{% endjs %}#}

@@ -1,4 +1,4 @@
-{% extends '_fabric/layouts/app-logic.twig' %}
+{% extends '_fabric/layouts/app-logic' %}
 
 {% block app %}
     <!DOCTYPE html>
@@ -7,13 +7,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ pageTitle }} - {{ siteName }}</title>
-        {% include '_fabric/components/vendorHead.twig' %}
+        {% include '_fabric/components/vendorHead' %}
     </head>
     <body>
     <div x-data="{sidebarOpen: false}">
         <div id="app" class="page || bg-gray-white dark:bg-gray-700 text-base text-gray-900 dark:text-gray-100">
             {% if not publicLayout %}
-                {% include '_fabric/components/sidebar.twig' %}
+                {% include '_fabric/components/sidebar' %}
             {% endif %}
 
             {% include '_fabric/components/pageLoader' %}
@@ -24,10 +24,10 @@
                     No content
                 {% endblock %}
             </main>
-            {% include '_fabric/components/vendorFoot.twig' %}
+            {% include '_fabric/components/vendorFoot' %}
         </div>
 
-        {# Initialize dialogs #}
+        {# Initialize dialog #}
         {% include '_fabric/components/dialog' %}
     </div>
     </body>

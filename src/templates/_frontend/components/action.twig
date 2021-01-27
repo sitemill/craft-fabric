@@ -57,12 +57,12 @@
 {% if target %}
     {% if target == 'dialog' %}
         {% set attributes = attributes|merge({
-            '@click' : "$dispatch('dialog', { open: true })",
             'hx-get': action,
             'hx-target': '#dialog',
             'hx-select': '#dialog',
             'hx-swap' : 'outerHTML swap:0.3s',
-            'data-hx-indicator': '#page-loader'
+            'data-hx-indicator': '#page-loader',
+            '@click' : "$dispatch('dialog', { open: true })",
         }) %}
     {% else %}
         {% set attributes = target ? attributes|merge({'target': target}) %}
