@@ -40,35 +40,39 @@
                 }
             } %}
 
-            <div class="dropdown" x-show="dropdown{{ id }}open" @click.away="dropdown{{ id }}open = false">
-                <ul class="dropdown__items">
-                    {% block quickActionsMore %}
-                        {% include '_fabric/components/action.twig' with {
-                            text: 'Share'|t,
-                            action: url('/dialog/share/' ~ id),
-                            size: buttonSize,
-                            type: 'list-item',
-                            icon: 'fas fa-link',
-                            target: 'dialog',
-                            attributes: {
-                                'title' : 'Get a public link for this item'|t,
-                            }
-                        } %}
-                        {% if editUrl %}
+            <div x-show="dropdown{{ id }}open" @mouseleave="{dropdown{{ id }}open = false}">
+                {% embed '_fabric/components/dropdown' with {
+                    id: id
+                } %}
+                    {% block dropdownItems %}
+                        {% block quickActionsMore %}
                             {% include '_fabric/components/action.twig' with {
-                                text: 'Edit'|t,
-                                action: editUrl,
+                                text: 'Share'|t,
+                                action: url('/dialog/share/' ~ id),
                                 size: buttonSize,
                                 type: 'list-item',
-                                icon: 'fas fa-pen',
-                                target: 'blank',
+                                icon: 'fas fa-link',
+                                target: 'dialog',
                                 attributes: {
-                                    'title' : 'Edit asset in control panel'|t,
+                                    'title' : 'Get a public link for this item'|t,
                                 }
-                            } %}
-                        {% endif %}
+                            } only %}
+                            {% if editUrl %}
+                                {% include '_fabric/components/action.twig' with {
+                                    text: 'Edit'|t,
+                                    action: editUrl,
+                                    size: buttonSize,
+                                    type: 'list-item',
+                                    icon: 'fas fa-pen',
+                                    target: 'blank',
+                                    attributes: {
+                                        'title' : 'Edit asset in control panel'|t,
+                                    }
+                                } only %}
+                            {% endif %}
+                        {% endblock %}
                     {% endblock %}
-                </ul>
+                {% endembed %}
             </div>
         </div>
     {% endif %}

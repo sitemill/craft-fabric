@@ -8,7 +8,7 @@
 {% set text = text %}
 
 {# action <string> Defines the href of the action #}
-{% set action = action|default('#') %}
+{% set action = action|default(null) %}
 
 {# target <string> Defines the target of the action #}
 {% set target = target|default(null) %}
@@ -57,8 +57,10 @@
 {% if target %}
     {% if target == 'dialog' %}
         {% set attributes = attributes|merge({
+            '@click' : "$dispatch('dialog', { open: true })",
             'hx-get': action,
             'hx-target': '#dialog',
+            'hx-select': '#dialog',
             'hx-swap' : 'outerHTML swap:0.3s',
             'data-hx-indicator': '#page-loader'
         }) %}
@@ -73,7 +75,7 @@
 
 {{ type == 'list-item' ? '<li>' }}
 <{{ type == 'submit' ? 'button type="submit"' : 'a' }}
-    {% if type != 'submit' %}href="{{ action }}"{% endif %}
+    {% if type != 'submit' and action %}href="{{ action }}"{% endif %}
     class="inline-block px-3 py-2 rounded cursor-pointer no-underline
         {{ fullWidth ? 'w-full text-center' }}
         {{ type == 'list-item' or style == 'outline' ? 'bg-transparent text-gray-900' : 'bg-' ~ color }}

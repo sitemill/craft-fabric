@@ -1,33 +1,35 @@
 {% extends '_fabric/layouts/app-logic.twig' %}
 
 {% block app %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ pageTitle }} - {{ siteName }}</title>
-    {% include '_fabric/components/vendorHead.twig' %}
-</head>
-<body>
-    <div id="app" class="page || bg-gray-white dark:bg-gray-700 text-base text-gray-900 dark:text-gray-100"  x-data="{ sidebarOpen: false }">
-        {% if not publicLayout %}
-            {% include '_fabric/components/sidebar.twig' %}
-        {% endif %}
-        <div class="page-loader" id="page-loader" class="htmx-indicator">
-            <div class="page-loader__bar bg-primary"></div>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ pageTitle }} - {{ siteName }}</title>
+        {% include '_fabric/components/vendorHead.twig' %}
+    </head>
+    <body>
+    <div x-data="{sidebarOpen: false}">
+        <div id="app" class="page || bg-gray-white dark:bg-gray-700 text-base text-gray-900 dark:text-gray-100">
+            {% if not publicLayout %}
+                {% include '_fabric/components/sidebar.twig' %}
+            {% endif %}
+
+            {% include '_fabric/components/pageLoader' %}
+
+            <main class="main || min-h-screen opacity-100 transition-transform transition-opacity transform {% if not publicLayout %}md:ml-sidebar{% endif %}"
+                  :class="{'scale-95 opacity-90': sidebarOpen }" id="main">
+                {% block main %}
+                    No content
+                {% endblock %}
+            </main>
+            {% include '_fabric/components/vendorFoot.twig' %}
         </div>
-        <main class="main || min-h-screen opacity-100 transition-transform transition-opacity transform {% if not publicLayout %}md:ml-sidebar{% endif %}" :class="{'scale-95 opacity-90': sidebarOpen }" id="main" >
-            {% block main %}
-                No content
-            {% endblock %}
-        </main>
-        {% include '_fabric/components/vendorFoot.twig' %}
+
+        {# Initialize dialogs #}
+        {% include '_fabric/components/dialog' %}
     </div>
-
-    {# Initialize dialogs #}
-    {% include '_fabric/components/dialog' %}
-
-</body>
-</html>
+    </body>
+    </html>
 {% endblock %}

@@ -6,6 +6,18 @@
 
 {% extends '_fabric/layouts/page.twig' %}
 
+{% block pageActions %}
+    {% include ['_fabric/components/quickActions']  with {
+        id: entry.id,
+        title: entry.title,
+        context: 'page',
+        element: entry,
+        elementType: 'entry',
+        editUrl: entry.cpEditUrl,
+        kind: 'entry'
+    } only  %}
+{% endblock %}
+
 {% block pageMain %}
 
     {# Get settings for entry's source #}

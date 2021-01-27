@@ -6,6 +6,7 @@ module.exports = {
             spacing: {
                 'sidebar': '275px',
                 'dialog': '500px',
+                'dropdown': '130px',
             },
             maxWidth: {
                 'brand': '230px',
@@ -13,6 +14,15 @@ module.exports = {
             },
             colors: {
                 primary: '#6816D0',
+            },
+            animation: {
+                loader: 'loader .5s linear infinite',
+            },
+            keyframes: {
+                loader: {
+                    '0%': {left: '-100%'},
+                    '100%': {left: '100%'}
+                }
             }
         },
         container: {
