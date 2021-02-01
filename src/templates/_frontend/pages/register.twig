@@ -13,13 +13,21 @@
     {% if craft.app.request.queryParam('status') == 'success' %}
         <h2>Registration complete!</h2>
         {% if suspendByDefault %}
-            <p>You will be notified once your account has been activated</p>
+            {% include '_fabric/components/message' with {
+                text: 'You will be notified once your account has been activated.',
+                type: 'info',
+                centered: true
+            } %}
         {% elseif requireVerification %}
-            <p>You will receive an e-mail to activate your account shortly.</p>
+            {% include '_fabric/components/message' with {
+                text: 'You will receive an e-mail to activate your account shortly.',
+                type: 'info',
+                centered: true
+            } %}
         {% endif %}
     {% else %}
         {% if userSettings.allowPublicRegistration %}
-            <form method="post" accept-charset="UTF-8">
+            <form method="post" accept-charset="UTF-8" class="space-y-2">
 
                 {{ csrfInput() }}
                 {{ actionInput('users/save-user') }}
@@ -32,52 +40,38 @@
                         centered: true
                     } %}
                 {% endif %}
-                <div class="field-group field-group--join">
+                <div>
                     {% if not craft.app.config.general.useEmailAsUsername %}
-                        <div class="form-field  form-field--full-width">
-                            <input id="username" class="focus:border-primary" type="text" name="username"
-                                   placeholder="Username"
-                                   aria-label="Username"
-                                    {%- if user is defined %} value="{{ user.username }}"{% endif -%} >
-                        </div>
-
-                        {% if user is defined %}
-                            {% include '_fabric/components/message' with {
-                                text: errors,
-                                type: 'error',
-                                centered: true
+                            {% include '_fabric/components/field/text.twig' with {
+                                id: 'username',
+                                name: 'username',
+                                placeholder: 'Username'|t,
+                                value: user is defined ? user.username,
+                                required: true,
+                                position: 'start',
+                                error:  user is defined and user.getErrors('username')|length
                             } %}
-                        {% endif %}
+
                     {% endif %}
 
-                    <div class="form-field form-field--full-width">
-                        <input id="email" class="focus:border-primary" name="email" type="email" placeholder="Email"
-                               aria-label="Email"
-                                {%- if user is defined %} value="{{ user.email }}"{% endif %} >
-                    </div>
+                    {% include '_fabric/components/field/email.twig' with {
+                        id: 'email',
+                        name: 'email',
+                        placeholder: 'Email'|t,
+                        value: user is defined ? user.email,
+                        required: true,
+                        position: craft.app.config.general.useEmailAsUsername ? 'start' : 'middle',
+                        error:  user is defined and user.getErrors('email')|length
+                    } %}
 
-                    {% if user is defined %}
-                        {% include '_fabric/components/message' with {
-                            text: user.getErrors('email'),
-                            type: 'error',
-                            centered: true
-                        } %}
-                    {% endif %}
-
-                    <div class="form-field form-field--full-width">
-                        <input id="password" class="focus:border-primary" type="password" name="password"
-                               placeholder="Password"
-                               aria-label="Password">
-                    </div>
-
-
-                    {% if user is defined %}
-                        {% include '_fabric/components/message' with {
-                            text: user.getErrors('password'),
-                            type: 'error',
-                            centered: true
-                        } %}
-                    {% endif %}
+                    {% include '_fabric/components/field/password.twig' with {
+                        id: 'password',
+                        name: 'password',
+                        placeholder: 'Password'|t,
+                        required: true,
+                        position: 'end',
+                        error:  user is defined and user.getErrors('password')|length
+                    } %}
                 </div>
 
                 <div class="field-group">
@@ -94,28 +88,21 @@
                     </div>
                 </div>
 
-
-                {% if errorMessage is defined %}
-                    <div class="message message--centered message--space-top message--error">
-                        {{ errorMessage }}
-                    </div>
+                {% if user is defined %}
+                    {% include '_fabric/components/message' with {
+                        text: user.getErrors('username')|merge(user.getErrors('email'))|merge(user.getErrors('password')),
+                        type: 'error',
+                        centered: true
+                    } %}
                 {% endif %}
 
             </form>
         {% else %}
-            <div class="message message--centered text-error">
-                Public registrations not allowed.
-            </div>
+            {% include '_fabric/components/message' with {
+                text: 'Public registrations not allowed.',
+                type: 'error',
+                centered: true
+            } %}
         {% endif %}
     {% endif %}
 {% endblock %}
-
-{% macro errorList(errors) %}
-    {% if errors %}
-
-        {% set errors = [] %}
-        {% for error in errors %}
-            {% set errors = errors|merge([error]) %}
-        {% endfor %}
-    {% endif %}
-{% endmacro %}

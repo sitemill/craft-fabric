@@ -3,8 +3,9 @@
 <input
         type="{{ type }}"
         class="border-l border-r border-t border-solid border-gray-400 p-3 hover:shadow-inner
+            {{ error ? 'border-red-500 border' }}
             {{ fullwidth ? 'w-full' }}
-            {% if position == 'start' %}rounded-t{% elseif position == 'end' %}rounded-b border-b{% else %}rounded border-t border-b{% endif %}"
+            {% if position == 'start' %}rounded-t{% elseif position == 'end' %}rounded-b border-b{% elseif position == 'middle' %}{% else %}rounded border-t border-b{% endif %}"
         {% if id %}id="{{ id }}"{% endif %}
         {% if name %}name="{{ name }}"{% endif %}
         {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}

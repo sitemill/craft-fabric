@@ -37,8 +37,12 @@
 {# labelPosition <string> Whether the label is before the field ('default'), or 'wrap' #}
 {% set labelPosition = labelPosition|default('default') %}
 
+{# error <string> Does this field have an error associated with it? #}
+{% set error = error|default(false) %}
+
 {# postition <string> if field is part of a group then define postition to style appropriately
     'start': The first field of a column of fields
+    'middle': A field between the start and end of group
     'end': The last field of a column of fields
 #}
 {% set position = position|default(null) %}

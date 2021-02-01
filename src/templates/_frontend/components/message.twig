@@ -15,6 +15,7 @@
 {# centered <string> Centers the text #}
 {% set centered = centered|default(false) %}
 
+{# Define the color dependent on the type #}
 {% switch type %}
 {% case 'default' %}
     {% set color = 'gray' %}
@@ -28,10 +29,10 @@
     {% set color = 'blue' %}
 {% endswitch %}
 
-{% if text|length %}
-<div class="message | p-3 rounded bg-{{ color }}-500 bg-opacity-20 border border-solid border-{{ color }}-500 text-{{ color }}-600 {{ centered ? 'text-center' }}">
+
+<div class="message | my-2 p-3 rounded bg-{{ color }}-500 bg-opacity-20 border border-solid border-{{ color }}-500 text-{{ color }}-600 {{ centered ? 'text-center' }}">
     {% if text is iterable %}
-        <ul>
+        <ul class="space-y-4">
             {% for message in text %}
                 <li>{{ message }}</li>
             {% endfor %}
@@ -40,4 +41,3 @@
         {{ text }}
     {% endif %}
 </div>
-{% endif %}
