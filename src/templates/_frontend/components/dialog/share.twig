@@ -25,9 +25,10 @@
         <label for="public">{{ isPublic ? 'Is public' : 'Not public'}}</label>
         {% if isPublic %}
             <h3>Share Url:</h3>
-            <div class="message">
-                {{ elementUrl }}
-            </div>
+            {% include '_fabric/components/message' with {
+                text: elementUrl,
+                type: 'info'
+            } %}
         {% endif %}
     </div>
 {% endblock %}

@@ -1,13 +1,13 @@
 {# TODO: allow turning off of htmx? #}
 {# TODO: Clear filters option #}
 
-<div class="listing-filter"
+<div class="listing-filter | relative"
      x-data="{ filtersOpen: false }"
      @click.away="filtersOpen = false">
     {% include '_fabric/components/action.twig' with {
         text: 'Filters'|t,
         icon: 'fas fa-filter',
-        style: 'outline',
+        style: 'outline cursor-pointer',
         color: 'primary',
         attributes: {'@click':'filtersOpen = !filtersOpen'}
     } %}
@@ -27,7 +27,7 @@
             {% include '_fabric/components/filters/order.twig' %}
             {% include '_fabric/components/filters/kind.twig' %}
 
-            <input type="submit" value="Go" class="listing-filter__submit">
+            <input type="submit" value="Go" class="listing-filter__submit | hidden">
         </form>
     </div>
 </div>

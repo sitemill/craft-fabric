@@ -68,9 +68,11 @@
             </div>
 
             {% if errorMessage is defined %}
-                <div class="message message--centered message--space-top status-error">
-                    {{ errorMessage }}
-                </div>
+                {% include '_fabric/components/message' with {
+                    text: errorMessage,
+                    type: 'error',
+                    centered: true
+                } %}
             {% endif %}
         </div>
 
