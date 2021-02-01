@@ -1,0 +1,11 @@
+{# Heading #}
+
+{# type <string> #}
+{% set type = type|default('h1') %}
+
+{# text <string> [required] #}
+{% set text = text %}
+
+<{{ type }} class="font-medium {% switch type %}{% case 'h1' %}text-lg{% case 'h2' %}text-lg{% endswitch %}">
+    {{ text }}
+</{{ type }}>

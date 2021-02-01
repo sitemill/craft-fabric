@@ -11,23 +11,29 @@
         color: 'primary',
         attributes: {'@click':'filtersOpen = !filtersOpen'}
     } %}
-    <div class="dropdown" x-show="filtersOpen">
-        <form action="/{{ craft.app.request.fullPath }}" method="GET"
-              data-hx-get="/{{ craft.app.request.fullPath }}"
-              data-hx-indicator="#page-loader"
-              data-hx-select=".results__main"
-              data-hx-target=".results__main"
-              data-hx-swap="outerHTML"
-              data-hx-push-url="true"
-              hx-trigger="change"
-        >
-            {% if keywords %}
-                <input type="hidden" name="q" value="{{ keywords }}">
-            {% endif %}
-            {% include '_fabric/components/filters/order.twig' %}
-            {% include '_fabric/components/filters/kind.twig' %}
+    <div x-show="filtersOpen">
+        {% embed '_fabric/components/dropdown' %}
+            {% block dropdownItems %}
 
-            <input type="submit" value="Go" class="listing-filter__submit | hidden">
-        </form>
+                <form action="/{{ craft.app.request.fullPath }}" method="GET"
+                      data-hx-get="/{{ craft.app.request.fullPath }}"
+                      data-hx-indicator="#page-loader"
+                      data-hx-select=".results__main"
+                      data-hx-target=".results__main"
+                      data-hx-swap="outerHTML"
+                      data-hx-push-url="true"
+                      hx-trigger="change"
+                >
+                    {% if keywords %}
+                        <input type="hidden" name="q" value="{{ keywords }}">
+                    {% endif %}
+                    {% include '_fabric/components/filters/order.twig' %}
+                    {% include '_fabric/components/filters/kind.twig' %}
+
+                    <input type="submit" value="Go" class="listing-filter__submit | hidden">
+                </form>
+
+            {% endblock %}
+        {% endembed %}
     </div>
 </div>
