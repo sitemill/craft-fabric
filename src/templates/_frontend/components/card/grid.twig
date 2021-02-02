@@ -33,7 +33,7 @@
 
         <div
                 class="card-grid__actions || z-10 hover:block p-4 absolute top-0 right-0"
-                x-show="hover{{ id }}">
+                x-show="hover{{ id }}" x-cloak>
             {% include ['_fabric/components/quickActions/' ~ kind,'_fabric/components/quickActions'] with {
                 id: id,
                 title: title,

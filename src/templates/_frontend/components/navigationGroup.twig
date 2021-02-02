@@ -14,8 +14,10 @@
 {% endif %}
 
 <nav class="navigation-group" aria-label="{{ title }} navigation">
-    <h3 class="navigation-header || uppercase text-xs font-bold mt-4 mb-3 opacity-30 tracking-wide">{{ title }}</h3>
-    <ul class="navigation-group__items">
+    {% include '_fabric/components/navigationHeader' with {
+        title: title
+    } only %}
+    <ul class="navigation-group__items | space-y-2">
         {% for item in items %}
             {% set itemUrl = url ? url : url(baseUrl ~ item.id ~ '/' ~ item.slug) %}
             {% if param %}
