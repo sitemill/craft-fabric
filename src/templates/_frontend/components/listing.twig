@@ -3,12 +3,13 @@
 {% set elementType = elementType %} {# asset | entry #}
 {% set thumbnailField = thumbnailField|default('') %} {# We can accept a thumbnail field if we know entries are from same section #}
 {% set layout = layout|default('grid') %}
+{% set editable = editable|default(false) %}
 
 {# TODO: cache based on element id #}
 
 <div class="listing listing--{{ elementType }} | relative p-8 flex flex-wrap">
     {% for item in items %}
-        {% set thumbnail = '' %}
+        {% set thumbnail = null %}
         {% if thumbnailField %}
             {% set thumbField = item[thumbnailField].one %}
             {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\silo\\elements\\SiloAsset' ? thumbField.file : thumbField %}
@@ -19,9 +20,11 @@
             {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\silo\\elements\\SiloAsset' ? thumbField.file : thumbField %}
         {% endif %}
         {% include '_fabric/components/card/' ~ layout with {
-            item: item,
+            item:item,
             elementType: elementType,
-            thumbnail: thumbnail
+            url: elementType == 'asset' ? 'asset' ~ '/' ~ item.id ~ '/' ~ item.title|kebab : item.url,
+            editable: editable,
+            thumbnail: thumbnail,
         } only %}
     {% endfor %}
     <div class="flex-auto"></div>

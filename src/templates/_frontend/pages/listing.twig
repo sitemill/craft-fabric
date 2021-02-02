@@ -56,10 +56,13 @@
     {# If assets to be show, do an asset query #}
     {% if show in ['all','assets'] %}
         {# Get assets source #}
+        {% set canEditAssets = false %}
         {% if craft.fabric.siloActive %}
             {% set assets = craft.siloAssets %}
+            {% set canEditAssets = currentUser.can('silo-editSiloAssets') %}
         {% else %}
             {% set assets = craft.assets.volume(craft.fabric.settings.assetsSource) %}
+            {% set canEditAssets = currentUser.can('editImagesInVolume:' ~ assets.uid) %}
         {% endif %}
 
         {# Set query #}
@@ -75,6 +78,8 @@
         {% set assetQueryLength = assetQuery|length %}
 
         {% set hasAssets = assetQueryLength %}
+
+
 
         {% set assetQueryLimited = assetQuery
             .limit(queryLimit) %}
@@ -105,8 +110,9 @@
             {% set entryQueries = {} %}
             {% set totalEntries = 0 %}
             {% for source, settings in craft.fabric.settings.entrySources if (settings['enabled'] and settings['showInSearch']) %}
+                {% set section = craft.sections.sectionByHandle(source) %}
                 {% set sectionQuery = craft.entries
-                    .section(source)
+                    .section(section)
                     .search(keywords)
                     .relatedTo(category)
                     .orderBy(order)
@@ -116,10 +122,11 @@
                 {% if sectionQueryLength %}
                     {% set entryQueries = entryQueries|merge({
                         (source) : {
-                            'title': craft.sections.sectionByHandle(source).name,
+                            'title': section.name,
                             'query': sectionQuery,
                             'length': sectionQueryLength,
-                            'thumbnailField': settings.thumbnailField is defined ? settings.thumbnailField
+                            'thumbnailField': settings.thumbnailField is defined ? settings.thumbnailField,
+                            'editable': currentUser.can('editEntries:'~section.uid)
                         }
                     }) %}
                 {% endif %}
@@ -152,7 +159,8 @@
 
                     {% include '_fabric/components/listing.twig' with {
                         elementType: 'asset',
-                        items: assetQuery
+                        items: assetQuery,
+                        editable: canEditAssets
                     } only %}
 
                     {% if assetQueryLength > queryLimit %}
@@ -179,7 +187,8 @@
                         {% include '_fabric/components/listing.twig' with {
                             elementType: 'entry',
                             items: entryQuery.query.all,
-                            thumbnailField: entryQuery.thumbnailField
+                            thumbnailField: entryQuery.thumbnailField,
+                            editable: entryQuery.editable
                         } only %}
 
                         {% if entryQuery.length > queryLimit %}
