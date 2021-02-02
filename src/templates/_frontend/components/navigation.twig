@@ -7,11 +7,9 @@
 
     {% for navigationItem in craft.fabric.settings.navigation %}
         {% switch navigationItem.type %}
-        {% case 'entryNav' %}
+        {% case 'entries' %}
             {% include '_fabric/components/navigationGroup.twig' with {
                 title: navigationItem.title is defined ? navigationItem.title,
-                route: navigationItem.source|kebab,
-                type: 'entry',
                 items: craft.entries.section(navigationItem.source).all(),
             } %}
         {% case 'entryListing' %}
@@ -23,17 +21,17 @@
             {% include '_fabric/components/navigationGroup.twig' with {
                 title: navigationItem.title is defined ? navigationItem.title,
                 items: craft.categories().group(navigationItem.source).level(1).all(),
-                url: url('listing/all'),
+                route: url('listing/all'),
                 param: 'category'
             } %}
         {% case 'heading' %}
             {% include '_fabric/components/navigationHeader' with {
                 title: navigationItem.title
             } only %}
-        {% case 'link' %}
-            {% include '_fabric/components/navigationItem.twig' with {
-                title: navigationItem.title,
-                url: url(navigationItem.source)
+        {% case 'links' %}
+            {% include '_fabric/components/navigationGroup.twig' with {
+                title: navigationItem.title is defined ? navigationItem.title,
+                items: navigationItem.links,
             } %}
         {% case 'include' %}
             {% include navigationItem.source %}

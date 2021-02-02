@@ -1,9 +1,28 @@
+{# Navigation group | groups links defined in the settings into navigation items #}
+
+{# title <string #}
 {% set title = title|default(null) %}
+
+{# items <array> an array of items, requires title and url e.g.
+    [
+        'title'=>'home',
+        'url'=>'/',
+    ]
+#}
 {% set items = items|default(null) %}
+
+{# type <string> the context of the items
+    'entries',
+    'links'
+#}
 {% set type = type|default(null) %}
+
+{# route <string> The base route for each item url  #}
 {% set route = route|default(null) %}
+
+
 {% set param = param|default(null) %}
-{% set url = url|default(null) %}
+
 
 {% set baseUrl = '' %}
 {% if route %}
@@ -19,7 +38,11 @@
     } only %}
     <ul class="navigation-group__items | space-y-2">
         {% for item in items %}
-            {% set itemUrl = url ? url : url(baseUrl ~ item.id ~ '/' ~ item.slug) %}
+            {% if route %}
+                {% set itemUrl = route ? route : url(baseUrl ~ item.id ~ '/' ~ item.slug) %}
+            {% else %}
+                {% set itemUrl = item.url %}
+            {% endif %}
             {% if param %}
                 {% set itemUrl = itemUrl ~ '?' ~ param ~ '=' ~ item.id %}
             {% endif %}

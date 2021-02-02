@@ -2,38 +2,37 @@
 {# TODO: Clear filters option #}
 
 <div class="listing-filter | relative"
-     x-data="{ filtersOpen: false }"
-     @click.away="filtersOpen = false">
+     x-data="{ dropdownlistingfilteropen: false }">
     {% include '_fabric/components/action.twig' with {
         text: 'Filters'|t,
         icon: 'fas fa-filter',
         style: 'outline cursor-pointer',
         color: 'primary',
-        attributes: {'@click':'filtersOpen = !filtersOpen'}
+        attributes: {'@click':'dropdownlistingfilteropen =! dropdownlistingfilteropen'}
     } %}
-    <div x-show="filtersOpen">
-        {% embed '_fabric/components/dropdown' %}
-            {% block dropdownItems %}
 
-                <form action="/{{ craft.app.request.fullPath }}" method="GET"
-                      data-hx-get="/{{ craft.app.request.fullPath }}"
-                      data-hx-indicator="#page-loader"
-                      data-hx-select=".results__main"
-                      data-hx-target=".results__main"
-                      data-hx-swap="outerHTML"
-                      data-hx-push-url="true"
-                      hx-trigger="change"
-                >
-                    {% if keywords %}
-                        <input type="hidden" name="q" value="{{ keywords }}">
-                    {% endif %}
-                    {% include '_fabric/components/filters/order.twig' %}
-                    {% include '_fabric/components/filters/kind.twig' %}
+    {% embed '_fabric/components/dropdown' with {
+        id: 'listingfilter'
+    } %}
+        {% block dropdownItems %}
+            <form action="/{{ craft.app.request.fullPath }}" method="GET"
+                  data-hx-get="/{{ craft.app.request.fullPath }}"
+                  data-hx-indicator="#page-loader"
+                  data-hx-select=".results__main"
+                  data-hx-target=".results__main"
+                  data-hx-swap="outerHTML"
+                  data-hx-push-url="true"
+                  hx-trigger="change"
+            >
+                {% if keywords %}
+                    <input type="hidden" name="q" value="{{ keywords }}">
+                {% endif %}
+                {% include '_fabric/components/filters/order.twig' %}
+                {% include '_fabric/components/filters/kind.twig' %}
 
-                    <input type="submit" value="Go" class="listing-filter__submit | hidden">
-                </form>
+                <input type="submit" value="Go" class="listing-filter__submit | hidden">
+            </form>
+        {% endblock %}
+    {% endembed %}
 
-            {% endblock %}
-        {% endembed %}
-    </div>
 </div>
