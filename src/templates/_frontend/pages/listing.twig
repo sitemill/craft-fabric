@@ -140,7 +140,7 @@
     <div class="results" id="results">
         {% if hasAssets or hasEntries %}
             <div class="container">
-                <div class="results__toolbar">
+                <div class="results__toolbar | space-y-4 lg:space-y-0 lg:flex justify-between items-center">
                     {#  TODO: get context back in #}
                     {# total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }} #}
                     {#{% include '_fabric/components/listingContext.twig' %}#}
