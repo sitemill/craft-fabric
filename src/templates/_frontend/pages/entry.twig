@@ -13,13 +13,13 @@
         context: 'page',
         element: entry,
         elementType: 'entry',
-        editUrl: entry.cpEditUrl,
+        editUrl: currentUser.can('editEntries:'~entry.getSection().uid) ? entry.cpEditUrl,
         kind: 'entry'
     } only  %}
 {% endblock %}
 
 {% block pageMain %}
-
+    {{ entry.getSection().uid  }}
     {# Get settings for entry's source #}
     {% set sourceSettings = craft.fabric.settings.entrySources[section|camel] %}
 
