@@ -29,3 +29,5 @@ mix.browserSync({
         'src/templates/_frontend/**/*.twig'
     ]
 });
+
+mix.setPublicPath('src/templates/_frontend/');
