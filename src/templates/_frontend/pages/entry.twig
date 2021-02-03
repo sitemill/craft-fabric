@@ -13,7 +13,7 @@
         context: 'page',
         element: entry,
         elementType: 'entry',
-        editUrl: currentUser.can('editEntries:'~entry.getSection().uid) ? entry.cpEditUrl,
+        editUrl: currentUser and currentUser.can('editEntries:'~entry.getSection().uid) ? entry.cpEditUrl,
         kind: 'entry'
     } only  %}
 {% endblock %}

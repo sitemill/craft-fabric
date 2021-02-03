@@ -3,12 +3,12 @@
         .id(assetId)
         .with(['file[0]'])
         .one() %}
-    {% set canEditAsset = currentUser.can('silo-editSiloAssets') %}
+    {% set canEditAsset = currentUser and currentUser.can('silo-editSiloAssets') %}
 {% else %}
     {% set asset = craft.assets
         .id(assetId)
         .one() %}
-    {% set canEditAsset = currentUser.can('editImagesInVolume:' ~ asset.volume.uid) %}
+    {% set canEditAsset = currentUser and currentUser.can('editImagesInVolume:' ~ asset.volume.uid) %}
 {% endif %}
 
 {% set pageTitle = asset.title %}

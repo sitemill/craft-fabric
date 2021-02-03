@@ -2,7 +2,7 @@
 
 {% block thumbnail %}
     {% if thumbnail|length %}
-        <img src="{{ thumbnail.url({width:400}) }}" alt="{{ alt }}">
+        <img class="absolute w-full h-full object-contain p-4" src="{{ thumbnail.url({width:400}) }}" alt="{{ alt }}">
     {% else %}
         {{ parent() }}
     {% endif %}

@@ -4,24 +4,9 @@
 
 $fa-font-path: "./";
 
-@import 'variables.scss';
 // Vendor files
 @import '~@fortawesome/fontawesome-free/scss/brands';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 
-// Includes and tools
-@import 'tools';
-@import 'fonts';
-@import 'text';
-@import 'colors';
-@import 'breakpoints';
-@import 'normalize';
-@import 'base';
-
-// Components
-@import './components/assetCardList';
-@import './components/sidebarToggle';
-@import './components/thumbnail';
-@import './components/userAction';
