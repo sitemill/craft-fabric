@@ -8,15 +8,15 @@ const config = {
 }
 
 // Front-end assets
-mix.js(config.path + 'src/js/app.js', config.path + 'dist/app.js').extract(['htmx.org', 'alpinejs'])
+mix.js(config.path + 'src/js/app.js', '.').extract(['htmx.org', 'alpinejs'])
 
-mix.sass(config.path + 'src/scss/app.scss', config.path + 'dist/')
+mix.sass(config.path + 'src/scss/app.scss', '.')
     .options({
         processCssUrls: false,
         postCss: [tailwindcss('./tailwind.config.js')]
     })
     .purgeCss({
-        enabled: mix.inProduction(),
+        safelist: ['text-white'],
         content: ['src/templates/_frontend/**/*.twig']
     })
 
@@ -30,4 +30,4 @@ mix.browserSync({
     ]
 });
 
-mix.setPublicPath('src/templates/_frontend/');
+mix.setPublicPath(config.path + 'dist/');

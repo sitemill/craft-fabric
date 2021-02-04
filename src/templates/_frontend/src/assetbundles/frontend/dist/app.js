@@ -1,1 +1,0 @@
-(self.webpackChunkcraft_fabric=self.webpackChunkcraft_fabric||[]).push([[504],{524:(a,c,f)=>{"use strict";var r=f(28),e=f.n(r);f(443);window.htmx=e()},558:()=>{}},0,[[524,102,261],[558,102,261]]]);

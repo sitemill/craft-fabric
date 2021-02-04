@@ -4,7 +4,7 @@ module.exports = {
     theme: {
         extend: {
             spacing: {
-                'sidebar': '275px',
+                'sidebar': '250px',
                 'dialog': '500px',
                 'dropdown': '130px',
             },

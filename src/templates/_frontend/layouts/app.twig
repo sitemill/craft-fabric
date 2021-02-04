@@ -10,32 +10,32 @@
         {% include '_fabric/components/vendorHead' %}
     </head>
     <body>
-    <div x-data="{sidebarOpen: false}">
-        <div id="app" class="page || bg-gray-white dark:bg-gray-700 text-base text-gray-900 dark:text-gray-100 min-h-screen">
-            {% if not publicLayout %}
-                {% include '_fabric/components/sidebar' %}
-            {% endif %}
+    <div id="app"
+         class="page || bg-gray-white dark:bg-gray-700 text-base text-gray-900 dark:text-gray-100 min-h-screen">
+        {% if not publicLayout %}
+            {% include '_fabric/components/sidebar' %}
+        {% endif %}
 
-            {% include '_fabric/components/pageLoader' %}
+        {# Initialize the page loader #}
+        {% include '_fabric/components/pageLoader' %}
 
-            <main class="main || min-h-screen opacity-100 transition-transform transition-opacity transform {% if not publicLayout %}md:ml-sidebar{% endif %}"
-                  :class="{'scale-95 opacity-90': sidebarOpen }" id="main">
-                {% block main %}
-                    No content
-                {% endblock %}
-            </main>
-            {% include '_fabric/components/vendorFoot' %}
-        </div>
-
-        {# Initialize dialog #}
-        {% include '_fabric/components/dialog' %}
+        <main class="main || min-h-screen opacity-100 transition-transform transition-opacity transform {% if not publicLayout %}md:ml-sidebar{% endif %}"
+              :class="{'scale-95 opacity-90': sidebarOpen }" id="main">
+            {% block main %}
+                No content
+            {% endblock %}
+        </main>
+        {% include '_fabric/components/vendorFoot' %}
     </div>
+
+    {# Initialize dialog #}
+    {% include '_fabric/components/dialog' %}
     </body>
     </html>
 {% endblock %}
 
 {% css %}
     [x-cloak] {
-        display:none
+    display:none
     }
 {% endcss %}
