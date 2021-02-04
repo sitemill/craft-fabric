@@ -4,9 +4,7 @@
 {% set pageTitle = entry.title %}
 {% set publicPage = craft.fabric.isPublic(entry) %}
 
-{% extends '_fabric/layouts/page.twig' %}
-
-{% block pageActions %}
+{% set pageActions %}
     {% include ['_fabric/components/quickActions']  with {
         id: entry.id,
         title: entry.title,
@@ -16,7 +14,9 @@
         editUrl: currentUser and currentUser.can('editEntries:'~entry.getSection().uid) ? entry.cpEditUrl,
         kind: 'entry'
     } only  %}
-{% endblock %}
+{% endset %}
+
+{% extends '_fabric/layouts/page.twig' %}
 
 {% block pageMain %}
     {{ entry.getSection().uid  }}

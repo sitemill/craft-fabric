@@ -17,10 +17,7 @@
     'title': 'Assets'|t('fabric'),
     'url': '/listing/assets/'
 }] %}
-
-{% extends '_fabric/layouts/page.twig' %}
-
-{% block pageActions %}
+{% set pageActions %}
     {% include ['_fabric/components/quickActions/' ~ asset.kind,'_fabric/components/quickActions']  with {
         id: asset.id,
         title: asset.title,
@@ -30,7 +27,9 @@
         editUrl: canEditAsset ? asset.cpEditUrl,
         kind: 'asset'
     } only  %}
-{% endblock %}
+{% endset %}
+
+{% extends '_fabric/layouts/page.twig' %}
 
 {% block pageMain %}
     <div class="asset">
