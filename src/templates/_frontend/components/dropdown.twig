@@ -1,14 +1,35 @@
 {# Dropdown #}
 
-{# id <string> a unique id for this dropdown#}
+{# id <string> a unique id for this dropdown #}
 {% set id = id %}
 
-<div class="dropdown | absolute w-dropdown mt-2 left-1/2 right-auto transform -translate-x-1/2 p-2 bg-white rounded-md shadow-2xl z-20"
+{# drop <string> which way the dropdown will drop
+    'down' - a standard drop-down
+    'up' - more of a drop-up
+    'up-mobile' - is a pop-up on mobile, pop-down on desktop
+#}
+{% set drop = drop|default('up-mobile') %}
+
+<div class="dropdown | absolute w-dropdown transform -translate-x-1/2 p-2 bg-white rounded-md shadow-xl z-20 left-1/2 right-auto
+    {% if drop == 'up' %}
+     bottom-12
+    {% elseif drop == 'up-mobile' %}
+     bottom-12 md:top-12 md:bottom-auto
+    {% else %}
+     top-12
+    {% endif %}"
      x-show="dropdown{{ id }}open" @mouseleave="{dropdown{{ id }}open = false}" x-cloak>
     <div class="dropdown__items | text-left m-0 p-0 list-none">
         {% block dropdownItems %}
         {% endblock %}
     </div>
-    <div class="absolute w-2 h-2 bg-white -top-1 left-1/2 -ml-1 transform rotate-45"></div>
+    <div class="absolute w-2 h-2 bg-white  left-1/2 -ml-1 transform rotate-45
+    {% if drop == 'up' %}
+     -bottom-1
+    {% elseif drop == 'up-mobile' %}
+     -bottom-1 md:-top-1 md:bottom-auto
+    {% else %}
+     -top-1
+    {% endif %}"></div>
 </div>
 
