@@ -19,10 +19,10 @@
 {#    }]) %}#}
 {#{% endif %}#}
 
-<nav class="breadcrumbs || block z-10 md:flex md:items-center">
+<nav class="breadcrumbs | block z-10 md:flex md:items-center">
     <a href="{{ siteUrl }}" aria-label="{{ siteName }}" class="breadcrumb || flex items-center no-underline font-medium">
         {% if craft.app.editionName == 'Pro' and craft.rebrand.isIconUploaded() %}
-            <img class="breadcrumb__icon || w-5 mr-2" src="{{ craft.rebrand.getIcon().url }}" alt="{{ siteName }}"> {{ siteName }}
+            <img class="breadcrumb__icon | w-5 mr-2" src="{{ craft.rebrand.getIcon().url }}" alt="{{ siteName }}"> {{ siteName }}
         {% else %}
             {{ siteName }}
         {% endif %}

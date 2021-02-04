@@ -11,7 +11,7 @@
     </head>
     <body>
     <div id="app"
-         class="page || bg-gray-white dark:bg-gray-700 text-base text-gray-900 dark:text-gray-100 min-h-screen">
+         class="page | bg-gray-white dark:bg-gray-700 text-base text-gray-900 dark:text-gray-100 min-h-screen">
         {% if not publicLayout %}
             {% include '_fabric/components/sidebar' %}
         {% endif %}
@@ -19,13 +19,13 @@
         {# Initialize the page loader #}
         {% include '_fabric/components/pageLoader' %}
 
-        <main class="main || min-h-screen opacity-100 transition-transform transition-opacity transform {% if not publicLayout %}md:ml-sidebar{% endif %}"
-              :class="{'scale-95 opacity-90': sidebarOpen }" id="main">
-            {% block main %}
+        <main class="main | {% if not publicLayout %}md:ml-sidebar{% endif %}" id="main">
+            {% block appMain %}
                 No content
             {% endblock %}
         </main>
         {% include '_fabric/components/vendorFoot' %}
+
     </div>
 
     {# Initialize dialog #}
