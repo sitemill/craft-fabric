@@ -6,19 +6,19 @@
 {% block appMain %}
 
     {% block pageHeader %}
-        <header class="page-header || bg-gray-100 dark:bg-gray-800">
+        <header class="page-header | bg-gray-100 dark:bg-gray-800">
             <div class="container">
-                <div class="page-header__breadcrumbs || flex items-center h-10">
+                <div class="page-header__breadcrumbs | flex items-center h-16">
                     {% block breadcrumbs %}
                         {% include '_fabric/components/breadcrumbs.twig' %}
                     {% endblock %}
                 </div>
-                <div class="page-header__main || py-6 md:flex md:items-center md:justify-between">
+                <div class="page-header__main | py-6 md:flex md:items-center md:justify-between">
                     <div class="page-header__page-title">
                         {% block pageTitle %}
                             {% include '_fabric/components/pageTitle.twig' %}
                         {% endblock %}
-                        <div class="page-header__category-roll || ">
+                        <div class="page-header__category-roll">
                             {% block categoryRoll %}
                                 {% include '_fabric/components/categoryRoll.twig' with {
                                     'categoryRoll': category ? category : false
@@ -31,7 +31,7 @@
         </header>
     {% endblock %}
 
-    <div class="page-content | py-8">
+    <div class="page-content | pt-8 pb-20 md:pb-8">
         {% block pageMain %}
             No page content defined
         {% endblock %}
