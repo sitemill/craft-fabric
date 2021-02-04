@@ -15,17 +15,16 @@
                     {% endblock %}
                 </div>
                 <div class="page-header__main | py-6 md:pt-6 md:pb-10 md:flex md:items-center md:justify-between">
-                    <div class="page-header__page-title">
+                    <div class="page-header__title space-y-4">
                         {% block pageTitle %}
                             {% include '_fabric/components/pageTitle.twig' %}
                         {% endblock %}
-                        <div class="page-header__category-roll">
-                            {% block categoryRoll %}
-                                {% include '_fabric/components/categoryRoll.twig' with {
-                                    'categoryRoll': category ? category : false
-                                } %}
-                            {% endblock %}
-                        </div>
+
+                        {% block pageSubtitle %}
+                            {% include '_fabric/components/categoryRoll.twig' with {
+                                'categoryRoll': category ? category : false
+                            } %}
+                        {% endblock %}
                     </div>
                 </div>
             </div>
@@ -39,12 +38,12 @@
     </div>
 
     {% if pageActions %}
-    <div class="page-nav | fixed bottom-0 right-0 left-0 md:fixed md:top-0 md:bottom-auto bg-gray-100 dark:bg-gray-800 bg-transparent bg-opacity-80 md:ml-sidebar ">
-        <div class="container">
-            <div class="page-nav__main | h-16 flex items-center justify-end">
-                {{ pageActions }}
+        <div class="page-nav | fixed bottom-0 right-0 left-0 md:fixed md:top-0 md:bottom-auto bg-gray-100 dark:bg-gray-800 bg-transparent bg-opacity-80 md:ml-sidebar ">
+            <div class="container">
+                <div class="page-nav__main | h-16 flex items-center justify-end">
+                    {{ pageActions }}
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
 {% endblock %}

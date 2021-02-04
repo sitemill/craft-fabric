@@ -6,7 +6,7 @@
     {% include '_fabric/components/action.twig' with {
         text: 'Filters'|t,
         icon: 'fas fa-filter',
-        style: 'outline cursor-pointer',
+        style: 'outline',
         color: 'primary',
         attributes: {'@click':'dropdownlistingfilteropen =! dropdownlistingfilteropen'}
     } %}
@@ -15,8 +15,8 @@
         id: 'listingfilter'
     } %}
         {% block dropdownItems %}
-            <form action="/{{ craft.app.request.fullPath }}" method="GET"
-                  data-hx-get="/{{ craft.app.request.fullPath }}"
+            <form action="/{{ craft.app.request.fullPath }}{% if category %}?category={{ category.id }}{% endif %}" method="GET"
+                  data-hx-get="/{{ craft.app.request.fullPath }}{% if category %}?category={{ category.id }}{% endif %}"
                   data-hx-indicator="#page-loader"
                   data-hx-select=".results__main"
                   data-hx-target=".results__main"
@@ -34,5 +34,4 @@
             </form>
         {% endblock %}
     {% endembed %}
-
 </div>
