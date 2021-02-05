@@ -7,8 +7,8 @@
 {% set value = value %}
 
 <div class="meta-item">
-    <h3 class="meta-item__title | font-semibold w-1/3 flex-shrink-0 mb-1">{{ name }}</h3>
-    <div class="meta-item__value">
+    <h3 class="meta-item__title | text-sm text-gray-500 font-medium w-1/3 flex-shrink-0 mb-1">{{ name }}</h3>
+    <div class="meta-item__value | text-black">
         {% block metaItemValue %}
             {{ value }}
         {% endblock %}

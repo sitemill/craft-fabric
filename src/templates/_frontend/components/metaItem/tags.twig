@@ -3,9 +3,9 @@
 {% block metaItemValue %}
     <div class="flex flex-wrap">
     {% for tag in value %}
-        <div class="text-xs text-gray-700 bg-gray-200 rounded-xl px-2 py-0.5 mr-1 mb-1">
+        <a href="{{ url('listing/all?q=' ~ tag ) }}" class="text-xs text-gray-600 border-gray-600 hover:bg-gray-600 hover:text-white border rounded px-2 py-0.5 mr-1 mb-1">
             {{ tag }}
-        </div>
+        </a>
     {% endfor %}
     </div>
 {% endblock %}

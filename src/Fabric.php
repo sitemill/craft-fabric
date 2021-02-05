@@ -224,13 +224,15 @@ class Fabric extends Plugin
             Elements::class,
             Elements::EVENT_AFTER_SAVE_ELEMENT,
             function(ElementEvent $event) {
-                $request = Craft::$app->getRequest();
-                $elementId = $event->element->id;
-                $isPublic = $request->getParam('elementPublic');
-                if ($isPublic) {
-                    Fabric::$plugin->share->createShare($elementId);
-                } else {
-                    Fabric::$plugin->share->removeShare($elementId);
+                if ($this->request->isCpRequest) {
+                    $request = Craft::$app->getRequest();
+                    $elementId = $event->element->id;
+                    $isPublic = $request->getParam('elementPublic');
+                    if ($isPublic) {
+                        Fabric::$plugin->share->createShare($elementId);
+                    } else {
+                        Fabric::$plugin->share->removeShare($elementId);
+                    }
                 }
             }
         );
