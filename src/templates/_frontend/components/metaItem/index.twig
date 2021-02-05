@@ -1,0 +1,16 @@
+{# Meta item #}
+
+{# name <string> [required] The name/title of the item #}
+{% set name = name %}
+
+{# value <mixed> [required] The value of the item, can be bool, array, or string #}
+{% set value = value %}
+
+<div class="meta-item">
+    <h3 class="meta-item__title | font-semibold w-1/3 flex-shrink-0 mb-1">{{ name }}</h3>
+    <div class="meta-item__value">
+        {% block metaItemValue %}
+            {{ value }}
+        {% endblock %}
+    </div>
+</div>

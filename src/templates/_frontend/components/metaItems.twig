@@ -1,0 +1,59 @@
+{% for fieldHandle, fieldSettings in craft.fabric.settings.assetFields if fieldSettings.enabled %}
+
+    {% set handle = fieldHandle %}
+    {% set settings = fieldSettings %}
+    {% set element = element %}
+
+    {% set fieldName = settings.label %}
+    {% set file = craft.fabric.siloActive ? element.file : element %}
+
+    {% if handle starts with 'fabric_' %}
+        {% set field = craft.fields.fieldByHandle(handle) %}
+        {% set instance = 'fileAttribute' %}
+        {% set attribute = handle|trim('fabric_') %}
+        {% set fieldValue = file[attribute] %}
+    {% else %}
+        {% set field = craft.fields.fieldByHandle(handle) %}
+        {% set instance = field.instance %}
+        {% set fieldValue = element.fieldValue(handle) %}
+    {% endif %}
+
+    {% if (fieldValue is not iterable and fieldValue) or (fieldValue is iterable and fieldValue|length) %}
+        {% if instance == 'fileAttribute' %}
+            {% switch handle %}
+            {% case 'fabric_size' %}
+                {% set fieldValue = fieldValue|filesize %}
+            {% case 'fabric_dimensions' %}
+                {% set fieldValue = fieldValue ~ 'px' %}
+            {% case 'fabric_kind' %}
+                {% set fieldValue = file.kind ~ '/' ~ file.extension %}
+            {% endswitch %}
+            {% include '_fabric/components/metaItem/plainText' with {
+                name: fieldName,
+                value: fieldValue
+            } only %}
+        {% else %}
+            {% include ['_fabric/components/metaItem/' ~ instance|split('\\')[2]|camel, '_fabric/components/metaItem/plainText'] with {
+                name: fieldName,
+                value: fieldValue
+            } only %}
+        {% endif %}
+        {# {% switch instance %} #}
+        {# {% case 'craft\\fields\\PlainText' %} #}
+        {# <h3>{{ fieldName }}</h3> #}
+        {# {{ fieldValue }} #}
+        {# {% case 'craft\\fields\\Tags' %} #}
+        {# <h3>{{ fieldName }}</h3> #}
+        {# {% for tag in fieldValue %} #}
+        {# {{ tag }} #}
+        {# {% endfor %} #}
+        {# {% case 'craft\\fields\\Categories' %} #}
+        {# <h3>{{ fieldName }}</h3> #}
+        {# {% for category in fieldValue %} #}
+        {# {{ category }} #}
+        {# {% endfor %} #}
+        {# {% case 'fileAttribute' %} #}
+
+        {# {% endswitch %} #}
+    {% endif %}
+{% endfor %}

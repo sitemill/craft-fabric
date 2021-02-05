@@ -2,7 +2,7 @@
 {% set htmxSwapSection = '#swap' %}
 {% set htmxTrigger = 'change' %}
 {% set thumbnail = 0 %}
-{% set element = craft.app.elements.getElementById(id)  %}
+{% set element = craft.app.elements.getElementById(id) %}
 
 {% if element is instance of ('craft\\elements\\Asset') or element is instance of ('sitemill\\silo\\elements\\SiloAsset') %}
     {% set elementUrl = url('asset/' ~ element.id ~ '/' ~ element.title|kebab) %}
@@ -20,9 +20,11 @@
         <img src="{{ thumbnail.thumbUrl(600) }}" alt="">
     {% endif %}
     <div id="swap">
-        <strong>Shared:</strong>
-        <input type="checkbox" id="public" name="public" {{ isPublic ? 'checked' }}>
-        <label for="public">{{ isPublic ? 'Is public' : 'Not public'}}</label>
+        <div class="mb-4">
+            <strong>Shared:</strong>
+            <input type="checkbox" id="public" name="public" {{ isPublic ? 'checked' }}>
+            <label for="public">{{ isPublic ? 'Is public' : 'Not public' }}</label>
+        </div>
         {% if isPublic %}
             <h3>Share Url:</h3>
             {% include '_fabric/components/message' with {

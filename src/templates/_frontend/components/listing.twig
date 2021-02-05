@@ -7,7 +7,7 @@
 
 {# TODO: cache based on element id #}
 
-<div class="listing listing--{{ elementType }} | relative p-8 flex flex-wrap">
+<div class="listing listing--{{ elementType }} | relative flex flex-wrap">
     {% for item in items %}
         {% set thumbnail = null %}
         {% if thumbnailField %}

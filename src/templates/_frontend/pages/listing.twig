@@ -7,11 +7,11 @@
 {% set sourcePage = 0 %}
 {% set elementSource = elementSource is defined and elementSource ? elementSource|camel : 0 %}
 
-{# Set up page settings #}
+{# Page settings #}
 {% if show != 'all' %}
     {% if show == 'entries' %}
         {% set pageTitle = 'All entries' %}
-        {% if elementSource  %}
+        {% if elementSource %}
             {% set entrySection = craft.entries.section(elementSource) %}
             {% set pageTitle = craft.sections.sectionByHandle(elementSource).name %}
             {% set sourcePage = 1 %}
@@ -25,7 +25,7 @@
 {# Set defaults #}
 {% set hasAssets = 0 %}
 {% set hasEntries = 0 %}
-{% set queryLimit = sourcePage ? 30 : 5 %}
+{% set queryLimit = sourcePage ? 30 : 10 %}
 
 
 {# Set up category if it exists #}
@@ -140,32 +140,37 @@
     <div class="results" id="results">
         {% if hasAssets or hasEntries %}
             <div class="container">
+                {# todo: create resultsContext component #}
                 <div class="results__toolbar | space-y-4 lg:space-y-0 lg:flex justify-between items-center">
-                    {#  TODO: get context back in #}
+                    {# TODO: get context back in #}
                     {# total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }} #}
-                    {#{% include '_fabric/components/listingContext.twig' %}#}
+                    {# {% include '_fabric/components/listingContext.twig' %} #}
                     <div></div>
                     {% include '_fabric/components/listingFilter.twig' %}
                 </div>
             </div>
 
+            {# TODO: create resultsSection template to include/embed #}
             <div class="results__main">
                 {% if hasAssets %}
-                    {% if not sourcePage %}
+                    {% if not sourcePage and hasEntries %}
                         <div class="container">
-                            <h2 class="results__title">Assets</h2>
+                            <h2 class="results__title | text-lg font-semibold">Assets</h2>
                         </div>
                     {% endif %}
 
-                    {% include '_fabric/components/listing.twig' with {
-                        elementType: 'asset',
-                        items: assetQuery,
-                        editable: canEditAssets
-                    } only %}
+                    <div class="px-4">
+                        {% include '_fabric/components/listing.twig' with {
+                            elementType: 'asset',
+                            items: assetQuery,
+                            editable: canEditAssets
+                        } only %}
+                    </div>
 
                     {% if assetQueryLength > queryLimit %}
                         <div class="container text-right">
-                            <a class="action action--large" href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">
+                            <a class="action action--large"
+                               href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">
                                 View all {{ assetQueryLength }} assets <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
@@ -184,16 +189,19 @@
                             </div>
                         {% endif %}
 
-                        {% include '_fabric/components/listing.twig' with {
-                            elementType: 'entry',
-                            items: entryQuery.query.all,
-                            thumbnailField: entryQuery.thumbnailField,
-                            editable: entryQuery.editable
-                        } only %}
+                        <div class="px-4">
+                            {% include '_fabric/components/listing.twig' with {
+                                elementType: 'entry',
+                                items: entryQuery.query.all,
+                                thumbnailField: entryQuery.thumbnailField,
+                                editable: entryQuery.editable
+                            } only %}
+                        </div>
 
                         {% if entryQuery.length > queryLimit %}
                             <div class="container text-right">
-                                <a class="action action--large" href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">
+                                <a class="action action--large"
+                                   href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">
                                     View all {{ entryQuery.length }} entries <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>

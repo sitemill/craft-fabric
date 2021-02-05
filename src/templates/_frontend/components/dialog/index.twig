@@ -9,7 +9,7 @@
 {% endif %}
 
 
-<div class="dialog | transition-all duration-700 bg-white fixed top-0 bottom-0 w-full md:w-dialog m-4 z-50 shadow-2xl p-12 rounded-lg right-0"
+<div class="dialog | transition-all duration-500 bg-white fixed top-0 bottom-0 w-11/12 md:w-dialog m-4 z-50 shadow-2xl p-6 md:p-12 rounded-lg right-0"
      x-data="{dialogOpen: false,showContent: false}"
      x-show="dialogOpen"
      x-cloak
@@ -21,22 +21,22 @@
      @click.away="dialogOpen = false; showContent = false;"
      @dialog.window="dialogOpen = $event.detail.open">
 
-    <div class="dialog__content-wrap | transition-all ease-in-out duration-100"
+    <div class="dialog__content-wrap | relative h-full transition-all ease-in-out duration-100"
          x-show="showContent"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
 
-        <div class="dialog__content" id="dialog">
+        <div id="dialog">
             {% if formAction %}
                 <form method="post"
                       accept-charset="UTF-8"
                       hx-ext="json-enc"
                       hx-post="{{ actionUrl(formAction) }}"
                       {% if htmxSwapSection %}hx-target="{{ htmxSwapSection }}"{% endif %}
-                      {% if htmxSwapSection %}hx-select="{{ htmxSwapSection }}"{% endif %}
-                      {% if htmxTrigger %}hx-trigger="{{ htmxTrigger }}"{% endif %}
+                        {% if htmxSwapSection %}hx-select="{{ htmxSwapSection }}"{% endif %}
+                        {% if htmxTrigger %}hx-trigger="{{ htmxTrigger }}"{% endif %}
                       hx-indicator="#page-loader"
                       hx-swap="outerHTML"
                       class="dialog__form | flex flex-col justify-between h-full"
@@ -47,27 +47,29 @@
                     <input type="hidden" name="redirect" value="{{ formRedirect }}">
 
                     {{ csrfInput() }}
-                    <div class="dialog__main">
-                        <h1 class="dialog__title">{{ title }}</h1>
-                        {% block main %}
+                    <div class="dialog__content">
+                        <div class="dialog__main | absolute w-full top-0 bottom-20 overflow-scroll">
+                            <h1 class="dialog__title | text-2xl font-medium mb-8">{{ title }}</h1>
+                            {% block main %}
 
-                        {% endblock %}
-                    </div>
-                    <div class="dialog__actions">
-                        {% block actions %}
-                            {% include '_fabric/components/action' with {
-                                text: 'Close'|t,
-                                size: 'large',
-                                style: 'outline',
-                                color: 'primary',
-                                icon: 'fas fa-times',
-                                fullWidth: true,
-                                attributes: {
-                                    'title' : 'Close this dialog'|t,
-                                    '@click' : 'dialogOpen = false; showContent = false;'
-                                }
-                            } only %}
-                        {% endblock %}
+                            {% endblock %}
+                        </div>
+                        <div class="dialog__actions | absolute bottom-0 w-full">
+                            {% block actions %}
+                                {% include '_fabric/components/action' with {
+                                    text: 'Close'|t,
+                                    size: 'large',
+                                    style: 'outline',
+                                    color: 'primary',
+                                    icon: 'fas fa-times',
+                                    fullWidth: true,
+                                    attributes: {
+                                        'title' : 'Close this dialog'|t,
+                                        '@click' : 'dialogOpen = false; showContent = false;'
+                                    }
+                                } only %}
+                            {% endblock %}
+                        </div>
                     </div>
                 </form>
             {% endif %}

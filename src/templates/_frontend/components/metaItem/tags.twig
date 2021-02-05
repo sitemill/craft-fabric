@@ -1,0 +1,11 @@
+{% extends '_fabric/components/metaItem' %}
+
+{% block metaItemValue %}
+    <div class="flex flex-wrap">
+    {% for tag in value %}
+        <div class="text-sm text-gray-700 bg-gray-200 rounded-xl px-2 py-0.5 mr-1 mb-1">
+            {{ tag }}
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
