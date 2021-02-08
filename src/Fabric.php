@@ -218,13 +218,12 @@ class Fabric extends Plugin
             }
         }
 
-
         // Toggle share status on element save
-        Event::on(
-            Elements::class,
-            Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function(ElementEvent $event) {
-                if ($this->request->isCpRequest) {
+        if ($this->request->isCpRequest) {
+            Event::on(
+                Elements::class,
+                Elements::EVENT_AFTER_SAVE_ELEMENT,
+                function(ElementEvent $event) {
                     $request = Craft::$app->getRequest();
                     $elementId = $event->element->id;
                     $isPublic = $request->getParam('elementPublic');
@@ -234,8 +233,8 @@ class Fabric extends Plugin
                         Fabric::$plugin->share->removeShare($elementId);
                     }
                 }
-            }
-        );
+            );
+        }
     }
 
     // Protected Methods
