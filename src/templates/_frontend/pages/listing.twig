@@ -44,7 +44,7 @@
 {# Set defaults #}
 {% set hasAssets = 0 %}
 {% set hasEntries = 0 %}
-{% set queryLimit = sourcePage ? 30 : 10 %}
+{% set queryLimit = sourcePage ? 10 : 10 %}
 
 {# Set up category if defined #}
 {% if category %}
@@ -103,10 +103,10 @@
 
     {# If entries to be shown, do an entry query #}
     {% if show in ['all','entries'] %}
-
         {% if elementSource %}
+            {% set section = craft.sections.sectionByHandle(elementSource) %}
             {% set sectionQuery = craft.entries
-                .section(elementSource)
+                .section(section)
                 .search(keywords)
                 .relatedTo(category)
                 .orderBy(order)
@@ -116,7 +116,8 @@
                 'title': null,
                 'query':sectionQuery,
                 'length': sectionQueryLength,
-                'thumbnailField': craft.fabric.settings.entrySources[elementSource].thumbnailField is defined ? craft.fabric.settings.entrySources[elementSource].thumbnailField
+                'thumbnailField': craft.fabric.settings.entrySources[elementSource].thumbnailField is defined ? craft.fabric.settings.entrySources[elementSource].thumbnailField,
+                'editable': currentUser.can('editEntries:'~section.uid)
             }} %}
             {% set hasEntries = sectionQueryLength %}
         {% else %}
@@ -165,27 +166,13 @@
             <div class="results__main">
 
                 {% if hasAssets %}
-                    {% embed '_fabric/components/listingSection' with {
-                        title: not sourcePage and hasEntries ? 'Assets'
+                    {% include '_fabric/components/listingSection' with {
+                        title: not sourcePage and hasEntries ? 'Assets',
+                        elementType: 'asset',
+                        items: assetQuery,
+                        editable: canEditAssets,
+                        sourcePage: sourcePage
                     } %}
-                        {% block listingSectionMain %}
-                            <div class="px-4">
-                                {% include '_fabric/components/listing.twig' with {
-                                    elementType: 'asset',
-                                    items: assetQuery,
-                                    editable: canEditAssets
-                                } only %}
-                            </div>
-                            {% if assetQueryLength > queryLimit %}
-                                <div class="container text-right">
-                                    <a class="action action--large"
-                                       href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">
-                                        View all {{ assetQueryLength }} assets <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        {% endblock %}
-                    {% endembed %}
                 {% endif %}
 
                 {% if hasAssets and hasEntries %}
@@ -194,37 +181,19 @@
 
                 {% if hasEntries %}
                     {% for sectionHandle, entryQuery in entryQueries %}
-                        {% embed '_fabric/components/listingSection' with {
-                            title: entryQuery.title ? entryQuery.title
+                        {% include '_fabric/components/listingSection' with {
+                            title: entryQuery.title,
+                            elementType: 'entry',
+                            items: entryQuery.query.all,
+                            thumbnailField: entryQuery.thumbnailField,
+                            editable: entryQuery.editable
                         } %}
-                            {% block listingSectionMain %}
-
-                                <div class="px-4">
-                                    {% include '_fabric/components/listing.twig' with {
-                                        elementType: 'entry',
-                                        items: entryQuery.query.all,
-                                        thumbnailField: entryQuery.thumbnailField,
-                                        editable: entryQuery.editable
-                                    } only %}
-                                </div>
-
-                                {% if entryQuery.length > queryLimit %}
-                                    <div class="container text-right">
-                                        <a class="action action--large"
-                                           href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">
-                                            View all {{ entryQuery.length }} entries <i class="fas fa-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                {% endif %}
-
-                                {% if not loop.last %}
-                                    <hr>
-                                {% endif %}
-
-                            {% endblock %}
-                        {% endembed %}
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
+
             </div>
         {% else %}
             <div class="container">

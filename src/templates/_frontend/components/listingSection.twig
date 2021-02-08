@@ -1,14 +1,54 @@
 {% set title = title|default(null) %}
+{% set items = items %}
+{% set elementType = elementType %}
+{% set thumbnailField = thumbnailField|default(null) %}
+{% set editable = editable|default(false) %}
+{% set limit = limit|default(null) %}
+{% set sourcePage = sourcePage|default(false) %}
 
-<div class="listing-section">
+{% if sourcePage %}
+    {% paginate items as pageInfo, items %}
+{% endif %}
+
+<section class="listing-section">
     {% if title %}
-    <div class="container">
-        <h2 class="listing-section__title">
+        <div class="container">
+            <h2 class="listing-section__title">
                 {{ title }}
-        </h2>
-    </div>
+            </h2>
+        </div>
     {% endif %}
 
     {% block listingSectionMain %}
+        <div class="listing-section__items | px-4"
+             hx-get="{{ pageInfo.nextUrl }}"
+             hx-trigger="revealed"
+             hx-select=".listing-section__items"
+             hx-swap="afterend"
+        >
+            {% include '_fabric/components/listing.twig' with {
+                elementType: elementType,
+                items: items,
+                thumbnailField: thumbnailField,
+                editable: editable
+            } only %}
+        </div>
+        {% if sourcePage %}
+            {% if pageInfo.prevUrl %}<a href="{{ pageInfo.prevUrl }}">Previous Page</a>{% endif %}
+            {% if pageInfo.nextUrl %}<a href="{{ pageInfo.nextUrl }}">Next Page</a>{% endif %}
+        {% else %}
+            {% if elementType == 'asset' %}
+                {% set moreUrl = url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) %}
+            {% elseif elementType == 'entry' %}
+                {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
+            {% endif %}
+            <div class="container text-right">
+                <a class="action action--large"
+                   href="{{ moreUrl }}">
+                    View all {{ items|length }} {{ elementType }}s <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        {% endif %}
+
     {% endblock %}
-</div>
+</section>
