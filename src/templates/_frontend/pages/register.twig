@@ -7,7 +7,7 @@
 {% set suspendByDefault = userSettings.suspendByDefault ? 1 : 0 %}
 {% set requireVerification = userSettings.requireEmailVerification ? 1 : 0 %}
 
-{% extends "_fabric/layouts/action-page.twig" %}
+{% extends "_fabric/layouts/actionPage.twig" %}
 
 {% block main %}
     {% if craft.app.request.queryParam('status') == 'success' %}

@@ -1,0 +1,14 @@
+{% set title = title|default(null) %}
+
+<div class="listing-section">
+    {% if title %}
+    <div class="container">
+        <h2 class="listing-section__title">
+                {{ title }}
+        </h2>
+    </div>
+    {% endif %}
+
+    {% block listingSectionMain %}
+    {% endblock %}
+</div>

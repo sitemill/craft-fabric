@@ -20,6 +20,6 @@
         data-hx-swap="outerHTML"
         data-hx-push-url="true"
         hx-trigger="keyup delay:250ms"
-        value = "{{ keywords }}"
+        value = "{{ craft.app.request.getParam('q') }}"
     >
 </form>

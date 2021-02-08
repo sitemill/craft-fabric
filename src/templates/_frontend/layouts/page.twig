@@ -5,7 +5,6 @@
 {% extends '_fabric/layouts/app.twig' %}
 
 {% block appMain %}
-
     {% block pageHeader %}
         <header class="page-header | bg-gray-100 dark:bg-gray-800">
             <div class="container">
@@ -21,9 +20,6 @@
                         {% endblock %}
 
                         {% block pageSubtitle %}
-                            {% include '_fabric/components/categoryRoll.twig' with {
-                                'categoryRoll': category ? category : false
-                            } %}
                         {% endblock %}
                     </div>
                 </div>
