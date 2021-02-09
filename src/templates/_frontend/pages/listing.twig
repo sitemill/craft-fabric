@@ -3,7 +3,7 @@
 {# Get any URL Parameters & category #}
 {% set keywords = craft.app.request.getParam('q')|default('') %}
 {% set kind = craft.app.request.getParam('kind')|default('*') %}
-{% set order = craft.app.request.getParam('order')|default('title asc') %}
+{% set order = craft.app.request.getParam('order')|default('dateCreated desc') %}
 {% set layout = craft.app.request.getParam('layout')|default('grid') %}
 {% if category is not defined %}
     {% set category = craft.app.request.getParam('category') ? craft.categories.id(craft.app.request.getParam('category')).one : null %}
@@ -154,9 +154,9 @@
                 {% include '_fabric/components/listingFilter.twig' %}
             </div>
         </div>
+        <div class="results__main">
+            {% if hasAssets or hasEntries %}
 
-        {% if hasAssets or hasEntries %}
-            <div class="results__main">
 
                 {% if hasAssets %}
                     {% include '_fabric/components/listing' with {
@@ -192,12 +192,13 @@
                     {% endfor %}
                 {% endif %}
 
-            </div>
-        {% else %}
-            <div class="container">
-                No items found
-            </div>
-        {% endif %}
+
+            {% else %}
+                <div class="container">
+                    No items found
+                </div>
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}
