@@ -40,11 +40,27 @@
 {# TODO: cache based on element id #}
 
 <div class="listing listing--{{ elementType }} | relative ">
-    {% if title %}
-        <div class="container">
-            <h2 class="listing-section__title | text-xl font-medium text-gray-400">
-                {{ title }}
-            </h2>
+    {% if title or truncated %}
+        <div class="listing__header | container flex justify-between">
+            {% if title %}
+
+                    <h2 class="listing-section__title | text-xl font-medium text-gray-400">
+                        {{ title }}
+                    </h2>
+            {% endif %}
+            {% if truncated %}
+                {% if elementType == 'asset' %}
+                    {% set moreUrl = url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) %}
+                {% elseif elementType == 'entry' %}
+                    {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
+                {% endif %}
+                <div class=" float-right">
+                    <a class="action action--large"
+                       href="{{ moreUrl }}">
+                        View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            {% endif %}
         </div>
     {% endif %}
     <div class="listing__items | grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8">
@@ -86,19 +102,7 @@
         </div>
     {% endif %}
 
-    {% if truncated %}
-        {% if elementType == 'asset' %}
-            {% set moreUrl = url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) %}
-        {% elseif elementType == 'entry' %}
-            {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
-        {% endif %}
-        <div class="container text-right">
-            <a class="action action--large"
-               href="{{ moreUrl }}">
-                View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-    {% endif %}
+
 </div>
 
 {% if paginate == 'infinite' %}

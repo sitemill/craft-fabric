@@ -95,16 +95,16 @@ class Settings extends Model
      */
     public $filterFileKinds = [
         'image' => [
-            'title' => 'Image',
+            'title' => 'Images',
             'value' => 'image',
             'icon' => ''
         ],
         'video' => [
-            'title' => 'Video',
+            'title' => 'Videos',
             'value' => 'video',
         ],
         'compressed' => [
-            'title' => 'Compressed',
+            'title' => 'Archives',
             'value' => 'compressed',
         ]
     ];
