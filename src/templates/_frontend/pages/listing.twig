@@ -152,7 +152,7 @@
 
         <div class="container">
             {# todo: create resultsContext component #}
-            <div class="results__toolbar | py-3 space-y-4 lg:space-y-0 lg:flex justify-between items-center">
+            <div class="results__toolbar | py-2 space-y-4 lg:space-y-0 lg:flex justify-between items-center">
 
                 {% include '_fabric/components/listingContext.twig' %}
 
@@ -167,7 +167,7 @@
             {% if hasAssets or hasEntries %}
 
                 {% if hasAssets %}
-                    <div class="py-10">
+
                         {% include '_fabric/components/listing' with {
                             title: not sourcePage and hasEntries ? 'Assets',
                             elementType: 'asset',
@@ -177,7 +177,7 @@
                             paginate: sourcePage ? 'infinite',
                             limit: queryLimit
                         } %}
-                    </div>
+
                 {% endif %}
 
                 {% if hasAssets and hasEntries %}
@@ -185,7 +185,7 @@
                 {% endif %}
 
                 {% if hasEntries %}
-                    <div class="py-10">
+
                         {% for sectionHandle, entryQuery in entryQueries %}
                             {% include '_fabric/components/listing' with {
                                 title: entryQuery.title,
@@ -201,7 +201,6 @@
                                 {% include '_fabric/components/hr.twig' %}
                             {% endif %}
                         {% endfor %}
-                    </div>
                 {% endif %}
             {% endif %}
         </div>

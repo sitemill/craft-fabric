@@ -43,10 +43,9 @@
     {% if title or truncated %}
         <div class="listing__header | container flex justify-between">
             {% if title %}
-
-                    <h2 class="listing-section__title | text-xl font-medium text-gray-400">
-                        {{ title }}
-                    </h2>
+                <h2 class="listing-section__title | text-xl font-medium text-gray-800">
+                    {{ title }}
+                </h2>
             {% endif %}
             {% if truncated %}
                 {% if elementType == 'asset' %}
@@ -63,6 +62,7 @@
             {% endif %}
         </div>
     {% endif %}
+
     <div class="listing__items | grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8">
         {% for item in items %}
             {% set thumbnail = null %}
