@@ -1,12 +1,19 @@
-<div class="listing-context">
-    Listing items
-    {% if category %} in '{{ category.title }}'{% endif %}, sorted by
-    {% switch order %}
-    {% case 'title asc' %}
-        Title ascending
-    {% case 'title desc' %}
-        Title descending
-    {% endswitch %}
+<div class="listing-context | text-gray-800">
+    {% if hasAssets or hasEntries %}
+    Found
+    {% if hasAssets %}
+        <span class="font-medium">{{ assetQueryLength }} {{ assetQueryLength > 1 ? 'assets' : 'asset' }}</span>
+    {% endif %}
+    {% if hasAssets and hasEntries %}
+        and
+    {% endif %}
+    {% if hasEntries %}
+        <span class="font-medium">{{ totalEntries }} {{ assetQueryLength > 1 ? 'entries' : 'entry' }}</span>
+    {% endif %}
+    ordered by
+    <span class="font-medium">{{ craft.fabric.settings.filterOrdering[order].label }}</span>
+    {% else %}
+        No items found
+    {% endif %}
 </div>
 
- 

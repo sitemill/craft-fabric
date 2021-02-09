@@ -42,12 +42,12 @@
 <div class="listing listing--{{ elementType }} | relative ">
     {% if title %}
         <div class="container">
-            <h2 class="listing-section__title">
+            <h2 class="listing-section__title | text-xl font-medium text-gray-400">
                 {{ title }}
             </h2>
         </div>
     {% endif %}
-    <div class="listing__items | flex flex-wrap">
+    <div class="listing__items | grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8">
         {% for item in items %}
             {% set thumbnail = null %}
             {% if thumbnailField %}
@@ -71,9 +71,11 @@
 
     {% if paginate %}
         {% if paginate == 'infinite' %}
-            <div class="scroller-status | hidden">
-                <div class="infinite-scroll-request">
-                    ...
+            <div class="scroller-status | hidden my-16">
+                <div class="infinite-scroll-request | hidden">
+                    <div class="flex justify-center text-center items-center">
+                        {% include '_fabric/components/spinner' %}
+                    </div>
                 </div>
             </div>
         {% endif %}
@@ -93,7 +95,7 @@
         <div class="container text-right">
             <a class="action action--large"
                href="{{ moreUrl }}">
-                View all {{ items|length }} {{ elementType }}s <i class="fas fa-arrow-right"></i>
+                View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right"></i>
             </a>
         </div>
     {% endif %}
@@ -101,21 +103,22 @@
 
 {% if paginate == 'infinite' %}
     {% js %}
-    let infiniteScrollOptions = {
+        let infiniteScrollOptions = {
         path: '.pagination__next',
         append: '.card',
-        history: true,
+        history: false,
+        prefill: true,
         status: '.scroller-status'
-    }
+        }
 
-    let infScroll = new InfiniteScroll('.listing__items', infiniteScrollOptions);
-
-    document.body.addEventListener('htmx:beforeSwap', function(evt) {
-        infScroll.destroy()
-    });
-
-    document.body.addEventListener('htmx:afterSwap', function(evt) {
         let infScroll = new InfiniteScroll('.listing__items', infiniteScrollOptions);
-    });
+
+        document.body.addEventListener('htmx:beforeSwap', function(evt) {
+        infScroll.destroy()
+        });
+
+        document.body.addEventListener('htmx:afterSwap', function(evt) {
+        let infScroll = new InfiniteScroll('.listing__items', infiniteScrollOptions);
+        });
     {% endjs %}
 {% endif %}

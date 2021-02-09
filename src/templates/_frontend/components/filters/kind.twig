@@ -4,7 +4,7 @@
     </label>
     <div class="field__input">
         <select name="kind" id="filter-kind">
-            <option value="*">{{ 'All Kinds'|t }}</option>
+            <option value="">{{ 'All Kinds'|t }}</option>
             {% for item in craft.fabric.settings.filterFileKinds %}
                 <option value="{{ item.value }}" {% if kind == item.value %}selected{% endif %}>
                     {{ item.title }}

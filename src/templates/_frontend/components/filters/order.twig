@@ -4,9 +4,9 @@
     </label>
     <div class="filter__input">
         <select name="order" id="filter-order">
-            {% for item in craft.fabric.settings.filterOrdering %}
-            <option value="{{ item.value }}"
-                    {% if order ==  item.value %}selected{% endif %}>{{ item.label }}
+            {% for key, item in craft.fabric.settings.filterOrdering %}
+            <option value="{{ key }}"
+                    {% if order ==  key %}selected{% endif %}>{{ item.label }}
             </option>
             {% endfor %}
         </select>

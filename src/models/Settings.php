@@ -113,21 +113,17 @@ class Settings extends Model
      * @var array Determines the sorting options for assets
      */
     public $filterOrdering = [
-        [
+        'title asc' => [
             'label' => 'Title A-Z',
-            'value' => 'title asc',
         ],
-        [
+        'title desc' => [
             'label' => 'Title Z-A',
-            'value' => 'title desc',
         ],
-        [
+        'dateCreated desc' => [
             'label' => 'Newest First',
-            'value' => 'dateCreated desc',
         ],
-        [
+        'dateCreated asc' => [
             'label' => 'Oldest First',
-            'value' => 'dateCreated asc',
         ]
     ];
 

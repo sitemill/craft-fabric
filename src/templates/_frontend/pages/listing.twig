@@ -2,7 +2,7 @@
 
 {# Get any URL Parameters & category #}
 {% set keywords = craft.app.request.getParam('q')|default('') %}
-{% set kind = craft.app.request.getParam('kind')|default('*') %}
+{% set kind = craft.app.request.getParam('kind')|default('') %}
 {% set order = craft.app.request.getParam('order')|default('dateCreated desc') %}
 {% set layout = craft.app.request.getParam('layout')|default('grid') %}
 {% if category is not defined %}
@@ -22,11 +22,11 @@
 
 {# Define the type of element the listing will show #}
 {% set show = elementType|default('all') %}
-{% set pageTitle = keywords ? "Searching for '" ~ keywords ~ "'" : 'All items' %}
 {% set sourcePage = false %}
 {% set elementSource = elementSource is defined and elementSource ? elementSource|camel : false %}
 
 {# Page settings #}
+{% set pageTitle = 'All items' %}
 {% if show != 'all' %}
     {% if show == 'entries' %}
         {% set pageTitle = 'All entries' %}
@@ -41,10 +41,15 @@
     {% endif %}
 {% endif %}
 
+{# If it's a query overwrite the title #}
+{% if keywords %}
+    {% set pageTitle = "Searching for '" ~ keywords ~ "'" %}
+{% endif %}
+
 {# Set defaults #}
 {% set hasAssets = 0 %}
 {% set hasEntries = 0 %}
-{% set queryLimit = sourcePage ? 30 : 10 %}
+{% set queryLimit = sourcePage ? 15 : 15 %}
 
 {# Set up category if defined #}
 {% if category %}
@@ -69,6 +74,7 @@
 {% endif %}
 
 {% block pageMain %}
+
     {# If assets to be show, do an asset query #}
     {% if show in ['all','assets'] %}
         {# Get assets source #}
@@ -89,8 +95,8 @@
             .orderBy(order)
             .with(['file[0]']) %}
 
-
-        {% set hasAssets = assetQuery|length %}
+        {% set assetQueryLength = assetQuery|length %}
+        {% set hasAssets = assetQueryLength %}
 
     {% endif %}
 
@@ -142,32 +148,36 @@
         {% endif %}
     {% endif %}
 
-    <div class="results" id="results">
+    <div class="results | relative" id="results">
 
         <div class="container">
             {# todo: create resultsContext component #}
-            <div class="results__toolbar | space-y-4 lg:space-y-0 lg:flex justify-between items-center">
-                {# TODO: get context back in #}
-                {# total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }} #}
-                {# {% include '_fabric/components/listingContext.twig' %} #}
-                <div></div>
+            <div class="results__toolbar | py-3 space-y-4 lg:space-y-0 lg:flex justify-between items-center">
+
+                {% include '_fabric/components/listingContext.twig' %}
+
                 {% include '_fabric/components/listingFilter.twig' %}
             </div>
         </div>
+
+        {% include '_fabric/components/hr.twig' %}
+
         <div class="results__main">
+
             {% if hasAssets or hasEntries %}
 
-
                 {% if hasAssets %}
-                    {% include '_fabric/components/listing' with {
-                        title: not sourcePage and hasEntries ? 'Assets',
-                        elementType: 'asset',
-                        query: assetQuery,
-                        editable: canEditAssets,
-                        truncated: not sourcePage,
-                        paginate: sourcePage ? 'infinite',
-                        limit: queryLimit
-                    } %}
+                    <div class="py-10">
+                        {% include '_fabric/components/listing' with {
+                            title: not sourcePage and hasEntries ? 'Assets',
+                            elementType: 'asset',
+                            query: assetQuery,
+                            editable: canEditAssets,
+                            truncated: not sourcePage and (assetQueryLength > queryLimit),
+                            paginate: sourcePage ? 'infinite',
+                            limit: queryLimit
+                        } %}
+                    </div>
                 {% endif %}
 
                 {% if hasAssets and hasEntries %}
@@ -175,28 +185,24 @@
                 {% endif %}
 
                 {% if hasEntries %}
-                    {% for sectionHandle, entryQuery in entryQueries %}
-                        {% include '_fabric/components/listing' with {
-                            title: entryQuery.title,
-                            elementType: 'entry',
-                            query: entryQuery.query,
-                            thumbnailField: entryQuery.thumbnailField,
-                            editable: entryQuery.editable,
-                            truncated: not sourcePage,
-                            paginate: sourcePage ? 'infinite',
-                            limit: queryLimit
-                        } %}
-                        {% if not loop.last %}
-                            <hr>
-                        {% endif %}
-                    {% endfor %}
+                    <div class="py-10">
+                        {% for sectionHandle, entryQuery in entryQueries %}
+                            {% include '_fabric/components/listing' with {
+                                title: entryQuery.title,
+                                elementType: 'entry',
+                                query: entryQuery.query,
+                                thumbnailField: entryQuery.thumbnailField,
+                                editable: entryQuery.editable,
+                                truncated: not sourcePage and (entryQuery.length > queryLimit),
+                                paginate: sourcePage ? 'infinite',
+                                limit: queryLimit
+                            } %}
+                            {% if not loop.last %}
+                                {% include '_fabric/components/hr.twig' %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 {% endif %}
-
-
-            {% else %}
-                <div class="container">
-                    No items found
-                </div>
             {% endif %}
         </div>
     </div>
