@@ -1,31 +1,121 @@
-{# Required #}
-{% set items = items %}
-{% set elementType = elementType %} {# asset | entry #}
-{% set thumbnailField = thumbnailField|default('') %} {# We can accept a thumbnail field if we know entries are from same section #}
+{% set title = title|default(null) %}
+
+{# items <elementQuery> #}
+{% set query = query %}
+
+{# limit <int> limit the amount of items shown #}
+{% set limit = limit|default(null) %}
+
+{# elementType <string> entry or asset #}
+{% set elementType = elementType %}
+
+{# thumbnailField <string> If it's an entry listing, a thumbnaiil field can be specified #}
+{% set thumbnailField = thumbnailField|default('') %}
+
+{# layout <string> grid or list #}
 {% set layout = layout|default('grid') %}
+
+{# editable <bool> does the user have permission to edit these items? #}
 {% set editable = editable|default(false) %}
+
+{# truncated <bool> if true a link will be shown to view all entries #}
+{% set truncated = truncated|default(false) %}
+
+{# pagination <string> paginate the items – this can only be used once per page
+    'false' : do not paginate
+    'infinite' : paginate using infinite scroll
+#}
+{% set paginate = paginate|default(false) %}
+
+{# Fetch the entries #}
+{% set items = limit ? query.limit(limit) : items %}
+
+{# Paginate? #}
+{% if paginate %}
+    {% paginate items as pageInfo, items %}
+{% else %}
+    {% set items = items.all() %}
+{% endif %}
 
 {# TODO: cache based on element id #}
 
-<div class="listing listing--{{ elementType }} | relative flex flex-wrap">
-    {% for item in items %}
-        {% set thumbnail = null %}
-        {% if thumbnailField %}
-            {% set thumbField = item[thumbnailField].one %}
-            {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\silo\\elements\\SiloAsset' ? thumbField.file : thumbField %}
-        {% elseif elementType == 'asset' %}
-            {% set thumbnail = craft.fabric.siloActive ? item.file : item %}
-        {% elseif (elementType == 'entry' and craft.fabric.settings.entrySources|length) and craft.fabric.settings.entrySources[item.section.handle].thumbnailField %}
-            {% set thumbField = item[craft.fabric.settings.entrySources[item.section.handle].thumbnailField].one %}
-            {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\silo\\elements\\SiloAsset' ? thumbField.file : thumbField %}
+<div class="listing listing--{{ elementType }} | relative ">
+    {% if title %}
+        <div class="container">
+            <h2 class="listing-section__title">
+                {{ title }}
+            </h2>
+        </div>
+    {% endif %}
+    <div class="listing__items | flex flex-wrap">
+        {% for item in items %}
+            {% set thumbnail = null %}
+            {% if thumbnailField %}
+                {% set thumbField = item[thumbnailField].one %}
+                {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\silo\\elements\\SiloAsset' ? thumbField.file : thumbField %}
+            {% elseif elementType == 'asset' %}
+                {% set thumbnail = craft.fabric.siloActive ? item.file : item %}
+            {% elseif (elementType == 'entry' and craft.fabric.settings.entrySources|length) and craft.fabric.settings.entrySources[item.section.handle].thumbnailField %}
+                {% set thumbField = item[craft.fabric.settings.entrySources[item.section.handle].thumbnailField].one %}
+                {% set thumbnail = thumbField and thumbField.instance == 'sitemill\\silo\\elements\\SiloAsset' ? thumbField.file : thumbField %}
+            {% endif %}
+            {% include '_fabric/components/card/' ~ layout with {
+                item:item,
+                elementType: elementType,
+                url: elementType == 'asset' ? 'asset' ~ '/' ~ item.id ~ '/' ~ item.title|kebab : item.url,
+                editable: editable,
+                thumbnail: thumbnail,
+            } only %}
+        {% endfor %}
+    </div>
+
+    {% if paginate %}
+        {% if paginate == 'infinite' %}
+            <div class="scroller-status | hidden">
+                <div class="infinite-scroll-request">
+                    ...
+                </div>
+            </div>
         {% endif %}
-        {% include '_fabric/components/card/' ~ layout with {
-            item:item,
-            elementType: elementType,
-            url: elementType == 'asset' ? 'asset' ~ '/' ~ item.id ~ '/' ~ item.title|kebab : item.url,
-            editable: editable,
-            thumbnail: thumbnail,
-        } only %}
-    {% endfor %}
-    <div class="flex-auto"></div>
+        <div class="pagination {% if paginate == 'infinite' %}hidden{% endif %}">
+            {% if pageInfo.prevUrl %}<a href="{{ pageInfo.prevUrl }}" class="pagination__prev">Previous
+                Page</a>{% endif %}
+            {% if pageInfo.nextUrl %}<a href="{{ pageInfo.nextUrl }}" class="pagination__next">Next Page</a>{% endif %}
+        </div>
+    {% endif %}
+
+    {% if truncated %}
+        {% if elementType == 'asset' %}
+            {% set moreUrl = url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) %}
+        {% elseif elementType == 'entry' %}
+            {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
+        {% endif %}
+        <div class="container text-right">
+            <a class="action action--large"
+               href="{{ moreUrl }}">
+                View all {{ items|length }} {{ elementType }}s <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    {% endif %}
 </div>
+
+{% if paginate == 'infinite' %}
+    {% js %}
+    let infiniteScrollOptions = {
+        path: '.pagination__next',
+        append: '.card',
+        history: false,
+        status: '.scroller-status'
+    }
+
+    let infScroll = new InfiniteScroll('.listing__items', infiniteScrollOptions);
+
+    document.body.addEventListener('htmx:beforeSwap', function(evt) {
+        infScroll.destroy()
+    });
+
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        let infScroll = new InfiniteScroll('.listing__items', infiniteScrollOptions);
+    });
+    {% endjs %}
+{% endif %}

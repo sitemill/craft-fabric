@@ -44,7 +44,7 @@
 {# Set defaults #}
 {% set hasAssets = 0 %}
 {% set hasEntries = 0 %}
-{% set queryLimit = sourcePage ? 10 : 10 %}
+{% set queryLimit = sourcePage ? 30 : 10 %}
 
 {# Set up category if defined #}
 {% if category %}
@@ -82,22 +82,15 @@
         {% endif %}
 
         {# Set query #}
-        {% set assetQuery = assets %}
-
-        {% set assetQuery = assetQuery
+        {% set assetQuery = assets
             .search(keywords)
             .kind(kind)
             .relatedTo(category)
             .orderBy(order)
             .with(['file[0]']) %}
 
-        {% set assetQueryLength = assetQuery|length %}
 
-        {% set hasAssets = assetQueryLength %}
-
-        {% set assetQueryLimited = assetQuery.limit(queryLimit) %}
-
-        {% set assetQueryLimitedLength = assetQueryLimited|length %}
+        {% set hasAssets = assetQuery|length %}
 
     {% endif %}
 
@@ -166,12 +159,14 @@
             <div class="results__main">
 
                 {% if hasAssets %}
-                    {% include '_fabric/components/listingSection' with {
+                    {% include '_fabric/components/listing' with {
                         title: not sourcePage and hasEntries ? 'Assets',
                         elementType: 'asset',
-                        items: assetQuery,
+                        query: assetQuery,
                         editable: canEditAssets,
-                        sourcePage: sourcePage
+                        truncated: not sourcePage,
+                        paginate: sourcePage ? 'infinite',
+                        limit: queryLimit
                     } %}
                 {% endif %}
 
@@ -181,12 +176,15 @@
 
                 {% if hasEntries %}
                     {% for sectionHandle, entryQuery in entryQueries %}
-                        {% include '_fabric/components/listingSection' with {
+                        {% include '_fabric/components/listing' with {
                             title: entryQuery.title,
                             elementType: 'entry',
-                            items: entryQuery.query.all,
+                            query: entryQuery.query,
                             thumbnailField: entryQuery.thumbnailField,
-                            editable: entryQuery.editable
+                            editable: entryQuery.editable,
+                            truncated: not sourcePage,
+                            paginate: sourcePage ? 'infinite',
+                            limit: queryLimit
                         } %}
                         {% if not loop.last %}
                             <hr>

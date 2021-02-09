@@ -8,7 +8,7 @@ const config = {
 }
 
 // Front-end assets
-mix.js(config.path + 'src/js/app.js', '.').extract(['htmx.org', 'alpinejs'])
+mix.js(config.path + 'src/js/app.js', '.')
 
 mix.sass(config.path + 'src/scss/app.scss', '.')
     .options({
