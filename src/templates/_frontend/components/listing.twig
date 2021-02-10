@@ -28,13 +28,15 @@
 {% set paginate = paginate|default(false) %}
 
 {# Fetch the entries #}
-{% set items = limit ? query.limit(limit) : items %}
+{% if limit %}
+    {% set query = query.limit(limit) %}
+{% endif %}
 
 {# Paginate? #}
 {% if paginate %}
-    {% paginate items as pageInfo, items %}
+    {% paginate query as pageInfo, items %}
 {% else %}
-    {% set items = items.all() %}
+    {% set items = query.all() %}
 {% endif %}
 
 {# TODO: cache based on element id #}
@@ -76,10 +78,10 @@
             {% elseif elementType == 'entry' %}
                 {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
             {% endif %}
-                <a class="view-all |  flex justify-center items-center p-4 m-4 leading-tight border border-primary text-primary action action--large"
-                   href="{{ moreUrl }}">
-                    View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right ml-2"></i>
-                </a>
+            <a class="view-all |  flex justify-center items-center p-4 m-4 leading-tight border border-primary text-primary action action--large"
+               href="{{ moreUrl }}">
+                View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right ml-2"></i>
+            </a>
         {% endif %}
     </div>
 
