@@ -65,7 +65,7 @@
             {% include '_fabric/components/card/' ~ layout with {
                 item:item,
                 elementType: elementType,
-                url: elementType == 'asset' ? 'asset' ~ '/' ~ item.id ~ '/' ~ item.title|kebab : item.url,
+                url: elementType == 'asset' ? 'asset' ~ '/' ~ item.id ~ '/' ~ item.title|kebab : 'entry' ~ '/' ~ item.id ~ '/' ~ item.title|kebab,
                 editable: editable,
                 thumbnail: thumbnail,
             } only %}

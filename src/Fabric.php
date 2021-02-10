@@ -119,6 +119,7 @@ class Fabric extends Plugin
                 $event->rules['all'] = ['template' => '_fabric/pages/listing'];
                 $event->rules['search'] = ['template' => '_fabric/pages/listing'];
                 $event->rules['asset/<assetId:\d+>/?<assetSlug>'] = ['template' => '_fabric/pages/asset'];
+                $event->rules['entry/<entryId:\d+>/?<entrySlug>'] = ['template' => '_fabric/pages/entry'];
                 $event->rules['account'] = ['template' => '_fabric/pages/account'];
                 $event->rules['<section>/entry/<entryId:\d+>/?<entrySlug>'] = ['template' => '_fabric/pages/entry'];
 //                $event->rules['<section>/listing/'] = ['template' => '_fabric/pages/entryListing'];
