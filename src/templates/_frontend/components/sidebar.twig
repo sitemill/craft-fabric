@@ -1,9 +1,9 @@
 <div x-data="{sidebarOpen: false}">
     <div @click.prevent="sidebarOpen = !sidebarOpen"
-         class="sidebar__toggle | p-2.5 text-2xl fixed right-0 z-20 md:hidden">
+         class="sidebar__toggle | p-2.5 text-2xl text-gray-700 fixed right-0 z-20 md:hidden w-16 h-16 flex items-center justify-center">
         <i class="fas fa-search" aria-hidden="true" x-show="!sidebarOpen"></i><i class="fas fa-times" aria-hidden="true" x-show="sidebarOpen"></i> <span class="hidden">Menu</span>
     </div>
-    <nav class="sidebar | fixed flex overflow-scroll top-0 w-sidebar transform h-screen p-4 bg-gray-200 dark:bg-gray-900 flex-col justify-between z-50 left-0 md:translate-x-0 transition-all transition-transform duration-500 "
+    <nav class="sidebar | fixed flex overflow-scroll top-0 w-sidebar transform h-screen p-4 bg-gray-200 shadow-3xl md:shadow-none dark:bg-gray-900 flex-col justify-between z-50 left-0 md:translate-x-0 transition-all transition-transform duration-500 "
          id="sidebar"
          :class="{'translate-x-0': sidebarOpen, '-translate-x-sidebar': !sidebarOpen}"
 {#         @click.away="sidebarOpen = false"#}

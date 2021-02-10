@@ -43,22 +43,9 @@
     {% if title or truncated %}
         <div class="listing__header | container-full flex justify-between">
             {% if title %}
-                <h2 class="listing-section__title | text-xl font-medium text-gray-800 py-6">
+                <h2 class="listing__title | text-xl font-medium text-gray-800 pb-4">
                     {{ title }}
                 </h2>
-            {% endif %}
-            {% if truncated %}
-                {% if elementType == 'asset' %}
-                    {% set moreUrl = url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) %}
-                {% elseif elementType == 'entry' %}
-                    {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
-                {% endif %}
-                <div class=" float-right">
-                    <a class="action action--large"
-                       href="{{ moreUrl }}">
-                        View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
             {% endif %}
         </div>
     {% endif %}
@@ -83,6 +70,17 @@
                 thumbnail: thumbnail,
             } only %}
         {% endfor %}
+        {% if truncated %}
+            {% if elementType == 'asset' %}
+                {% set moreUrl = url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) %}
+            {% elseif elementType == 'entry' %}
+                {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
+            {% endif %}
+                <a class="view-all |  flex justify-center items-center p-4 m-4 leading-tight border border-primary text-primary action action--large"
+                   href="{{ moreUrl }}">
+                    View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+        {% endif %}
     </div>
 
     {% if paginate %}
@@ -101,8 +99,6 @@
             {% if pageInfo.nextUrl %}<a href="{{ pageInfo.nextUrl }}" class="pagination__next">Next Page</a>{% endif %}
         </div>
     {% endif %}
-
-
 </div>
 
 {% if paginate == 'infinite' %}

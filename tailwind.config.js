@@ -23,6 +23,9 @@ module.exports = {
                     '0%': {left: '-100%'},
                     '100%': {left: '100%'}
                 }
+            },
+            boxShadow: {
+                '3xl': '0 0px 60px -15px rgba(0, 0, 0, 0.3)',
             }
         },
         container: {

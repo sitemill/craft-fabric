@@ -8,9 +8,9 @@
     'up' - more of a drop-up
     'up-mobile' - is a pop-up on mobile, pop-down on desktop
 #}
-{% set drop = drop|default('up-mobile') %}
+{% set drop = drop|default('down') %}
 
-<div class="dropdown | absolute w-dropdown transform -translate-x-1/2 p-2 bg-white rounded-md shadow-xl z-20 left-1/2 right-auto
+<div class="dropdown | absolute w-dropdown transform -translate-x-1/2 p-2 bg-white rounded-md shadow-3xl z-20 left-1/2 right-auto
     {% if drop == 'up' %}
      bottom-12
     {% elseif drop == 'up-mobile' %}

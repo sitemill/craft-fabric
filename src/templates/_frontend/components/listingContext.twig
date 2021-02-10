@@ -13,7 +13,7 @@
             {% endif %}
         {% endif %}
         ordered by
-        <span class="font-medium">{{ craft.fabric.settings.filterOrdering[order].label|lower }}</span>
+        <span class="font-medium">{{ craft.fabric.settings.filterOrdering[order].label }}</span>
 
     {% else %}
         No {{ kind ? craft.fabric.settings.filterFileKinds[kind].title|lower : 'items' }} found
