@@ -27,18 +27,38 @@ module.exports = {
         },
         container: {
             center: true,
-            maxWidth: '100%',
             padding: {
                 DEFAULT: '1rem',
                 sm: '2rem',
                 lg: '3rem',
-                xl: '4rem',
-                // '2xl': '6rem',
-            }
+                xl: '3rem',
+                '2xl': '3rem'
+            },
+
         },
     },
     variants: {
         extend: {},
     },
-    plugins: [],
+    plugins: [
+        function({addComponents}) {
+            addComponents({
+                '.container-full': {
+                    "@apply container": {},
+                    '@screen sm': {
+                        maxWidth: '100%',
+                    },
+                    '@screen md': {
+                        maxWidth: '100%',
+                    },
+                    '@screen lg': {
+                        maxWidth: '100%',
+                    },
+                    '@screen xl': {
+                        maxWidth: '100%',
+                    },
+                }
+            })
+        }
+    ],
 }

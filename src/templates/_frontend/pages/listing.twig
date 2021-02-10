@@ -150,7 +150,7 @@
 
     <div class="results | relative" id="results">
 
-        <div class="container">
+        <div class="container-full">
             {# todo: create resultsContext component #}
             <div class="results__toolbar | py-2 space-y-4 lg:space-y-0 lg:flex justify-between items-center">
 
@@ -165,19 +165,16 @@
         <div class="results__main">
 
             {% if hasAssets or hasEntries %}
-
                 {% if hasAssets %}
-
-                        {% include '_fabric/components/listing' with {
-                            title: not sourcePage and hasEntries ? 'Assets',
-                            elementType: 'asset',
-                            query: assetQuery,
-                            editable: canEditAssets,
-                            truncated: not sourcePage and (assetQueryLength > queryLimit),
-                            paginate: sourcePage ? 'infinite',
-                            limit: queryLimit
-                        } %}
-
+                    {% include '_fabric/components/listing' with {
+                        title: not sourcePage and hasEntries ? 'Assets',
+                        elementType: 'asset',
+                        query: assetQuery,
+                        editable: canEditAssets,
+                        truncated: not sourcePage and (assetQueryLength > queryLimit),
+                        paginate: sourcePage ? 'infinite',
+                        limit: queryLimit
+                    } %}
                 {% endif %}
 
                 {% if hasAssets and hasEntries %}
@@ -185,22 +182,21 @@
                 {% endif %}
 
                 {% if hasEntries %}
-
-                        {% for sectionHandle, entryQuery in entryQueries %}
-                            {% include '_fabric/components/listing' with {
-                                title: entryQuery.title,
-                                elementType: 'entry',
-                                query: entryQuery.query,
-                                thumbnailField: entryQuery.thumbnailField,
-                                editable: entryQuery.editable,
-                                truncated: not sourcePage and (entryQuery.length > queryLimit),
-                                paginate: sourcePage ? 'infinite',
-                                limit: queryLimit
-                            } %}
-                            {% if not loop.last %}
-                                {% include '_fabric/components/hr.twig' %}
-                            {% endif %}
-                        {% endfor %}
+                    {% for sectionHandle, entryQuery in entryQueries %}
+                        {% include '_fabric/components/listing' with {
+                            title: entryQuery.title,
+                            elementType: 'entry',
+                            query: entryQuery.query,
+                            thumbnailField: entryQuery.thumbnailField,
+                            editable: entryQuery.editable,
+                            truncated: not sourcePage and (entryQuery.length > queryLimit),
+                            paginate: sourcePage ? 'infinite',
+                            limit: queryLimit
+                        } %}
+                        {% if not loop.last %}
+                            {% include '_fabric/components/hr.twig' %}
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
             {% endif %}
         </div>
