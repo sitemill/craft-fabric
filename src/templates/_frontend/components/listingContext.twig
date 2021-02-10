@@ -9,7 +9,7 @@
                         {{ kind ? craft.fabric.settings.filterFileKinds[kind].title|lower : 'assets' }}</span>
             {% endif %}
             {% if hasEntries %}
-                <span class="font-medium">{{ totalEntries }} {{ assetQueryLength > 1 ? 'entries' : 'entry' }}</span>
+                <span class="font-medium">{{ totalEntries }} {{ totalEntries > 1 ? 'entries' : 'entry' }}</span>
             {% endif %}
         {% endif %}
         ordered by

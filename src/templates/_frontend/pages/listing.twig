@@ -100,6 +100,7 @@
 
     {% endif %}
 
+    {% set totalEntries = 0 %}
     {# If entries to be shown, do an entry query #}
     {% if show in ['all','entries'] %}
         {% if elementSource %}
@@ -118,10 +119,10 @@
                 'thumbnailField': craft.fabric.settings.entrySources[elementSource].thumbnailField is defined ? craft.fabric.settings.entrySources[elementSource].thumbnailField,
                 'editable': currentUser.can('editEntries:'~section.uid)
             }} %}
+            {% set totalEntries = sectionQueryLength %}
             {% set hasEntries = sectionQueryLength %}
         {% else %}
             {% set entryQueries = {} %}
-            {% set totalEntries = 0 %}
             {% for source, settings in craft.fabric.settings.entrySources if (settings['enabled'] and settings['showInSearch']) %}
                 {% set section = craft.sections.sectionByHandle(source) %}
                 {% set sectionQuery = craft.entries
