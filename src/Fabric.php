@@ -121,15 +121,9 @@ class Fabric extends Plugin
                 $event->rules['asset/<assetId:\d+>/?<assetSlug>'] = ['template' => '_fabric/pages/asset'];
                 $event->rules['account'] = ['template' => '_fabric/pages/account'];
                 $event->rules['<section>/entry/<entryId:\d+>/?<entrySlug>'] = ['template' => '_fabric/pages/entry'];
-                $event->rules['<section>/listing/'] = ['template' => '_fabric/pages/entryListing'];
+//                $event->rules['<section>/listing/'] = ['template' => '_fabric/pages/entryListing'];
                 $event->rules['category/<categoryId:\d+>/?<categorySlug>'] = ['template' => '_fabric/pages/listing'];
-                $event->rules[] = [
-                    'pattern' => 'dialog/<action>/<elementType>/<id:\d+>',
-                    'template' => '_fabric/dialogs/index',
-                    'defaults' => [
-                        'elementType' => '',
-                    ]
-                ];
+                $event->rules['dialog/<action>/<id:\d+>'] = 'fabric/dialog/index';
                 $event->rules[] = [
                     'pattern' => 'listing/<elementType>/<elementSource>',
                     'template' => '_fabric/pages/listing',
@@ -224,22 +218,23 @@ class Fabric extends Plugin
             }
         }
 
-
         // Toggle share status on element save
-        Event::on(
-            Elements::class,
-            Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function(ElementEvent $event) {
-                $request = Craft::$app->getRequest();
-                $elementId = $event->element->id;
-                $isPublic = $request->getParam('elementPublic');
-                if ($isPublic) {
-                    Fabric::$plugin->share->createShare($elementId);
-                } else {
-                    Fabric::$plugin->share->removeShare($elementId);
+        if ($this->request->isCpRequest) {
+            Event::on(
+                Elements::class,
+                Elements::EVENT_AFTER_SAVE_ELEMENT,
+                function(ElementEvent $event) {
+                    $request = Craft::$app->getRequest();
+                    $elementId = $event->element->id;
+                    $isPublic = $request->getParam('elementPublic');
+                    if ($isPublic) {
+                        Fabric::$plugin->share->createShare($elementId);
+                    } else {
+                        Fabric::$plugin->share->removeShare($elementId);
+                    }
                 }
-            }
-        );
+            );
+        }
     }
 
     // Protected Methods

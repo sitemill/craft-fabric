@@ -1,0 +1,31 @@
+{# {% include '_fabric/settings/colors.twig' %} #}
+
+{% block app %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ siteName }}</title>
+    </head>
+    <body class="bg-primary">
+    <div id="app">
+        <main class="main" id="main">
+            <div class="action-page || p-2 md:p-4 min-h-screen min-w-screen flex items-center justify-center">
+                <div class="action-page__main || p-4 sm:p-7 rounded-xl sm:rounded-2xl w-full max-w-action-page-card  bg-white  shadow-2xl">
+                    <div class="action-page__brand || w-full mb-6 mt-2 flex justify-center">
+                        {% include '_fabric/components/branding.twig' %}
+                    </div>
+                    {% block main %}
+                        No content
+                    {% endblock %}
+                </div>
+                <div class="action-page__supporting">
+
+                </div>
+            </div>
+        </main>
+    </div>
+    </body>
+    </html>
+{% endblock %}

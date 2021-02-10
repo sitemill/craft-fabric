@@ -1,7 +1,0 @@
-{#{% set metaItems = craft.fabric.settings.fileKinds[asset.kind].metaItems is defined ? craft.fabric.settings.fileKinds[asset.kind].metaItems : craft.fabric.settings.defaultMetaItems  %}#}
-
-{#{% for metaItem in metaItems  %}#}
-{#    {% set field = craft.fields.fieldByHandle(metaItem.fieldHandle) %}#}
-{#    {% include '_fabric/components/metaItems/' ~ metaItem.type with field %}#}
-{#{% endfor %}#}
-

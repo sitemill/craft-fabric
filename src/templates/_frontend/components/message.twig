@@ -1,0 +1,43 @@
+{# Message - Can be used as an include, or embeded for greater control #}
+
+{# text <string> The message's text #}
+{% set text = text|default(null) %}
+
+{# type <string> Defines the sentiment of the message
+'default': Standard grey message
+'error': Red
+'success': Green
+'warning': Amber
+'info': Blue
+#}
+{% set type = type|default('default') %}
+
+{# centered <string> Centers the text #}
+{% set centered = centered|default(false) %}
+
+{# Define the color dependent on the type #}
+{% switch type %}
+{% case 'default' %}
+    {% set color = 'gray' %}
+{% case 'error' %}
+    {% set color = 'red' %}
+{% case 'success' %}
+    {% set color = 'green' %}
+{% case 'warning' %}
+    {% set color = 'yellow' %}
+{% case 'info' %}
+    {% set color = 'blue' %}
+{% endswitch %}
+
+
+<div class="message | my-2 p-3 rounded bg-{{ color }}-500 bg-opacity-20 border border-solid border-{{ color }}-500 text-{{ color }}-600 {{ centered ? 'text-center' }}">
+    {% if text is iterable %}
+        <ul class="space-y-4">
+            {% for message in text %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {{ text }}
+    {% endif %}
+</div>

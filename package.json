@@ -4,18 +4,14 @@
   "description": "Fabric is a framework for your Craft content",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run development",
-    "development": "cross-env process.env.section=frontend NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "npm run development -- --watch",
-    "hot": "cross-env process.env.section=frontend NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "npm run production",
-    "production": "cross-env process.env.section=frontend NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "dev-backend": "npm run development-backend",
-    "development-backend": "cross-env process.env.section=backend NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch-backend": "npm run development-backend -- --watch",
-    "hot-backend": "cross-env process.env.section=frontend NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod-backend": "npm run production-backend",
-    "production-backend": "cross-env process.env.section=backend NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "development": "npx mix --mix-config=webpack.mix.frontend.js",
+    "watch": "npx mix watch --mix-config=webpack.mix.frontend.js",
+    "hot": "npx mix watch --mix-config=webpack.mix.frontend.js --hot",
+    "production": "npx mix --mix-config=webpack.mix.frontend.js --production ",
+    "development-backend": "npx mix --mix-config=webpack.mix.backend.js",
+    "watch-backend": "npx mix watch --mix-config=webpack.mix.backend.js",
+    "hot-backend": "npx mix watch --mix-config=webpack.mix.backend.js --hot",
+    "production-backend": "npx mix --mix-config=webpack.mix.backend.js --production "
   },
   "repository": {
     "type": "git",
@@ -29,8 +25,11 @@
   },
   "homepage": "https://github.com/sitemill/craft-fabric#readme",
   "devDependencies": {
+    "browser-sync": "^2.26.14",
+    "browser-sync-webpack-plugin": "^2.3.0",
     "cross-env": "^7.0.2",
-    "laravel-mix": "^5.0.7",
+    "laravel-mix": "^6.0.11",
+    "laravel-mix-purgecss": "^6.0.0",
     "resolve-url-loader": "^3.1.1",
     "sass": "^1.27.0",
     "sass-loader": "^8.0.2",
@@ -39,6 +38,10 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "alpinejs": "^2.7.0",
-    "htmx.org": "0.2.0"
+    "autoprefixer": "^10.0.4",
+    "htmx.org": "0.2.0",
+    "infinite-scroll": "^4.0.1",
+    "postcss": "^8.1.10",
+    "tailwindcss": "^2.0.2"
   }
 }

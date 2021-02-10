@@ -1,0 +1,14 @@
+{# Plain text input | Inherits variables from components/field #}
+
+<input
+        type="{{ type }}"
+        class="border-l border-r border-t border-solid border-gray-400 p-3 hover:shadow-inner
+            {{ error ? 'border-red-500 border' }}
+            {{ fullwidth ? 'w-full' }}
+            {% if position == 'start' %}rounded-t{% elseif position == 'end' %}rounded-b border-b{% elseif position == 'middle' %}{% else %}rounded border-t border-b{% endif %}"
+        {% if id %}id="{{ id }}"{% endif %}
+        {% if name %}name="{{ name }}"{% endif %}
+        {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+        {% if arialabel %}aria-label="{{ arialabel }}"{% endif %}
+        {% if value %}value="{{ value }}"{% endif %}
+        {% if required %}required{% endif %}>

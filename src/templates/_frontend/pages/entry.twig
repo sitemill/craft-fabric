@@ -4,6 +4,18 @@
 {% set pageTitle = entry.title %}
 {% set publicPage = craft.fabric.isPublic(entry) %}
 
+{% set pageActions %}
+    {% include ['_fabric/components/quickActions']  with {
+        id: entry.id,
+        title: entry.title,
+        context: 'page',
+        element: entry,
+        elementType: 'entry',
+        editUrl: currentUser and currentUser.can('editEntries:'~entry.getSection().uid) ? entry.cpEditUrl,
+        kind: 'entry'
+    } only  %}
+{% endset %}
+
 {% extends '_fabric/layouts/page.twig' %}
 
 {% block pageActions %}
@@ -19,7 +31,7 @@
 {% endblock %}
 
 {% block pageMain %}
-
+    {{ entry.getSection().uid  }}
     {# Get settings for entry's source #}
     {% set sourceSettings = craft.fabric.settings.entrySources[section|camel] %}
 

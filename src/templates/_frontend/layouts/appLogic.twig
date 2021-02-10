@@ -1,0 +1,24 @@
+{# Check for user access #}
+{% set publicLayout = false %}
+{% if craft.fabric.settings.private and not currentUser %}
+    {% if publicPage is defined and publicPage == true %}
+        {% set publicLayout = true %}
+    {% else %}
+        {% requireLogin %}
+    {% endif %}
+{% endif %}
+
+{% set userPermissions = {} %}
+{# Let's set global user permissions once to help with performance #}
+{% if currentUser %}
+    {% set userPermissions = {
+        'isAdmin' : currentUser.admin
+    } %}
+{% endif %}
+
+{# Get colors #}
+{#{% include '_fabric/settings/colors.twig' %}#}
+
+{% block app %}
+    Something ain't right.
+{% endblock %}

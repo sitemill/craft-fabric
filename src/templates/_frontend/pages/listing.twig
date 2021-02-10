@@ -1,39 +1,60 @@
 {% extends '_fabric/layouts/page.twig' %}
 
+{# Get any URL Parameters & category #}
+{% set keywords = craft.app.request.getParam('q')|default('') %}
+{% set kind = craft.app.request.getParam('kind')|default('') %}
+{% set order = craft.app.request.getParam('order')|default('dateCreated desc') %}
+{% set layout = craft.app.request.getParam('layout')|default('grid') %}
+{% if category is not defined %}
+    {% set category = craft.app.request.getParam('category') ? craft.categories.id(craft.app.request.getParam('category')).one : null %}
+{% endif %}
+
+{# Get the entry sources #}
+{% set entrySources = [] %}
+{% for source, settings in craft.fabric.settings.entrySources if settings['enabled'] %}
+    {% set entrySources = entrySources|merge({
+        (source) : {
+            'title': craft.sections.sectionByHandle(source).name,
+            'thumbnailField': settings.thumbnailField is defined ? settings.thumbnailField
+        }
+    }) %}
+{% endfor %}
+
 {# Define the type of element the listing will show #}
 {% set show = elementType|default('all') %}
+{% set sourcePage = false %}
+{% set elementSource = elementSource is defined and elementSource ? elementSource|camel : false %}
+
+{# Page settings #}
 {% set pageTitle = 'All items' %}
-
-{% set sourcePage = 0 %}
-{% set elementSource = elementSource is defined and elementSource ? elementSource|camel : 0 %}
-
-{# Set up page settings #}
 {% if show != 'all' %}
     {% if show == 'entries' %}
         {% set pageTitle = 'All entries' %}
-        {% if elementSource  %}
+        {% if elementSource %}
             {% set entrySection = craft.entries.section(elementSource) %}
             {% set pageTitle = craft.sections.sectionByHandle(elementSource).name %}
-            {% set sourcePage = 1 %}
+            {% set sourcePage = true %}
         {% endif %}
     {% else %}
         {% set pageTitle = 'All Assets' %}
-        {% set sourcePage = 1 %}
+        {% set sourcePage = true %}
     {% endif %}
+{% endif %}
+
+{# If it's a query overwrite the title #}
+{% if keywords %}
+    {% set pageTitle = "Searching for '" ~ keywords ~ "'" %}
 {% endif %}
 
 {# Set defaults #}
 {% set hasAssets = 0 %}
 {% set hasEntries = 0 %}
-{% set queryLimit = sourcePage ? 30 : 5 %}
+{% set queryLimit = sourcePage ? 15 : 15 %}
 
-
-{# Set up category if it exists #}
-{% set categoryId = craft.app.request.getParam('category') %}
-{% if categoryId is defined and categoryId %}
-    {% set category = craft.categories.id(categoryId).one() %}
+{# Set up category if defined #}
+{% if category %}
     {% set pageTitle = category.title %}
-    {% set sourcePage = 1 %}
+    {% set sourcePage = true %}
     {# If category has parent, build breadcrumbs YUM #}
     {% if category.parent %}
         {% set breadcrumbs = [] %}
@@ -44,28 +65,30 @@
             }]) %}
         {% endfor %}
     {% endif %}
+
+    {% block pageSubtitle %}
+        {% include '_fabric/components/categoryRoll.twig' with {
+            'categoryRoll': category
+        } %}
+    {% endblock %}
 {% endif %}
 
-{# Pass the page title to the page header #}
-{% block pageHeader %}
-    {% set pageTitle = keywords ? "Searching for '" ~ keywords ~ "'" : pageTitle %}
-    {{ parent() }}
-{% endblock %}
-
 {% block pageMain %}
+
     {# If assets to be show, do an asset query #}
     {% if show in ['all','assets'] %}
         {# Get assets source #}
+        {% set canEditAssets = false %}
         {% if craft.fabric.siloActive %}
             {% set assets = craft.siloAssets %}
+            {% set canEditAssets = currentUser.can('silo-editSiloAssets') %}
         {% else %}
             {% set assets = craft.assets.volume(craft.fabric.settings.assetsSource) %}
+            {% set canEditAssets = currentUser.can('editImagesInVolume:' ~ assets.uid) %}
         {% endif %}
 
         {# Set query #}
-        {% set assetQuery = assets %}
-
-        {% set assetQuery = assetQuery
+        {% set assetQuery = assets
             .search(keywords)
             .kind(kind)
             .relatedTo(category)
@@ -73,22 +96,16 @@
             .with(['file[0]']) %}
 
         {% set assetQueryLength = assetQuery|length %}
-
         {% set hasAssets = assetQueryLength %}
-
-        {% set assetQueryLimited = assetQuery
-            .limit(queryLimit) %}
-
-        {% set assetQueryLimitedLength = assetQueryLimited|length %}
 
     {% endif %}
 
     {# If entries to be shown, do an entry query #}
     {% if show in ['all','entries'] %}
-
         {% if elementSource %}
+            {% set section = craft.sections.sectionByHandle(elementSource) %}
             {% set sectionQuery = craft.entries
-                .section(elementSource)
+                .section(section)
                 .search(keywords)
                 .relatedTo(category)
                 .orderBy(order)
@@ -98,15 +115,17 @@
                 'title': null,
                 'query':sectionQuery,
                 'length': sectionQueryLength,
-                'thumbnailField': craft.fabric.settings.entrySources[elementSource].thumbnailField is defined ? craft.fabric.settings.entrySources[elementSource].thumbnailField
+                'thumbnailField': craft.fabric.settings.entrySources[elementSource].thumbnailField is defined ? craft.fabric.settings.entrySources[elementSource].thumbnailField,
+                'editable': currentUser.can('editEntries:'~section.uid)
             }} %}
             {% set hasEntries = sectionQueryLength %}
         {% else %}
             {% set entryQueries = {} %}
             {% set totalEntries = 0 %}
             {% for source, settings in craft.fabric.settings.entrySources if (settings['enabled'] and settings['showInSearch']) %}
+                {% set section = craft.sections.sectionByHandle(source) %}
                 {% set sectionQuery = craft.entries
-                    .section(source)
+                    .section(section)
                     .search(keywords)
                     .relatedTo(category)
                     .orderBy(order)
@@ -116,89 +135,75 @@
                 {% if sectionQueryLength %}
                     {% set entryQueries = entryQueries|merge({
                         (source) : {
-                            'title': craft.sections.sectionByHandle(source).name,
+                            'title': section.name,
                             'query': sectionQuery,
                             'length': sectionQueryLength,
-                            'thumbnailField': settings.thumbnailField is defined ? settings.thumbnailField
+                            'thumbnailField': settings.thumbnailField is defined ? settings.thumbnailField,
+                            'editable': currentUser.can('editEntries:'~section.uid)
                         }
                     }) %}
                 {% endif %}
             {% endfor %}
             {% set hasEntries = totalEntries %}
         {% endif %}
-
-
     {% endif %}
 
-    <div class="results" id="results">
-        {% if hasAssets or hasEntries %}
-            <div class="container">
-                <div class="results__toolbar">
-                    {#  TODO: get context back in #}
-                    {# total assets: {{ totalAssets }}, total entries: {{ totalEntries }}, all: {{ totalAssets + totalEntries }} #}
-                    {#{% include '_fabric/components/listingContext.twig' %}#}
-                    <div></div>
-                    {% include '_fabric/components/listingFilter.twig' %}
-                </div>
+    <div class="results | relative" id="results">
+
+        <div class="container-full">
+            {# todo: create resultsContext component #}
+            <div class="results__toolbar | py-2 flex justify-between items-center">
+
+                {% include '_fabric/components/listingContext.twig' %}
+
+                {% include '_fabric/components/listingFilter.twig' %}
             </div>
+        </div>
 
-            <div class="results__main">
+        {% include '_fabric/components/hr.twig' %}
+
+        <div class="results__main">
+
+            {% if hasAssets or hasEntries %}
                 {% if hasAssets %}
-                    {% if not sourcePage %}
-                        <div class="container">
-                            <h2 class="results__title">Assets</h2>
-                        </div>
-                    {% endif %}
-
-                    {% include '_fabric/components/listing.twig' with {
-                        elementType: 'asset',
-                        items: assetQuery
-                    } only %}
-
-                    {% if assetQueryLength > queryLimit %}
-                        <div class="container text-right">
-                            <a class="action action--large" href="{{ url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) }}">
-                                View all {{ assetQueryLength }} assets <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    {% endif %}
+                    <div class="py-4">
+                        {% include '_fabric/components/listing' with {
+                            title: not sourcePage and hasEntries ? 'Assets',
+                            elementType: 'asset',
+                            query: assetQuery,
+                            editable: canEditAssets,
+                            truncated: not sourcePage and (assetQueryLength > queryLimit),
+                            paginate: sourcePage ? 'infinite',
+                            limit: queryLimit
+                        } %}
+                    </div>
                 {% endif %}
 
                 {% if hasAssets and hasEntries %}
-                    <hr>
+                    {% include '_fabric/components/hr.twig' %}
                 {% endif %}
 
                 {% if hasEntries %}
                     {% for sectionHandle, entryQuery in entryQueries %}
-                        {% if entryQuery.title %}
-                            <div class="container">
-                                <h2 class="results__title">{{ entryQuery.title }}</h2>
-                            </div>
-                        {% endif %}
-
-                        {% include '_fabric/components/listing.twig' with {
-                            elementType: 'entry',
-                            items: entryQuery.query.all,
-                            thumbnailField: entryQuery.thumbnailField
-                        } only %}
-
-                        {% if entryQuery.length > queryLimit %}
-                            <div class="container text-right">
-                                <a class="action action--large" href="{{ url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) }}">
-                                    View all {{ entryQuery.length }} entries <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </div>
-                        {% endif %}
-
+                        <div class="py-4">
+                            {% include '_fabric/components/listing' with {
+                                title: entryQuery.title,
+                                elementType: 'entry',
+                                query: entryQuery.query,
+                                thumbnailField: entryQuery.thumbnailField,
+                                editable: entryQuery.editable,
+                                truncated: not sourcePage and (entryQuery.length > queryLimit),
+                                paginate: sourcePage ? 'infinite',
+                                limit: queryLimit
+                            } %}
+                        </div>
                         {% if not loop.last %}
-                            <hr>
+                            {% include '_fabric/components/hr.twig' %}
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-            </div>
-        {% else %}
-            No items found
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}

@@ -1,11 +1,20 @@
-<div>
-    <div @click="{sidebarOpen = !sidebarOpen}" class="sidebar__toggle"  :class="{'sidebar__toggle--active': sidebarOpen }">
-        <i class="fas fa-search" aria-hidden="true" x-show="!sidebarOpen"></i><i class="fas fa-times text-canvas" aria-hidden="true" x-show="sidebarOpen"></i> <span>Menu</span>
+<div x-data="{sidebarOpen: false}">
+    <div @click.prevent="sidebarOpen = !sidebarOpen"
+         class="sidebar__toggle | p-2.5 text-2xl text-gray-700 fixed right-0 z-20 md:hidden w-16 h-16 flex items-center justify-center">
+        <i class="fas fa-search" aria-hidden="true" x-show="!sidebarOpen"></i><i class="fas fa-times" aria-hidden="true" x-show="sidebarOpen"></i> <span class="hidden">Menu</span>
     </div>
-    <nav class="sidebar" :class="{'sidebar--active': sidebarOpen }" id="sidebar" >
+    <nav class="sidebar | fixed flex overflow-scroll top-0 w-sidebar transform h-screen p-4 bg-gray-200 shadow-3xl md:shadow-none dark:bg-gray-900 flex-col justify-between z-50 left-0 md:translate-x-0 transition-all transition-transform duration-500 "
+         id="sidebar"
+         :class="{'translate-x-0': sidebarOpen, '-translate-x-sidebar': !sidebarOpen}"
+{#         @click.away="sidebarOpen = false"#}
+{#         x-transition:enter-start="ease-in transform -left-sidebar"#}
+{#         x-transition:enter-end="transform left-0"#}
+{#         x-transition:leave-start="ease-out transform left-0"#}
+{#         x-transition:leave-end="transform -left-sidebar"#}
+         >
         <div class="sidebar__main">
             {% include '_fabric/extends/sidebarMainPre.twig' ignore missing %}
-            <div class="sidebar__branding">
+            <div class="sidebar__branding | p-4 pb-8 text-center">
                 {% include '_fabric/components/branding.twig' %}
             </div>
             <div class="sidebar__searchbar">

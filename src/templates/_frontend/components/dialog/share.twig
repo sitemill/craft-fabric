@@ -1,0 +1,37 @@
+{% set formAction = '/fabric/share/toggle' %}
+{% set htmxSwapSection = '#swap' %}
+{% set htmxTrigger = 'change' %}
+{% set thumbnail = 0 %}
+{% set element = craft.app.elements.getElementById(id) %}
+
+{% if element is instance of ('craft\\elements\\Asset') or element is instance of ('sitemill\\silo\\elements\\SiloAsset') %}
+    {% set elementUrl = url('asset/' ~ element.id ~ '/' ~ element.title|kebab) %}
+{% elseif element is instance of ('craft\\elements\\Entry') %}
+    {% set elementUrl = url(element.section|kebab ~ '/entry/' ~ element.id ~ '/' ~ element.slug) %}
+{% endif %}
+
+{% set title = "Share '" ~ element.title ~ "'" %}
+
+{% extends '_fabric/components/dialog' %}
+
+{% block main %}
+    {% set isPublic = craft.fabric.isPublic(element) %}
+    {% if thumbnail %}
+        <img src="{{ thumbnail.thumbUrl(600) }}" alt="">
+    {% endif %}
+    <div id="swap">
+        <div class="mb-4">
+            <strong>Shared:</strong>
+            <input type="checkbox" id="public" name="public" {{ isPublic ? 'checked' }}>
+            <label for="public">{{ isPublic ? 'Is public' : 'Not public' }}</label>
+        </div>
+        {% if isPublic %}
+            <h3>Share Url:</h3>
+            {% include '_fabric/components/message' with {
+                text: elementUrl,
+                type: 'info'
+            } %}
+        {% endif %}
+    </div>
+{% endblock %}
+

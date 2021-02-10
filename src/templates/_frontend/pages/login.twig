@@ -2,47 +2,77 @@
     {% redirect '/' %}
 {% endif %}
 
-{% extends "_fabric/layouts/action-page.twig" %}
+{% extends "_fabric/layouts/actionPage.twig" %}
 
 {% block main %}
-    {% include '_fabric/components/branding.twig' %}
-    <form method="post" accept-charset="UTF-8">
+
+
+    <form method="post" accept-charset="UTF-8" class="space-y-3">
         {{ csrfInput() }}
         {{ actionInput('users/login') }}
 
-        <div class="field-group field-group--join">
-            <div class="form-field form-field--join form-field--full-width form-field--join form-field--join-start">
-                <input id="loginName" class="focus:border-primary" type="text" name="loginName"
-                       placeholder="Username or Email" aria-label="Username or Email"
-                       value="{{ craft.app.user.rememberedUsername }}" required>
-            </div>
+        <div>
+            {% include '_fabric/components/field/text.twig' with {
+                id: 'loginName',
+                name: 'loginName',
+                placeholder: 'Username or Email'|t,
+                value: craft.app.user.rememberedUsername,
+                required: true,
+                position: 'start'
+            } %}
 
-            <div class="form-field form-field--full-width form-field--join form-field--join-end">
-                <input id="password" class="focus:border-primary" type="password" name="password" placeholder="Password"
-                       aria-label="Password" required>
-            </div>
+            {% include '_fabric/components/field/password.twig' with {
+                type: 'password',
+                id: 'password',
+                name: 'password',
+                placeholder: 'Password'|t,
+                required: true,
+                position: 'end'
+            } %}
         </div>
 
-        <div class="field-group">
-            <div class="form-field flex justify-between">
-                <label class="text-sm">
-                    <input type="checkbox" name="rememberMe" value="1">
-                    Keep me logged in
-                </label>
-                <a href="{{ url('forgotpassword') }}" class="text-sm text-primary">Forget your password?</a>
+        <div class="space-y-6">
+
+            <div class="space-y-2 md:space-y-0 md:flex md:justify-between">
+                {% include '_fabric/components/field/checkbox.twig' with {
+                    type: 'checkbox',
+                    id: 'rememberMe',
+                    name: 'rememberMe',
+                    label: 'Keep me logged in'|t,
+                    size: 'small'
+                } %}
+                <a href="{{ url('forgotpassword') }}" class="text-right block text-sm text-primary">Forget your password?</a>
             </div>
-            <div class="actions actions--vertical actions--space-top">
-                <input type="submit" value="Login" class="action action--full-width bg-primary text-on-primary">
+
+            <div class="space-y-2">
+                {% include '_fabric/components/action.twig' with {
+                    text: 'Login'|t,
+                    type: 'submit',
+                    size: 'large',
+                    fullWidth: true,
+                    color: 'primary',
+                    attributes: {
+                        'title' : 'Login'|t
+                    }
+                } %}
                 {% if craft.app.projectConfig.get('users').allowPublicRegistration %}
-                    <a class="action action--full-width border-primary text-primary"
-                       href="{{ url('register') }}">Register</a>
+                    {% include '_fabric/components/action.twig' with {
+                        text: 'Register'|t,
+                        style: 'outline',
+                        action: url('register'),
+                        size: 'large',
+                        fullWidth: true,
+                        color: 'primary'
+                    } %}
                 {% endif %}
             </div>
 
             {% if errorMessage is defined %}
-                <div class="message message--centered message--space-top status-error">
-                    {{ errorMessage }}
-                </div>
+                {% include '_fabric/components/message' with {
+                    text: errorMessage,
+                    type: 'error',
+                    centered: true
+                } %}
             {% endif %}
         </div>
 

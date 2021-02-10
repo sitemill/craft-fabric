@@ -1,0 +1,79 @@
+{% set context = context|default('default') %}
+{% set title = title %}
+{% set id = id %}
+{% set kind = kind %}
+{% set element = element %}
+{% set editUrl = editUrl %}
+{% set buttonSize = context == 'card' ? 'small' : 'default' %}
+
+<div class="flex flex-row-reverse items-start space-x-1">
+    <h4 class="hidden">Quick actions</h4>
+
+    {% block quickActionsMain %}
+        {% if kind != 'entry' %}
+            {% include '_fabric/components/action.twig' with {
+                action: craft.fabric.siloActive ? craft.silo.download([element.id]) : element.url,
+                text: 'Download'|t,
+                size: buttonSize,
+                icon: 'fas fa-download',
+                color: 'primary',
+                attributes: {
+                    'title' : 'Download this asset'|t,
+                    'download' : title
+                }
+            } %}
+        {% endif %}
+    {% endblock %}
+
+    {% if currentUser %}
+        <div class="more-actions | relative" x-data="{ dropdown{{ id }}open: false }">
+
+            {% include '_fabric/components/action.twig' with {
+                text: 'Actions'|t,
+                size: buttonSize,
+                style: 'icon-only',
+                icon: 'fas fa-ellipsis-h',
+                color: 'white',
+                textColor: 'gray-900',
+                attributes: {
+                    '@click' : 'dropdown' ~ id ~ 'open =! ' ~ 'dropdown' ~ id ~ 'open'
+                }
+            } %}
+
+            {% embed '_fabric/components/dropdown' with {
+                id: id
+            } %}
+                {% block dropdownItems %}
+                    {% block quickActionsMore %}
+                        {% include '_fabric/components/action.twig' with {
+                            text: 'Share'|t,
+                            action: url('/dialog/share/' ~ id),
+                            size: buttonSize,
+                            type: 'list-item',
+                            icon: 'fas fa-link',
+                            target: 'dialog',
+                            attributes: {
+                                'title' : 'Get a public link for this item'|t,
+                            }
+                        } only %}
+                        {% if editUrl %}
+                            {% include '_fabric/components/action.twig' with {
+                                text: 'Edit'|t,
+                                action: editUrl,
+                                size: buttonSize,
+                                type: 'list-item',
+                                icon: 'fas fa-pen',
+                                target: 'blank',
+                                attributes: {
+                                    'title' : 'Edit asset in control panel'|t,
+                                }
+                            } only %}
+                        {% endif %}
+                    {% endblock %}
+                {% endblock %}
+            {% endembed %}
+
+        </div>
+    {% endif %}
+
+</div>

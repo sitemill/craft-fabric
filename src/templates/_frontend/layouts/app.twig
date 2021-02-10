@@ -1,33 +1,40 @@
-{% extends '_fabric/layouts/app-logic.twig' %}
+{% extends '_fabric/layouts/appLogic' %}
 
 {% block app %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ pageTitle }} - {{ siteName }}</title>
-    {% include '_fabric/components/vendorHead.twig' %}
-</head>
-<body>
-    <div id="app" class="page text-base text-type bg-primary" :class="{'page--recessed': sidebarOpen }" x-data="{ sidebarOpen: false }">
-
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ pageTitle }} - {{ siteName }}</title>
+        {% include '_fabric/components/vendorHead' %}
+    </head>
+    <body>
+    <div id="app"
+         class="page | bg-gray-white dark:bg-gray-700 text-base text-gray-900 dark:text-gray-100 min-h-screen">
         {% if not publicLayout %}
-            {% include '_fabric/components/sidebar.twig' %}
+            {% include '_fabric/components/sidebar' %}
         {% endif %}
-        <div class="page-loader" id="page-loader" class="htmx-indicator">
-            <div class="page-loader__bar bg-primary"></div>
-        </div>
-        <main class="main bg-canvas {% if not publicLayout %}main--allow-sidebar{% endif %}" id="main" >
-            {% block main %}
+
+        {# Initialize the page loader #}
+        {% include '_fabric/components/pageLoader' %}
+
+        <main class="main | {% if not publicLayout %}md:ml-sidebar{% endif %}" id="main">
+            {% block appMain %}
                 No content
             {% endblock %}
         </main>
+        {% include '_fabric/components/vendorFoot' %}
+    </div>
 
-        {% include '_fabric/components/vendorFoot.twig' %}
-    </div>
-    <div id="dialog" class="dialog">
-    </div>
-</body>
-</html>
+    {# Initialize dialog #}
+    {% include '_fabric/components/dialog' %}
+    </body>
+    </html>
 {% endblock %}
+
+{% css %}
+[x-cloak] {
+    display: none
+}
+{% endcss %}

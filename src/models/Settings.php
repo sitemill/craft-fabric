@@ -95,16 +95,16 @@ class Settings extends Model
      */
     public $filterFileKinds = [
         'image' => [
-            'title' => 'Image',
+            'title' => 'Images',
             'value' => 'image',
             'icon' => ''
         ],
         'video' => [
-            'title' => 'Video',
+            'title' => 'Videos',
             'value' => 'video',
         ],
         'compressed' => [
-            'title' => 'Compressed',
+            'title' => 'Archives',
             'value' => 'compressed',
         ]
     ];
@@ -113,21 +113,17 @@ class Settings extends Model
      * @var array Determines the sorting options for assets
      */
     public $filterOrdering = [
-        [
+        'title asc' => [
             'label' => 'Title A-Z',
-            'value' => 'title asc',
         ],
-        [
+        'title desc' => [
             'label' => 'Title Z-A',
-            'value' => 'title desc',
         ],
-        [
+        'dateCreated desc' => [
             'label' => 'Newest First',
-            'value' => 'dateCreated desc',
         ],
-        [
+        'dateCreated asc' => [
             'label' => 'Oldest First',
-            'value' => 'dateCreated asc',
         ]
     ];
 
@@ -139,12 +135,8 @@ class Settings extends Model
      */
     public $colors = [
         // Theme colours
-        'canvas' => 'white',
-        'type' => '#333',
         'primary' => '#6816D0',
-        'text' => [
-            'on-primary' => 'white'
-        ]
+        'secondary' => ''
     ];
 
 

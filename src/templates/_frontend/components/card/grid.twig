@@ -1,34 +1,51 @@
-{% set item = item %}
-{% set elementType = elementType %}
-{% set id = item.id %}
-{% set title = item.title %}
-{% set route =  elementType == 'asset' ? 'asset' : item.section.handle|kebab ~ '/entry' %}
-{% set kind = elementType == 'asset' ? item.kind : 'entry' %}
-{% set editUrl = currentUser and currentUser.admin ? item.cpEditUrl : 0  %}
-{% set thumbnail = thumbnail is defined ? thumbnail : 0 %}
+{# Grid Card - displays the item as a square grid item#}
 
-<article class="card-grid">
-    <div class="card-grid__wrapper">
+{# item <instance> [required] An instace of the item #}
+{% set item = item %}
+
+{# elementType <string> [required] the element type of the item, i.e. 'asset' or 'entry' #}
+{% set elementType = elementType %}
+
+{# url <string> [required] The destination of the link #}
+{% set url = url %}
+
+{# editable <bool> Does the user have permission to edit this? #}
+{% set editable = editable|default(false) %}
+{% set editUrl = editable ? item.cpEditUrl : null %}
+
+{# If this is an asset, what file kind is it #}
+{% set kind = elementType == 'asset' ? item.kind : 'entry' %}
+
+<article x-data="{ hover{{ item.id }}: false }"
+         @mouseenter="{hover{{ item.id }} = true}"
+         @mouseleave="{hover{{ item.id }} = false}"
+         class="card card--grid | relative text-center hover:bg-gray-100">
+
+    <div class="card-grid__wrapper | p-4">
+
         <div class="card-grid__thumbnail">
-            {% include ['_fabric/components/thumbnail/' ~ kind,'_fabric/components/thumbnail/_default'] with {
-                alt: title,
+            {% include ['_fabric/components/thumbnail/' ~ kind,'_fabric/components/thumbnail'] with {
+                alt: item.title,
                 thumbnail: thumbnail
             } only %}
         </div>
+
         <header class="card-grid__header">
-            <h3 class="card-grid__title">
-                <a 
-                    href="{{ url(route ~ '/' ~ id ~ '/' ~ title|kebab ) }}"
-                    class="card-grid__action"
-                    >
-                    {{ title }}
+            <h3 class="card-grid__title |  text-sm m-0 leading-tight">
+                <a href="{{ url(url) }}"
+                   class="card-grid__action | no-underline text-gray-800">
+                    {{ item.title }}
+                    <div class="absolute top-0 bottom-0 w-full"></div>
                 </a>
             </h3>
         </header>
-        <div class="card-grid__actions">
-            {% include ['_fabric/components/quickActions/' ~ kind,'_fabric/components/quickActions/_default'] with {
-                id: id,
-                title: title,
+
+        <div
+                class="card-grid__actions || z-10 hover:block p-4 absolute top-0 right-0"
+                x-show="hover{{ item.id }}" x-cloak>
+            {% include ['_fabric/components/quickActions/' ~ kind,'_fabric/components/quickActions'] with {
+                id: item.id,
+                title: item.title,
                 elementType: elementType,
                 context: 'card',
                 element: item,
@@ -36,5 +53,6 @@
                 kind: kind
             } only %}
         </div>
+
     </div>
 </article>

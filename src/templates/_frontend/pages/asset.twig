@@ -1,14 +1,18 @@
+{# Get the asset file dependent on whether on not silo is active #}
 {% if craft.fabric.siloActive %}
     {% set asset = craft.siloAssets
         .id(assetId)
         .with(['file[0]'])
         .one() %}
+    {% set canEditAsset = currentUser and currentUser.can('silo-editSiloAssets') %}
 {% else %}
     {% set asset = craft.assets
         .id(assetId)
         .one() %}
+    {% set canEditAsset = currentUser and currentUser.can('editImagesInVolume:' ~ asset.volume.uid) %}
 {% endif %}
 
+{# General page settings #}
 {% set pageTitle = asset.title %}
 {% set publicPage = craft.fabric.isPublic(asset) %}
 {% set breadcrumbs = [{
@@ -16,35 +20,31 @@
     'url': '/listing/assets/'
 }] %}
 
-{% extends '_fabric/layouts/page.twig' %}
-
-{% block pageActions %}
-    {% include ['_fabric/components/quickActions/' ~ asset.kind,'_fabric/components/quickActions/_default']  with {
+{% set pageActions %}
+    {% include ['_fabric/components/quickActions/' ~ asset.kind,'_fabric/components/quickActions']  with {
         id: asset.id,
         title: asset.title,
         context: 'page',
         element: asset,
         elementType: 'asset',
-        editUrl: asset.cpEditUrl,
+        editUrl: canEditAsset ? asset.cpEditUrl,
         kind: 'asset'
-    } only  %}
-{% endblock %}
+    } only %}
+{% endset %}
+
+{% extends '_fabric/layouts/page.twig' %}
 
 {% block pageMain %}
-    <div class="asset">
-        <div class="container">
-            <div class="asset__wrapper">
-                <div class="asset__preview">
-                    {% include ['_fabric/components/preview/' ~ asset.kind, '_fabric/components/preview/_default'] %}
+    <div class="asset | pt-4 md:pt-10 ">
+        <div class="container-full">
+            <div class="asset__wrapper | lg:flex">
+                <div class="asset__preview | w-full max-w-3xl lg:w-3/5 lg:flex-shrink-0">
+                    {% include ['_fabric/components/preview/' ~ asset.kind, '_fabric/components/preview'] %}
                 </div>
-                <div class="asset__meta">
-                    {% for fieldHandle, fieldSettings in craft.fabric.settings.assetFields if fieldSettings.enabled %}
-                        {% include '_fabric/components/metaItems' with {
-                            handle: fieldHandle,
-                            settings: fieldSettings,
-                            element: asset
-                        } only %}
-                    {% endfor %}
+                <div class="asset__meta | mt-6 lg:mt-0 lg:ml-10 flex-grow">
+                    {% include '_fabric/components/metaItems'  with {
+                        element: asset
+                    } only %}
                 </div>
             </div>
         </div>

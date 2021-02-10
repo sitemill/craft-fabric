@@ -13,7 +13,7 @@
 /yarn-error.log
 
 # MISC FILES
-.cache
+.cache 
 .DS_Store
 .idea
 .project
