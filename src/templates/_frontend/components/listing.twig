@@ -78,7 +78,7 @@
             {% include '_fabric/components/card/' ~ layout with {
                 item:item,
                 elementType: elementType,
-                url: elementType == 'asset' ? 'asset' ~ '/' ~ item.id ~ '/' ~ item.title|kebab : 'entry' ~ '/' ~ item.id ~ '/' ~ item.title|kebab,
+                url: elementType == 'asset' ? 'asset' ~ '/' ~ item.id ~ '/' ~ item.title|kebab : item.url,
                 editable: editable,
                 thumbnail: thumbnail,
             } only %}
