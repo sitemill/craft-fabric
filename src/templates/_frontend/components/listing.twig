@@ -21,6 +21,9 @@
 {# truncated <bool> if true a link will be shown to view all entries #}
 {% set truncated = truncated|default(false) %}
 
+{# fullWidth <bool> is this a full page listing? #}
+{% set fullPage = fullPage|default(false) %}
+
 {# pagination <string> paginate the items – this can only be used once per page
     'false' : do not paginate
     'infinite' : paginate using infinite scroll
@@ -41,18 +44,26 @@
 
 {# TODO: cache based on element id #}
 
-<div class="listing listing--{{ elementType }} | relative ">
+<div class="listing listing--{{ elementType }} | relative mx-auto ">
     {% if title or truncated %}
         <div class="listing__header | container-full flex justify-between">
             {% if title %}
-                <h2 class="listing__title | text-xl font-medium text-gray-800 pb-4">
+                <h2 class="listing__title | text-xl font-medium text-gray-800 py-4">
                     {{ title }}
                 </h2>
             {% endif %}
         </div>
     {% endif %}
 
-    <div class="listing__items | grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8">
+    <div class="listing__items |
+        {% if layout == 'grid' %}
+            grid grid-cols-2
+            {% if fullPage %}
+                sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8
+            {% else %}
+
+            {% endif %}
+        {% endif %}">
         {% for item in items %}
             {% set thumbnail = null %}
             {% if thumbnailField %}
@@ -83,6 +94,7 @@
                 View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right ml-2"></i>
             </a>
         {% endif %}
+
     </div>
 
     {% if paginate %}

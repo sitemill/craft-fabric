@@ -49,7 +49,7 @@
 {# Set defaults #}
 {% set hasAssets = 0 %}
 {% set hasEntries = 0 %}
-{% set queryLimit = sourcePage ? 15 : 15 %}
+{% set queryLimit = sourcePage ? 16 : 16 %}
 
 {# Set up category if defined #}
 {% if category %}
@@ -167,7 +167,7 @@
 
             {% if hasAssets or hasEntries %}
                 {% if hasAssets %}
-                    <div class="py-4">
+                    <div>
                         {% include '_fabric/components/listing' with {
                             title: not sourcePage and hasEntries ? 'Assets',
                             elementType: 'asset',
@@ -175,7 +175,8 @@
                             editable: canEditAssets,
                             truncated: not sourcePage and (assetQueryLength > queryLimit),
                             paginate: sourcePage ? 'infinite',
-                            limit: queryLimit
+                            limit: queryLimit,
+                            fullPage: true
                         } %}
                     </div>
                 {% endif %}
@@ -186,18 +187,17 @@
 
                 {% if hasEntries %}
                     {% for sectionHandle, entryQuery in entryQueries %}
-                        <div class="py-4">
-                            {% include '_fabric/components/listing' with {
-                                title: entryQuery.title,
-                                elementType: 'entry',
-                                query: entryQuery.query,
-                                thumbnailField: entryQuery.thumbnailField,
-                                editable: entryQuery.editable,
-                                truncated: not sourcePage and (entryQuery.length > queryLimit),
-                                paginate: sourcePage ? 'infinite',
-                                limit: queryLimit
-                            } %}
-                        </div>
+                        {% include '_fabric/components/listing' with {
+                            title: entryQuery.title,
+                            elementType: 'entry',
+                            query: entryQuery.query,
+                            thumbnailField: entryQuery.thumbnailField,
+                            editable: entryQuery.editable,
+                            truncated: not sourcePage and (entryQuery.length > queryLimit),
+                            paginate: sourcePage ? 'infinite',
+                            limit: queryLimit,
+                            fullPage: true
+                        } %}
                         {% if not loop.last %}
                             {% include '_fabric/components/hr.twig' %}
                         {% endif %}
