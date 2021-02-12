@@ -106,6 +106,10 @@ class Settings extends Model
         'compressed' => [
             'title' => 'Archives',
             'value' => 'compressed',
+        ],
+        'pdf' => [
+            'title' => 'PDF\'s',
+            'value' => 'pdf',
         ]
     ];
 
