@@ -1,4 +1,4 @@
-{# TODO: should I poll to see if categories are empty for query - this could prove expensive - I don't think i should #}
+{# TODO: should I poll to see if categories are empty for query - this could prove expensive - I don't think I should #}
 
 {% set categoryRoll = categoryRoll|default(false) %}
 
@@ -8,19 +8,23 @@
 
     {% if category %}
         {% if category.hasDescendants %}
-            {% set categories = craft.categories().descendantOf(category).descendantDist('1').all() %} {# TODO: do i want to only show the next level down, or all children of parent? Probably the former #}
+            {% set categories = craft.categories().descendantOf(category).descendantDist('1').orderBy('title asc').all() %}
             {% set isParent = true %}
         {% endif %}
     {% else %}
-        {% set categories = craft.categories().group('categories').level(1).all() %} {# TODO: Set this to a variable #}
+        {% set categories = craft.categories().group('categories').level(1).orderBy('title asc').all() %} {# TODO: Set this to a variable #}
     {% endif %}
 
     {% if categories|length %}
         <div class="category-strip">
-            {% if isParent %}Sub {% endif %}Categories:
-
+            <span class="mr-1">
+                {% if isParent %}Sub {% endif %}Categories:
+            </span>
             {% for category in categories %}
-                <a href="{{ url('listing/all?category=' ~ category.id ) }}" title="Only show assets in the  {{ category.title }} category" class="font-medium text-primary">{{ category.title }}</a>
+                {% if not loop.first %}<span class="opacity-10 px-0.5">/</span>{% endif %}
+                <a href="{{ url('listing/all?category=' ~ category.id ) }}"
+                   title="Only show assets in the  {{ category.title }} category"
+                   class="font-medium text-primary hover:underline">{{ category.title }}</a>
             {% endfor %}
         </div>
     {% endif %}
