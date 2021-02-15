@@ -26,9 +26,10 @@
 
 {# pagination <string> paginate the items – this can only be used once per page
     'false' : do not paginate
+    'true' : paginate with links
     'infinite' : paginate using infinite scroll
 #}
-{% set paginate = paginate|default(false) %}
+{% set paginate = true %}
 
 {# Fetch the entries #}
 {% if limit %}
