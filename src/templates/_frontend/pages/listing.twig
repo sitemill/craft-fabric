@@ -49,12 +49,13 @@
 {# Set defaults #}
 {% set hasAssets = 0 %}
 {% set hasEntries = 0 %}
-{% set queryLimit = sourcePage ? 16 : 16 %}
+{% set queryLimit = sourcePage ? null : 16 %}
 
 {# Set up category if defined #}
 {% if category %}
     {% set pageTitle = category.title %}
     {% set sourcePage = true %}
+
     {# If category has parent, build breadcrumbs YUM #}
     {% if category.parent %}
         {% set breadcrumbs = [] %}
@@ -109,8 +110,7 @@
                 .section(section)
                 .search(keywords)
                 .relatedTo(category)
-                .orderBy(order)
-                .limit(queryLimit) %}
+                .orderBy(order) %}
             {% set sectionQueryLength = sectionQuery|length %}
             {% set entryQueries = { elementSource : {
                 'title': null,
@@ -129,8 +129,7 @@
                     .section(section)
                     .search(keywords)
                     .relatedTo(category)
-                    .orderBy(order)
-                    .limit(queryLimit) %}
+                    .orderBy(order) %}
                 {% set sectionQueryLength = sectionQuery|length %}
                 {% set totalEntries = totalEntries + sectionQueryLength %}
                 {% if sectionQueryLength %}
