@@ -64,9 +64,17 @@ return [
      * Define your navigation items as an array eg.
      * 'navigation' => [
      *      [
-     *          'type' => 'link',
-     *          'title' => 'Home',
-     *          'source' => '/'
+     *          'type' => 'links',
+     *          'links' => [
+     *              [
+     *                  'title' => 'Home',
+     *                  'url' => '/'
+     *              ],
+     *              [
+     *                  'title' => 'Another link',
+     *                  'url' => '/'
+     *              ],
+     *          ]
      *      ],
      *      [
      *          'type' => 'entryNav',
@@ -77,16 +85,21 @@ return [
      *
      * Available navigation types:
      * heading - a heading of course
-     * link - a straight forward redirect to a url defined in the 'source'
+     * links - an array of links
      * entryNav - displays all the enabled entries for the section defined in 'source'
      * entryListing - creates a link to a listing page containing all entries for the section defined in 'source'
-     * categoriesNav - shows all categories for the category group defined in 'source
+     * categoriesNav - shows all categories for the category group defined in 'source'
      */
     'navigation' => [
         [
-            'type' => 'link',
-            'title' => 'Home',
-            'source' => '/'
+            'type' => 'links',
+            'links' => [
+                [
+                    'title' => 'Home',
+                    'url' => '/'
+                ]
+            ]
+
         ]
     ],
 
