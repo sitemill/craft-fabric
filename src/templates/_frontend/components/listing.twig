@@ -25,11 +25,11 @@
 {% set fullPage = fullPage|default(false) %}
 
 {# pagination <string> paginate the items – this can only be used once per page
-    'false' : do not paginate
-    'true' : paginate with links
+    false : do not paginate
+    'links' : paginate with links
     'infinite' : paginate using infinite scroll
 #}
-{% set paginate = true %}
+{% set paginate = paginate|default(false) %}
 
 {# Fetch the entries #}
 {% if limit %}
@@ -42,6 +42,7 @@
 {% else %}
     {% set items = query.all() %}
 {% endif %}
+
 
 {# TODO: cache based on element id #}
 
@@ -84,7 +85,17 @@
                 thumbnail: thumbnail,
             } only %}
         {% endfor %}
-
+        {% if truncated %}
+            {% if elementType == 'asset' %}
+                {% set moreUrl = url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) %}
+            {% elseif elementType == 'entry' %}
+                {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
+            {% endif %}
+            <a class="view-all |  flex justify-center items-center p-4 m-4 leading-tight border border-primary text-primary action action--large"
+               href="{{ moreUrl }}">
+                View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        {% endif %}
 
     </div>
     {% if paginate %}
