@@ -84,20 +84,9 @@
                 thumbnail: thumbnail,
             } only %}
         {% endfor %}
-        {% if truncated %}
-            {% if elementType == 'asset' %}
-                {% set moreUrl = url('listing/assets/?' ~ craft.request.queryStringWithoutPath ) %}
-            {% elseif elementType == 'entry' %}
-                {% set moreUrl = url('listing/entries/' ~ sectionHandle|kebab ~ '/?' ~ craft.request.queryStringWithoutPath ) %}
-            {% endif %}
-            <a class="view-all |  flex justify-center items-center p-4 m-4 leading-tight border border-primary text-primary action action--large"
-               href="{{ moreUrl }}">
-                View all {{ query|length }} {{ elementType }}s <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        {% endif %}
+
 
     </div>
-
     {% if paginate %}
         {% if paginate == 'infinite' %}
             <div class="scroller-status | hidden my-16">
@@ -119,7 +108,8 @@
 {% if paginate == 'infinite' %}
     {% js %}
         let infiniteScrollOptions = {
-        path: '.pagination__next',
+        path: '{{ '/' ~ craft.request.path ~ '/p{{#}}?' ~ craft.request.queryStringWithoutPath }}',
+        checkLastPage: '.pagination__next',
         append: '.card',
         history: false,
         prefill: true,
