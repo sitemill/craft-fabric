@@ -129,12 +129,8 @@
 
         let infScroll = new InfiniteScroll('.listing__items', infiniteScrollOptions);
 
-        document.body.addEventListener('htmx:beforeSwap', function(evt) {
-        infScroll.destroy()
-        });
-
-        document.body.addEventListener('htmx:afterSwap', function(evt) {
-        let infScroll = new InfiniteScroll('.listing__items', infiniteScrollOptions);
+        infScroll.on( 'append', function( body, path, items, response ) {
+            htmx.process(document.body);
         });
     {% endjs %}
 {% endif %}
