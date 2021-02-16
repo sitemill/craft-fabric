@@ -16,10 +16,7 @@
 {# If this is an asset, what file kind is it #}
 {% set kind = elementType == 'asset' ? item.kind : 'entry' %}
 
-<article x-data="{ hover{{ item.id }}: false }"
-         @mouseenter="{hover{{ item.id }} = true}"
-         @mouseleave="{hover{{ item.id }} = false}"
-         class="card card--grid | relative text-center hover:bg-gray-100 ">
+<article class="card card--grid | group relative text-center hover:bg-gray-100 ">
 
     <div class="card-grid__wrapper | p-4">
 
@@ -40,9 +37,7 @@
             </h3>
         </header>
 
-        <div
-                class="card-grid__actions || z-10 hover:block p-4 absolute top-0 right-0"
-                x-show="hover{{ item.id }}" x-cloak>
+        <div class="card-grid__actions | z-10 opacity-0 group-hover:opacity-100 p-4 absolute top-0 right-0">
             {% include ['_fabric/components/quickActions/' ~ kind,'_fabric/components/quickActions'] with {
                 id: item.id,
                 title: item.title,
