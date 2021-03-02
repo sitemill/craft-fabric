@@ -22,7 +22,7 @@ use yii\web\Response;
  */
 class AssetController
 {
-
+//    TODO: Get rid of this
     /**
      * Returns an asset’s thumbnail.
      *

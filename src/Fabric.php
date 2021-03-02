@@ -10,6 +10,8 @@
 
 namespace sitemill\fabric;
 
+use craft\events\GetAssetThumbUrlEvent;
+use craft\services\Assets;
 use sitemill\fabric\variables\FabricVariable;
 use sitemill\fabric\models\Settings;
 use sitemill\fabric\services\Share as ShareService;
@@ -174,6 +176,8 @@ class Fabric extends Plugin
                 }
             }
         );
+
+
 
 
         Craft::info(

@@ -1,1 +1,8 @@
 {% extends '_fabric/components/thumbnail/image' %}
+{% if craft.app.plugins.plugin('pdf-transform') %}
+    {% set pdf = craft.pdfTransform.url(thumbnail) %}
+
+    {% block thumbnail %}
+        <img class="absolute w-full h-full object-contain p-4" src="{{ pdf.url({width:150, quality:50}) }}">
+    {% endblock %}
+{% endif %}

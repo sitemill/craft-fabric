@@ -1,5 +1,5 @@
 {% extends '_fabric/components/thumbnail' %}
-
-{% block thumbnail %}
-    <img class="absolute w-full h-full object-contain p-4" src="{{ thumbnail.url({width:150, quality:50}) }}" alt="{{ alt }}">
-{% endblock %}
+    {% block thumbnail %}
+        <img class="absolute w-full h-full object-contain p-4" src="{{ thumbnail.url({width:150, quality:50}) }}"
+             alt="{{ alt }}">
+    {% endblock %}
