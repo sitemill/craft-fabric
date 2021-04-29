@@ -29,7 +29,7 @@ class ShareController extends Controller
     {
         $this->requirePostRequest();
         $this->requirePermission('fabric-manageShares');
-
+  
         $request = Craft::$app->getRequest();
         $elementId = $request->getRequiredParam('elementId');
         $redirect = $request->getRequiredParam('redirect');
