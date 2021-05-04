@@ -30,6 +30,11 @@ class FabricVariable
         return Fabric::$plugin->share->isPublic($element->id);
     }
 
+    public function theme()
+    {
+        return Fabric::$plugin->getSettings()->theme;
+    }
+
     public function siloInstalled()
     {
         $silo = Craft::$app->plugins->getPlugin('silo');

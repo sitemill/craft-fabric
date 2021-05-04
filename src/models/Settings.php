@@ -38,10 +38,14 @@ class Settings extends Model
     public $homePage = 'listing/all';
 
     /**
+     * @var array Set the theme
+     */
+    public $theme = [];
+
+    /**
      * @var string The handle of the asset volume used by Library
      */
     public $assetsSource = null;
-
 
     /**
      * @var array Determines the entry sources

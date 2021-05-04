@@ -17,7 +17,7 @@ mix.sass(config.path + 'src/scss/app.scss', '.')
     })
     .purgeCss({
         safelist: ['text-white'],
-        content: ['src/templates/_frontend/**/*.twig']
+        content: ['src/templates/_frontend/**/*.twig','src/templates/_pattern/**/*.twig']
     })
 
 mix.copy(config.path + 'src/fonts/*', config.path + 'dist/')

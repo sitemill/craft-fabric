@@ -105,6 +105,7 @@ class Fabric extends Plugin
             View::EVENT_REGISTER_SITE_TEMPLATE_ROOTS,
             function(RegisterTemplateRootsEvent $event) {
                 $event->roots['_fabric'] = __DIR__ . '/templates/_frontend';
+                $event->roots['_pattern'] = __DIR__ . '/templates/_pattern/alpha1';
             }
         );
 
@@ -176,8 +177,6 @@ class Fabric extends Plugin
                 }
             }
         );
-
-
 
 
         Craft::info(
