@@ -1,16 +1,16 @@
 {#Check if style has been ovveridden, otherwise get style from the theme using namespace#}
-{% set style = style|default(craft.pattern.theme[component.namespace]|default(null)) %}
+{% set style = style|default(craft.fabric.theme[component.namespace]|default(null)) %}
 
 {#Check if style has been ovveridden, otherwise get style from the theme using namespace#}
 {% if role is defined %}
-    {% set colors = colors|default(craft.pattern.theme['colors'][role]|default(null)) %}
+    {% set colors = colors|default(craft.fabric.theme['colors'][role]|default(null)) %}
 {% endif %}
 
 {#Convert namespace to kebab case for use in component#}
 {% set prefix = component.namespace|kebab %}
 
 {#Show blueprints on dev#}
-{% if craft.config.devMode and (craft.pattern.blueprint is defined and craft.pattern.blueprint) %}
+{% if craft.config.devMode and (craft.fabric.blueprint is defined and craft.fabric.blueprint) %}
     {% include '_pattern/base/blueprint' %}
 {% endif %}
 

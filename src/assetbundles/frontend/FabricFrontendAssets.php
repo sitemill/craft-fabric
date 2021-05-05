@@ -14,6 +14,7 @@ use Craft;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 use craft\web\View;
+use sitemill\fabric\Fabric;
 
 /**
  * @author    SiteMill
@@ -31,9 +32,11 @@ class FabricFrontendAssets extends AssetBundle
     public function init()
     {
         $this->sourcePath = '@sitemill/fabric/assetbundles/frontend/dist';
-        $this->css = [
-            ['app.scss', 'position' => \yii\web\View::POS_END]
-        ];
+        if (!Fabric::$plugin->getSettings()->disableStyles) {
+            $this->css = [
+                ['app.scss', 'position' => \yii\web\View::POS_END]
+            ];
+        }
         $this->js = [
             'manifest.js',
             'vendor.js',

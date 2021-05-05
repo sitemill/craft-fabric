@@ -33,6 +33,11 @@ class Settings extends Model
     public $private = 0;
 
     /**
+     * @var bool Disable included styles
+     */
+    public $disableStyles = 0;
+
+    /**
      * @var string The handle of the asset volume used by Library
      */
     public $homePage = 'listing/all';
@@ -40,7 +45,25 @@ class Settings extends Model
     /**
      * @var array Set the theme
      */
-    public $theme = [];
+    public $theme = [
+        'colors' => [
+            'primary' => [
+                'border' => 'border-primary',
+                'background' => 'bg-primary',
+                'text' => 'text-primary'
+            ],
+            'secondary' => [
+                'border' => 'border-gray-500',
+                'background' => 'bg-gray-500',
+                'text' => 'text-gray-500'
+            ],
+            'tertiary' => [
+                'border' => 'border-gray-500',
+                'background' => 'bg-gray-500',
+                'text' => 'text-gray-500'
+            ]
+        ]
+    ];
 
     /**
      * @var string The handle of the asset volume used by Library
