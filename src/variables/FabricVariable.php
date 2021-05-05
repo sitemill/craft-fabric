@@ -35,6 +35,16 @@ class FabricVariable
         return Fabric::$plugin->getSettings()->theme;
     }
 
+    public function brandColor()
+    {
+        return Fabric::$plugin->getSettings()->brandColor;
+    }
+
+    public function brandColors()
+    {
+        return Fabric::$plugin->getSettings()->brandColors;
+    }
+
     public function siloInstalled()
     {
         $silo = Craft::$app->plugins->getPlugin('silo');

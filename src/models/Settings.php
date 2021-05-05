@@ -43,27 +43,19 @@ class Settings extends Model
     public $homePage = 'listing/all';
 
     /**
-     * @var array Set the theme
+     * @var string Set the primary brand color
      */
-    public $theme = [
-        'colors' => [
-            'primary' => [
-                'border' => 'border-primary',
-                'background' => 'bg-primary',
-                'text' => 'text-primary'
-            ],
-            'secondary' => [
-                'border' => 'border-gray-500',
-                'background' => 'bg-gray-500',
-                'text' => 'text-gray-500'
-            ],
-            'tertiary' => [
-                'border' => 'border-gray-500',
-                'background' => 'bg-gray-500',
-                'text' => 'text-gray-500'
-            ]
-        ]
-    ];
+    public $brandColor = null;
+
+    /**
+     * @var string Set the brand tailwind classes
+     */
+    public $brandColors = null;
+
+    /**
+     * @var array Set the theme.
+     */
+    public $theme = [];
 
     /**
      * @var string The handle of the asset volume used by Library
@@ -160,18 +152,6 @@ class Settings extends Model
         'dateCreated asc' => [
             'label' => 'Oldest First',
         ]
-    ];
-
-
-//    FRONT END
-
-    /**
-     * @var array Determines the components to be used in the navigation
-     */
-    public $colors = [
-        // Theme colours
-        'primary' => '#6816D0',
-        'secondary' => ''
     ];
 
 

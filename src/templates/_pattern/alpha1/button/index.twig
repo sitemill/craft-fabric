@@ -35,14 +35,21 @@ examples:
 {% set target = target|default(null) %}
 {% set icon = icon|default(null) %}
 {% set role = role|default('primary') %}
+{% set download = download|default('false') %}
 
 {% block component %}
-    <a class="{{ prefix }} {{ style ?? 'inline-block no-underline py-3 px-5' }} {{ colors ? colors.background : 'bg-gray-100' }}" href="{{ url }}">
+    {% switch role %}
+    {% case 'primary' %}
+        {% set defaultStyle =  (brandColors['background'] ? brandColors['background'] ~ ' text-white': 'bg-gray-100') %}
+    {% case 'secondary' %}
+        {% set defaultStyle =  (brandColors['text'] ?: 'bg-gray-100') %}
+    {% endswitch %}
+    <a class="{{ prefix }} inline-block no-underline py-3 px-5 {{ style ?: defaultStyle }}" href="{{ url }}" {{ download ? 'download' }}>
         {{ text }}
     </a>
 {% endblock %}
 
 {#{% if content == null %}#}
-{#    {% set errors = ["No text defined"] %}#}
+{#{% set errors = ["No text defined"] %}#}
 {#{% endif %}#}
 

@@ -22,7 +22,7 @@ examples:
 {% set content = content|default(null) %}
 
 {% block component %}
-    <div class="{{ prefix }} {{ style ?? '' }}">
+    <div class="prose {{ prefix }} {{ style ?? '' }}">
         {{ content }}
     </div>
 {% endblock %}

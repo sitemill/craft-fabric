@@ -12,9 +12,6 @@ module.exports = {
                 'brand': '230px',
                 'action-page-card': '350px'
             },
-            colors: {
-                primary: '#6816D0',
-            },
             animation: {
                 loader: 'loader .5s linear infinite',
             },
@@ -66,6 +63,7 @@ module.exports = {
                     },
                 }
             })
-        }
+        },
+        require('@tailwindcss/typography')
     ],
 }
