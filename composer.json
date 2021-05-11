@@ -2,7 +2,7 @@
   "name": "sitemill/craft-fabric",
   "description": "Fabric is framework for your Craft content.",
   "type": "craft-plugin",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha",
   "keywords": [
     "craft",
     "cms",
